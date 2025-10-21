@@ -1,23 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Timmyapp</title>
-  <link rel="icon" href="/static/favicon.ico" />
-  <link rel="stylesheet" href="/static/style.css" />
-</head>
-<body>
-  <main class="wrap">
-    <h1>✅ Timmyapp is live</h1>
-    <p>If you can read this, the Render health check is passing and Gunicorn is happy.</p>
-    <p>Next we’ll wire in your real pages (music, riddles, silhouettes, etc.).</p>
-  </main>
+{% extends "base.html" %}
+{% block content %}
+  <h1>💜 Welcome to TimmyApp 💜</h1>
+  <p class="lead">Where ideas glow, beats flow, and Reggie steals the show.</p>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
-    }
-  </script>
-</body>
-</html>
+  <section class="card">
+    <h2>What’s Inside</h2>
+    <p>Hit a tab above: Ideas, Bubbles, Music, Police Corner, Daily Tickle, Riddles, and Weather.</p>
+    <p class="tip">Built with 💜 in Ragland by Chief Timmy & Capt. Reg Dog.</p>
+  </section>
+{% endblock %}
