@@ -1,1 +1,1 @@
-web: gunicorn run:app
+web: gunicorn 'serv_timmyapp:create_app()'
