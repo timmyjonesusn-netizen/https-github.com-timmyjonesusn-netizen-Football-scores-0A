@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>🐾 Reggie the Dog — Police Corner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='police.css') }}">
+</head>
+<body>
+  <!-- Night sky + lightbar glow -->
+  <div class="sky"></div>
+  <div class="lightbar red"></div>
+  <div class="lightbar blue"></div>
+
+  <!-- 3D grass field -->
+  <div class="field">
+    <div class="grasslayer g1"></div>
+    <div class="grasslayer g2"></div>
+    <div class="grasslayer g3"></div>
+  </div>
+
+  <!-- Floating badges / peace fireflies -->
+  <div class="floaters" aria-hidden="true">
+    <span>✌️</span><span>🛡️</span><span>✌️</span><span>🛡️</span><span>✌️</span>
+  </div>
+
+  <!-- HUD -->
+  <header class="hud">
+    <h1 class="logo">🐾 Reggie the Dog’s Police Corner</h1>
+    <p class="tag">Love the blue. Laugh at the chaos. Breathe the greenery. 🌿</p>
+    <nav class="nav">
+      <a href="/">🏠 Home</a>
+      <a href="/ideas">💡 Ideas</a>
+      <a href="/bibles">🫧 Bubbles</a>
+      <a href="/music">🎶 Music</a>
+      <a class="active" href="/police">🐾 Police Corner</a>
+      <a href="/tickle">🌊 Daily Tickle</a>
+      <a href="/riddles">🧩 Riddles</a>
+      <a href="/weather">☀️ Weather</a>
+    </nav>
+  </header>
+
+  <!-- Reggie stage -->
+  <main class="stage" aria-label="Reggie the Dog daily story">
+    <section class="reggie-wrap">
+      <div id="reggie" class="reggie" role="button" tabindex="0" aria-pressed="false" aria-label="Tap Reggie for a quip">
+        <!-- Reggie the Yeti-Dog built in CSS -->
+        <div class="dog">
+          <div class="ear left"></div>
+          <div class="ear right"></div>
+          <div class="head">
+            <div class="glasses"></div>
+            <div class="nose"></div>
+            <div class="smile"></div>
+            <div class="bandana"></div>
+          </div>
+          <div class="body">
+            <div class="badge">★</div>
+          </div>
+          <div class="tail"></div>
+        </div>
+        <div class="hint">Tap me — I got jokes 👮‍♂️</div>
+      </div>
+
+      <article class="card">
+        <span class="badge-pill">🗓️ Reggie’s Log — <span id="the-date"></span></span>
+        <h2 id="story-title">Dumpster Raccoon, Level: Boss</h2>
+        <p id="story-text" class="story">
+          Deputy said, “Reggie, quit negotiating with the raccoon.” I said,
+          “Sir, he’s got leverage — he’s sitting on the donuts.”
+        </p>
+        <div class="hr"></div>
+        <h3 class="moral-title">💭 Reggie’s Moral</h3>
+        <p id="moral-text" class="moral">
+          Keep your tail clean, your bark friendly, and never bargain with wildlife holding pastries.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="ftr">Built with 💙 for Ragland PD — by Chief Timmy & Capt. Reg Dog</footer>
+
+  <script src="{{ url_for('static', filename='police.js') }}"></script>
+</body>
+</html>
