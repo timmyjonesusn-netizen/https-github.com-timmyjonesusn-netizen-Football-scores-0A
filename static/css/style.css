@@ -1,18 +1,3 @@
-html,body {
-  margin:0;
-  padding:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-  background:#0f0f14;
-  color:#fff;
-}
-
-.wrap {
-  max-width:720px;
-  margin:12vh auto;
-  padding:24px;
-  border-radius:16px;
-  background:rgba(255,255,255,.06);
-  backdrop-filter:blur(6px);
-  text-align:center;
-}
-
+html,body{margin:0;padding:0;background:#0b0013;color:#fff;font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif}
+.wrap{max-width:680px;margin:12vh auto;padding:24px;border-radius:16px;background:linear-gradient(135deg,#2a0040, #18002a);box-shadow:0 10px 30px rgba(255,0,255,.25)}
+h1{margin-top:0}
