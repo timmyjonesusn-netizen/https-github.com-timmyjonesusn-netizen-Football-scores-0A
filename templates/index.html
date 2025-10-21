@@ -1,15 +1,36 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Timmyapp</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ app_name }} • Live</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="manifest" href="/static/manifest.webmanifest">
 </head>
 <body>
+  <header class="bar">
+    <div class="dot dot-green"></div>
+    <div class="dot dot-purple"></div>
+    <div class="dot dot-pink"></div>
+    <h1>{{ app_name }}</h1>
+  </header>
+
   <main class="wrap">
-    <h1>Timmyapp is live ✅</h1>
-    <p>If you see this page, Flask + gunicorn + Render are working perfectly.</p>
+    <h2>We’re live 🚀</h2>
+    <p>UTC: <strong>{{ now.strftime('%Y-%m-%d %H:%M:%S') }}Z</strong></p>
+    <p>This is the Render deployment baseline. Next we’ll plug in scores, events, and weather.</p>
+    <ul class="next">
+      <li>✔ Health: <code>/health</code></li>
+      <li>✔ Static: <code>/static/css/style.css</code></li>
+      <li>✔ Service Worker: <code>/service-worker.js</code></li>
+    </ul>
   </main>
+
+  <script>
+    // Register SW silently
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+    }
+  </script>
 </body>
 </html>
