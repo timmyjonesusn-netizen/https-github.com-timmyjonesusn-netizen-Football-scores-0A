@@ -1,0 +1,162 @@
+:root{
+  --purple:#2b0040;
+  --ink:#f5f1ff;
+  --muted:#c9c3d6;
+  --aqua:#00ffff;
+  --mag:#ff00ff;
+  --gold:#ffd76a;
+  --bg-deep:#050007;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color:var(--ink);
+  background: radial-gradient(1000px 600px at 0% -10%, #32004d, transparent 50%),
+              radial-gradient(900px 500px at 110% 10%, #003b3b33, transparent 60%),
+              linear-gradient(135deg, #0a0012, var(--bg-deep) 60%);
+  overflow:hidden;
+}
+
+/* Swirling galaxy backdrop */
+.bg{
+  position:fixed; inset:-10%;
+  background:
+    radial-gradient(60% 40% at 20% 10%, rgba(255,0,255,.12), transparent 60%),
+    radial-gradient(50% 40% at 90% 10%, rgba(0,255,255,.10), transparent 60%),
+    radial-gradient(40% 30% at 70% 80%, rgba(255,215,106,.08), transparent 70%);
+  filter: blur(20px);
+  animation: drift 26s linear infinite alternate;
+  z-index:0;
+}
+@keyframes drift{
+  0%{transform: translate3d(-2%, -2%, 0) scale(1.02)}
+  100%{transform: translate3d(2%, 2%, 0) scale(1.05)}
+}
+
+/* HUD */
+.hud{
+  position:fixed; top:12px; left:50%; transform:translateX(-50%);
+  text-align:center; z-index:3; padding:8px 12px;
+  backdrop-filter: blur(6px);
+}
+.logo{
+  margin:0;
+  font-size: clamp(24px, 4vw, 40px);
+  letter-spacing:.4px;
+  text-shadow:
+    0 0 12px var(--mag),
+    0 0 22px var(--aqua);
+}
+.tag{
+  margin:6px 0 10px; color:var(--muted)
+}
+.nav{
+  display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+}
+.nav a{
+  color:#eaeaff; text-decoration:none;
+  border:1px solid #ffffff24; border-radius:999px;
+  padding:8px 14px; background:#ffffff12; transition:.25s;
+}
+.nav a:hover{background:#ffffff22; box-shadow:0 0 14px #00ffff55}
+.nav a.active{border-color:var(--aqua); box-shadow:0 0 18px #00ffff66}
+
+/* Footer */
+.ftr{
+  position:fixed; bottom:12px; width:100%;
+  text-align:center; color:#bfb9cd; z-index:3;
+}
+
+/* Bubble field */
+#sky{
+  position:fixed; inset:0; z-index:1; pointer-events:auto;
+}
+
+/* Bubble styles */
+.bubble{
+  position:absolute;
+  display:flex; align-items:center; justify-content:center;
+  aspect-ratio:1/1; border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), rgba(255,255,255,.25) 35%, rgba(255,255,255,.05) 60%, transparent 70%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,.08), transparent 40%),
+    linear-gradient(145deg, rgba(255,0,255,.18), rgba(0,255,255,.14));
+  box-shadow:
+    inset 0 0 18px rgba(255,255,255,.35),
+    inset 10px -10px 40px rgba(255,0,255,.12),
+    0 0 30px rgba(0,255,255,.18),
+    0 0 60px rgba(255,0,255,.12);
+  overflow:hidden;
+  cursor:pointer;
+  will-change: transform, opacity;
+  user-select:none;
+}
+
+/* Calligraphy verse inside */
+.bubble .verse{
+  font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+  font-size: clamp(12px, 1.8vw, 22px);
+  padding: 12px;
+  text-align:center;
+  color:#fef5d6;
+  text-shadow:
+    0 0 6px rgba(255,215,106,.45),
+    0 0 12px rgba(255,0,255,.25),
+    0 0 18px rgba(0,255,255,.25);
+  transform: rotate(-4deg);
+  line-height:1.25;
+  opacity:.92;
+}
+
+/* Verse of the day highlight */
+.bubble.votd{
+  box-shadow:
+    inset 0 0 24px rgba(255,255,255,.45),
+    inset 14px -14px 50px rgba(255,0,255,.20),
+    0 0 26px rgba(0,255,255,.28),
+    0 0 90px rgba(255,215,106,.35);
+}
+
+/* Float animation (assigned with custom properties) */
+@keyframes floatUp {
+  0%   { transform: translateY(var(--startY)) translateX(0) scale(var(--scale)); opacity: 0; }
+  8%   { opacity: .9; }
+  50%  { transform: translateY(calc(var(--startY) - 50vh)) translateX(6px) scale(calc(var(--scale) * 1.02)); }
+  100% { transform: translateY(-110vh) translateX(-6px) scale(var(--scale)); opacity:.95; }
+}
+
+/* Pop effect */
+.bubble.pop{
+  animation: none !important;
+  transform: scale(1.25) translateZ(0);
+  filter: saturate(1.4) brightness(1.2);
+  opacity:0;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+/* Toast for popped verse */
+#verse-toast{
+  position: fixed; left:50%; bottom: 18%;
+  transform: translateX(-50%) translateY(30px);
+  opacity: 0; z-index: 4;
+  max-width: min(92vw, 780px);
+  padding: 18px 20px;
+  border-radius: 16px;
+  border:1px solid #ffffff22;
+  background: linear-gradient(180deg, #14091c, #0c0813);
+  box-shadow: 0 0 26px rgba(0,255,255,.25), inset 0 0 40px rgba(255,0,255,.12);
+  color: #fff3cc;
+  font-family:"Snell Roundhand","Brush Script MT","Segoe Script",cursive;
+  font-size: clamp(16px, 2.2vw, 26px);
+  text-align:center;
+  line-height:1.35;
+  text-shadow: 0 0 10px rgba(255,215,106,.35);
+  pointer-events:none;
+}
+#verse-toast.show{
+  opacity: 1; transform: translateX(-50%) translateY(0);
+  transition: transform .28s ease, opacity .28s ease;
+}
