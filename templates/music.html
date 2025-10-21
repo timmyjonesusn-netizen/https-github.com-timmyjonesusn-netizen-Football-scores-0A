@@ -1,1 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>🎶 TimmyTunes — Suno Vault</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='music.css') }}">
+</head>
+<body>
+  <!-- Glow background -->
+  <div class="bg"></div>
+
+  <header class="hud">
+    <h1 class="logo">🎶 TimmyTunes</h1>
+    <p class="tag">Four fire playlists — neon vault vibes, Suno-powered.</p>
+    <nav class="nav">
+      <a href="/">🏠 Home</a>
+      <a href="/ideas">💡 Ideas</a>
+      <a href="/bibles">🫧 Bubbles</a>
+      <a class="active" href="/music">🎶 Music</a>
+      <a href="/police">🐾 Police Corner</a>
+      <a href="/tickle">🌊 Daily Tickle</a>
+      <a href="/riddles">🧩 Riddles</a>
+      <a href="/weather">☀️ Weather</a>
+    </nav>
+  </header>
+
+  <main class="wrap" aria-label="TimmyTunes Playlist Vault">
+    <section class="controls">
+      <button id="btn-play-all" class="pill">▶️ Play All</button>
+      <button id="btn-shuffle" class="pill">🔀 Shuffle Pick</button>
+      <span class="hint">Tip: iPhone may block multiple tabs — tap playlists one-by-one if needed.</span>
+    </section>
+
+    <section id="grid" class="grid" role="list">
+      <!-- Cards are static + linked; also mirrored in JS array for Play All / Shuffle -->
+      <article class="card" role="listitem" data-url="https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b">
+        <div class="ring"></div>
+        <h2>Neon Nights</h2>
+        <p>Late-drive anthems, chrome reflections, midnight swagger.</p>
+        <a class="cta" target="_blank" rel="noopener"
+           href="https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b">🔊 Open Playlist</a>
+      </article>
+
+      <article class="card" role="listitem" data-url="https://suno.com/playlist/06b80fa9-8c72-4e0a-b277-88d00c441316">
+        <div class="ring"></div>
+        <h2>Vibe Supply</h2>
+        <p>Daymaker grooves — clean, glossy, bounce for the grind.</p>
+        <a class="cta" target="_blank" rel="noopener"
+           href="https://suno.com/playlist/06b80fa9-8c72-4e0a-b277-88d00c441316">🔊 Open Playlist</a>
+      </article>
+
+      <article class="card" role="listitem" data-url="https://suno.com/playlist/e95ddd12-7e37-43e2-b3e0-fe342085a19f">
+        <div class="ring"></div>
+        <h2>Spirit Drive</h2>
+        <p>Holy hustle, golden glow — faith that flexes back.</p>
+        <a class="cta" target="_blank" rel="noopener"
+           href="https://suno.com/playlist/e95ddd12-7e37-43e2-b3e0-fe342085a19f">🔊 Open Playlist</a>
+      </article>
+
+      <article class="card" role="listitem" data-url="https://suno.com/playlist/a2e8eb9c-2d15-44d9-831b-89bf66ede586">
+        <div class="ring"></div>
+        <h2>Midnight Gospel</h2>
+        <p>Lo-fi halos and late-night sermons for champions.</p>
+        <a class="cta" target="_blank" rel="noopener"
+           href="https://suno.com/playlist/a2e8eb9c-2d15-44d9-831b-89bf66ede586">🔊 Open Playlist</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="ftr">Built with 💜 by Chief Timmy & Capt. Reg Dog</footer>
+
+  <script src="{{ url_for('static', filename='music.js') }}"></script>
+</body>
+</html>
 
