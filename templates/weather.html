@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>☀️ Ragland Weather (°F)</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='weather.css') }}">
+</head>
+<body>
+  <header class="hud">
+    <h1 class="logo">☀️ Ragland Weather</h1>
+    <p class="tag">Locked to Ragland, AL — Fahrenheit only, clean and simple.</p>
+    <nav class="nav">
+      <a href="/">🏠 Home</a>
+      <a href="/ideas">💡 Ideas</a>
+      <a href="/bibles">🫧 Bubbles</a>
+      <a href="/music">🎶 Music</a>
+      <a href="/police">🐾 Police Corner</a>
+      <a href="/tickle">🌊 Daily Tickle</a>
+      <a href="/riddles">🧩 Riddles</a>
+      <a class="active" href="/weather">☀️ Weather</a>
+    </nav>
+  </header>
+
+  <main class="wrap" aria-label="Ragland Weather">p
+    <section class="panel">
+      <div class="now">
+        <div class="temp"><span id="t"></span>°F</div>
+        <div class="cond" id="c">Loading…</div>
+        <div class="meta"><span id="loc">Ragland, AL</span> · <span id="time"></span></div>
+      </div>
+      <div class="hr"></div>
+      <div id="hours" class="hours" aria-label="Next hours forecast"></div>
+    </section>
+  </main>
+
+  <footer class="ftr">
+    Data via public weather endpoint (wttr.in). If blocked, try again in a moment.
+  </footer>
+
+  <script src="{{ url_for('static', filename='weather.js') }}"></script>
+</body>
+</html>
