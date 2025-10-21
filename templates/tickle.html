@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>🌊 Ten Islands Daily Tickle</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='tickle.css') }}">
+</head>
+<body>
+  <!-- Lake gradient + animated ripples -->
+  <div class="lake"></div>
+  <div class="ripples" aria-hidden="true">
+    <span class="r r1"></span>
+    <span class="r r2"></span>
+    <span class="r r3"></span>
+  </div>
+
+  <!-- Header/HUD -->
+  <header class="hud">
+    <h1 class="logo">🌊 Ten Islands Daily Tickle</h1>
+    <p class="tag">A quick grin from the Coosa — one laugh a day keeps the grumps away.</p>
+    <nav class="nav">
+      <a href="/">🏠 Home</a>
+      <a href="/ideas">💡 Ideas</a>
+      <a href="/bibles">🫧 Bubbles</a>
+      <a href="/music">🎶 Music</a>
+      <a href="/police">🐾 Police Corner</a>
+      <a class="active" href="/tickle">🌊 Daily Tickle</a>
+      <a href="/riddles">🧩 Riddles</a>
+      <a href="/weather">☀️ Weather</a>
+    </nav>
+  </header>
+
+  <!-- Card -->
+  <main class="wrap" aria-label="Ten Islands Daily Tickle">
+    <article class="card" role="region" aria-live="polite">
+      <span class="pill" id="today-label">🗓️ Today</span>
+      <h2 id="joke-title">Today’s Tickle</h2>
+      <p id="joke-text" class="joke">Loading chuckles from the lake…</p>
+
+      <div class="hr"></div>
+
+      <div class="controls">
+        <button id="btn-next" class="pill ghost" aria-label="Show another tickle">💦 Another</button>
+        <button id="btn-random" class="pill ghost" aria-label="Random tickle">🔀 Random</button>
+        <span class="hint">New daily tickle unlocks each morning.</span>
+      </div>
+    </article>
+  </main>
+
+  <footer class="ftr">
+    Live from Ten Islands — laughter floats better than any boat. 🚤
+  </footer>
+
+  <script src="{{ url_for('static', filename='tickle.js') }}"></script>
+</body>
+</html>
