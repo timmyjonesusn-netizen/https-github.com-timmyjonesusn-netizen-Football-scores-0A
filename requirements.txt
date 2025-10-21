@@ -1,3 +1,1 @@
-Flask==3.0.3
-gunicorn==21.2.0
-
+web: gunicorn -k gthread -w 1 -b 0.0.0.0:$PORT serv_timmyapp:create_app()
