@@ -1,0 +1,47 @@
+:root{
+  --ink:#f5f7ff; --muted:#bcd1e6;
+  --aqua:#00ffff; --mag:#ff00ff; --gold:#ffd76a;
+  --deep:#060311;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink);
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:
+    radial-gradient(1200px 600px at -10% -10%, rgba(255,0,255,.10), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(0,255,255,.10), transparent 60%),
+    linear-gradient(180deg, #090014, var(--deep) 60%);
+  overflow-x:hidden;
+}
+.hud{ position:fixed; top:10px; left:50%; transform:translateX(-50%); z-index:3; text-align:center; padding:8px 12px; backdrop-filter: blur(6px) }
+.logo{ margin:0; font-size: clamp(22px, 4vw, 38px); text-shadow: 0 0 14px var(--aqua), 0 0 24px var(--mag) }
+.tag{ margin:6px 0 10px; color:var(--muted) }
+.nav{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center }
+.nav a{ color:#eaf2ff; text-decoration:none; padding:8px 14px; border-radius:999px; border:1px solid #ffffff22; background:#ffffff12; transition:.25s }
+.nav a:hover{background:#ffffff22; box-shadow:0 0 14px #5ef}
+.nav a.active{border-color:#5ef; box-shadow:0 0 18px #5ef8}
+
+.wrap{ position:relative; z-index:1; padding:140px 16px 80px; display:flex; justify-content:center }
+.panel{
+  width:min(960px, 92vw);o
+  background:linear-gradient(180deg, #0b1d2dcc, #081220ef);
+  border:1px solid #ffffff20; border-radius:16px;
+  box-shadow: 0 0 30px rgba(0,255,255,.25), 0 0 38px rgba(255,0,255,.16);
+  padding:18px;
+}
+
+.now{ display:flex; flex-direction:column; align-items:center; text-align:center }
+.temp{ font-size: clamp(56px, 10vw, 96px); line-height:1; text-shadow:0 0 22px #8ff }
+.cond{ margin-top:6px; color:#d7e7f7; font-size:1.1rem }
+.meta{ margin-top:4px; color:#a9c6e2; font-size:.95rem }
+.hr{ height:1px; margin:14px 0; background:linear-gradient(90deg, transparent, #ffffff2a, transparent) }
+
+.hours{ display:grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap:10px }
+.hour{
+  padding:10px; border-radius:12px;
+  background:linear-gradient(180deg, #0d1b28, #0a1420);
+  border:1px solid #ffffff16; text-align:center;
+}
+.hour .h{ color:#cfe6ff; font-weight:600 }
+.hour .v{ font-size:1.2rem }
