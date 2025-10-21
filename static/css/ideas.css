@@ -1,0 +1,208 @@
+/* Neon vault vibe with gold accents; bilingual-friendly spacing */
+:root{
+  --bg1:#0c0013;
+  --bg2:#2b0040;
+  --accent1:#ff00ff;
+  --accent2:#00ffff;
+  --gold:#ffd76a;
+  --ink:#e9e6f2;
+  --muted:#a9a3b6;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #35005855, transparent 60%),
+    radial-gradient(800px 400px at 110% 10%, #005b5b33, transparent 60%),
+    linear-gradient(135deg, var(--bg2), var(--bg1) 60%);
+  overflow-x:hidden;
+}
+
+.wrap{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.hdr{
+  text-align:center;
+  padding:38px 16px 8px;
+}
+
+.ttl{
+  margin:0 0 6px;
+  font-size:clamp(28px,4vw,44px);
+  letter-spacing:.5px;
+  text-shadow:
+    0 0 12px var(--accent1),
+    0 0 24px var(--accent2);
+}
+
+.sub{
+  margin:0 auto 12px;
+  color:var(--muted);
+  max-width:720px;
+}
+
+.lang-toggle{
+  margin-top:10px;
+}
+.btn{
+  cursor:pointer;
+  margin:0 6px;
+  padding:10px 16px;
+  border-radius:999px;
+  border:1px solid #ffffff22;
+  background:linear-gradient(90deg, #1a0b25, #0a0f14);
+  color:#fff;
+  box-shadow:0 0 14px #000 inset, 0 0 10px #000;
+  transition:.25s;
+}
+.btn:hover{transform:translateY(-1px); box-shadow:0 0 20px #000 inset,0 0 14px #3bf}
+.btn.active{border-color:var(--accent2); box-shadow:0 0 24px #00ffff55}
+
+.vault{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:24px 16px 80px;
+}
+
+.card{
+  width:min(900px, 92vw);
+  border-radius:20px;
+  background:linear-gradient(180deg, #1a0e24cc, #100916ee);
+  border:1px solid #ffffff14;
+  box-shadow:
+    0 0 24px #ff00ff25,
+    0 0 48px #00ffff18,
+    0 0 120px #ffd76a10 inset;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Vault light beams */
+.card::before, .card::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:conic-gradient(from 0deg,
+    transparent 0 20%,
+    #ff00ff22 20% 40%,
+    transparent 40% 60%,
+    #00ffff22 60% 80%,
+    transparent 80% 100%);
+  animation:spin 18s linear infinite;
+  z-index:0;
+}
+.card::after{
+  animation-direction:reverse;
+  opacity:.7;
+  filter:blur(20px);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.card-inner{
+  position:relative;
+  z-index:1;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:.9rem;
+  color:#0b0a0f;
+  background:linear-gradient(135deg, var(--gold), #fff5b6);
+  box-shadow:0 8px 30px #ffd76a44;
+}
+
+.idea-title{
+  margin:14px 0 6px;
+  font-size:clamp(22px, 3.4vw, 34px);
+  letter-spacing:.3px;
+  color:#fff;
+  text-shadow:0 0 10px #ff00ffaa, 0 0 16px #00ffff77;
+}
+
+.summary{
+  color:#dcd7ea;
+  line-height:1.6;
+  margin-bottom:14px;
+}
+
+.hr{
+  height:1px;
+  background:linear-gradient(90deg,transparent, #ffffff2b, transparent);
+  margin:14px 0 16px;
+}
+
+.plan-wrap{
+  background:linear-gradient(180deg, #0e0b14, #160f1f);
+  border:1px solid #ffffff18;
+  border-radius:14px;
+  box-shadow:0 0 30px #000 inset;
+  padding:16px;
+}
+
+.plan-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  cursor:pointer;
+  user-select:none;
+}
+.plan-title{
+  font-weight:600;
+  color:var(--gold);
+}
+.chev{
+  font-size:20px;
+  transition:.25s;
+}
+.plan-head.open .chev{
+  transform:rotate(180deg);
+}
+
+.plan-body{
+  margin-top:10px;
+  color:#eae6f8;
+  line-height:1.65;
+  display:none;
+}
+.plan-body.show{display:block}
+
+.meta{
+  margin-top:16px;
+  color:#bdb7cb;
+  font-size:.92rem;
+}
+
+.ftr{
+  padding:18px 12px 28px;
+  text-align:center;
+  color:#bdb7cb;
+}
+
+.nav a{
+  color:#d9d6ff;
+  text-decoration:none;
+  margin:0 8px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:#ffffff10;
+  border:1px solid #ffffff1a;
+  transition:.25s;
+}
+.nav a:hover{background:#ffffff1f; box-shadow:0 0 16px #00ffff55}
+
+.credit{margin:10px 0 0; font-size:.9rem}
