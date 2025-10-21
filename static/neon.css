@@ -1,0 +1,130 @@
+/* === Timmy Neon Pack — purple/pink glow + bubbles === */
+:root{
+  --bg-1:#0b0a18;
+  --bg-2:#1a1233;
+  --accent:#ff5bd9;      /* pink */
+  --accent-2:#8c5bff;    /* purple */
+  --ink:#e9e7ff;
+  --muted:#b9b3d7;
+  --glass:rgba(255,255,255,.06);
+  --glass-stroke:rgba(255,255,255,.14);
+  --shadow:0 20px 40px rgba(0,0,0,.45);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:-apple-system, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial, Apple Color Emoji, Segoe UI Emoji;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 1200px at 80% -10%, rgba(140,91,255,.25), transparent 60%),
+    radial-gradient(1200px 1200px at 10% 110%, rgba(255,91,217,.18), transparent 60%),
+    linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  overflow-x:hidden;
+}
+
+/* ====== Animated bubbles (background) ====== */
+.bubbles{position:fixed; inset:0; overflow:hidden; z-index:-1; pointer-events:none;}
+.bubbles span{
+  position:absolute;
+  display:block;
+  width:clamp(12px, 2.6vw, 32px);
+  height:clamp(12px, 2.6vw, 32px);
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.1) 60%, transparent 70%),
+             radial-gradient(circle at 70% 70%, rgba(255,91,217,.9), transparent 60%),
+             radial-gradient(circle at 50% 50%, rgba(140,91,255,.9), transparent 60%);
+  filter:blur(.3px);
+  opacity:.55;
+  animation:floatUp linear var(--dur) infinite;
+  left:var(--x);
+  bottom: -60px;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) translateX(0) scale(1); opacity:.0}
+  10%{opacity:.55}
+  100%{transform:translateY(-120vh) translateX(var(-- drift, 0px)) scale(1.15); opacity:0}
+}
+
+/* ====== Headings ====== */
+.h1{
+  font-size:clamp(36px, 6.2vw, 64px);
+  line-height:1.05;
+  margin:20px 0 6px;
+  letter-spacing:.4px;
+  text-shadow:
+    0 0 10px rgba(255,91,217,.45),
+    0 0 30px rgba(140,91,255,.28);
+}
+.lead{
+  color:var(--muted);
+  font-size:clamp(14px, 2.9vw, 18px);
+  margin:0 0 18px;
+}
+
+/* ====== Container & Cards ====== */
+.wrap{max-width:980px; margin:0 auto; padding:18px 16px 80px;}
+.card{
+  background:linear-gradient( to bottom, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border:1px solid var(--glass-stroke);
+  border-radius:18px;
+  padding:18px 20px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  margin:14px 0 22px;
+}
+.card h2{
+  margin:0 0 8px;
+  font-size:clamp(22px, 4.5vw, 30px);
+  text-shadow:0 0 10px rgba(140,91,255,.35);
+}
+.card p{color:var(--muted); margin:0 0 14px;}
+
+/* ====== Nav pills ====== */
+.nav{
+  display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 20px;
+}
+.nav a{
+  text-decoration:none;
+  color:#fff;
+  background:linear-gradient(135deg, rgba(140,91,255,.42), rgba(255,91,217,.42));
+  border:1px solid rgba(255,255,255,.22);
+  padding:10px 14px;
+  border-radius:999px;
+  box-shadow:0 10px 24px rgba(152,97,255,.25);
+  transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+  font-weight:600; letter-spacing:.2px;
+}
+.nav a:hover{ transform:translateY(-1px) scale(1.02); box-shadow:0 18px 36px rgba(255,91,217,.25); }
+.nav a:active{ transform:translateY(0) scale(.99) }
+
+/* ====== Buttons ====== */
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 14px;
+  border-radius:12px; border:1px solid rgba(255,255,255,.22);
+  background:linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+  color:#fff; text-decoration:none; font-weight:700;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
+  transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+.btn:hover{ transform:translateY(-1px); box-shadow:0 14px 28px rgba(0,0,0,.45)}
+.btn .dot{
+  width:8px; height:8px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #fff, #ff5bd9);
+  box-shadow:0 0 10px #ff5bd9, 0 0 20px #8c5bff;
+}
+
+/* ====== Links ====== */
+a{ color:#cdb9ff; }
+a:hover{ color:#ffe1fb; }
+
+/* ====== Footer tip ====== */
+.tip{ color:var(--muted); font-size:.95rem; margin:8px 0 0 }
+
+/* ====== Responsive niceties ====== */
+@media (min-width:760px){
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+}
