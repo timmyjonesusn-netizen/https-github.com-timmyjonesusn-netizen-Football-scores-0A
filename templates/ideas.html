@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💡 Million Dollar Ideas | Timmy Vault</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='ideas.css') }}">
+</head>
+<body>
+  <div class="wrap">
+    <header class="hdr">
+      <h1 class="ttl">💡 Million Dollar Ideas</h1>
+      <p class="sub" id="subtitle">
+        One idea per day — thoughtful, fun, and ready to build.
+      </p>
+      <div class="lang-toggle" aria-label="Language toggle">
+        <button id="btn-en" class="btn active" data-lang="en" aria-pressed="true">EN</button>
+        <button id="btn-es" class="btn" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+    </header>
+
+    <main class="vault">
+      <!-- Idea card is injected here by JS -->
+      <section id="idea-card" class="card" aria-live="polite"></section>
+    </main>
+
+    <footer class="ftr">
+      <nav class="nav">
+        <a href="/">🏠 Home</a>
+        <a href="/bibles">🫧 Timmy Bubbles</a>
+        <a href="/music">🎶 Music</a>
+        <a href="/police">🐾 Police Corner</a>
+        <a href="/tickle">🌊 Daily Tickle</a>
+        <a href="/riddles">🧩 Riddles</a>
+        <a href="/weather">☀️ Weather</a>
+      </nav>
+      <p class="credit">Built with 💜 by Chief Timmy & Capt. Reg Dog</p>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='ideas.js') }}"></script>
+</body>
+</html>
