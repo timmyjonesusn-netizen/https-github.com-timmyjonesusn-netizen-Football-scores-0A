@@ -1,1 +1,66 @@
+:root{
+  --ink:#f5f1ff; --muted:#c9c3d6;
+  --aqua:#00ffff; --mag:#ff00ff; --gold:#ffd76a;
+  --deep:#07000a;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink);
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:
+    radial-gradient(1200px 600px at -10% 0%, rgba(255,0,255,.12), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(0,255,255,.10), transparent 60%),
+    linear-gradient(135deg, #120018, var(--deep) 60%);
+  overflow-x:hidden;
+}
+
+/* HUD */
+.hud{ position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:3; text-align:center; padding:8px 12px; backdrop-filter: blur(6px) }
+.logo{ margin:0; font-size: clamp(24px, 4vw, 40px); text-shadow: 0 0 12px var(--mag), 0 0 22px var(--aqua) }
+.tag{ margin:6px 0 10px; color:var(--muted) }
+.nav{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center }
+.nav a{ color:#eaeaff; text-decoration:none; border:1px solid #ffffff24; border-radius:999px; padding:8px 14px; background:#ffffff12; transition:.25s }
+.nav a:hover{ background:#ffffff22; box-shadow:0 0 14px #00ffff55 }
+.nav a.active{ border-color:var(--aqua); box-shadow:0 0 18px #00ffff66 }
+
+.wrap{
+  position:relative; z-index:1;
+  padding:140px 16px 80px; max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns: 1fr 1fr; gap:18px;
+}
+@media (max-width: 980px){ .wrap{ grid-template-columns: 1fr } }
+
+.panel{
+  background:linear-gradient(180deg, #1a0e24cc, #0f0a16ee);
+  border:1px solid #ffffff14; border-radius:16px;
+  box-shadow: 0 0 24px rgba(255,0,255,.20), 0 0 36px rgba(0,255,255,.16);
+  padding:16px;
+}
+
+/* Story */
+.story h2{ margin:6px 0 10px; text-shadow:0 0 12px #8ff }
+.scroll{
+  max-height: 260px; overflow:auto; padding-right:6px;
+  color:#dcd7ea; line-height:1.65;
+}
+.scroll::-webkit-scrollbar{ width:8px }
+.scroll::-webkit-scrollbar-thumb{ background:#ffffff22; border-radius:8px }
+
+.choices{ margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+.pill{ padding:8px 14px; border-radius:999px; color:#001018; font-weight:600; background:linear-gradient(90deg, #b7efff, #fff5b6); border:none; cursor:pointer; box-shadow:0 6px 22px rgba(183,239,255,.35) }
+select{ background:#0d0a14; color:#fff; border:1px solid #ffffff2a; border-radius:10px; padding:8px 10px }
+.verdict{ margin-top:10px; color:#ffdca0 }
+
+/* Riddles */
+.riddles h2{ margin:6px 0 10px; text-shadow:0 0 12px #f8f }
+.card{
+  background:linear-gradient(180deg, #100919, #0a0611);
+  border:1px solid #ffffff12; border-radius:14px; padding:12px; margin-bottom:10px;
+}
+.r{ margin:0 0 8px; color:#e7e1f3 }
+.result{ margin-top:8px; min-height:20px }
+.correct{ color:#b6ffb6 }
+.wrong{ color:#ffb6b6 }
+.ftr{ position:fixed; bottom:10px; width:100%; text-align:center; color:#bfb9cd }
 
