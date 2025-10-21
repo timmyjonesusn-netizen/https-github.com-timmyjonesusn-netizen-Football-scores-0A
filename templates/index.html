@@ -1,13 +1,23 @@
-{% extends "_base.html" %}
-{% block content %}
-<section class="hero">
-  <h1>Timmyapp is live <span class="tick">✅</span></h1>
-  <p>If you see this, Flask + Gunicorn + Render are locked in. This is the
-  preview skin so you can feel the look before we wire real data.</p>
-  <div class="cta">
-    <a class="btn" href="/scores">See Scores</a>
-    <a class="btn ghost" href="/events">City Events</a>
-    <a class="btn ghost" href="/weather">Weather</a>
-  </div>
-</section>
-{% endblock %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timmyapp</title>
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>✅ Timmyapp is live</h1>
+    <p>If you can read this, the Render health check is passing and Gunicorn is happy.</p>
+    <p>Next we’ll wire in your real pages (music, riddles, silhouettes, etc.).</p>
+  </main>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+    }
+  </script>
+</body>
+</html>
