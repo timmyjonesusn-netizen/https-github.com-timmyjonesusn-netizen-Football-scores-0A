@@ -1,0 +1,213 @@
+:root{
+  --ink:#f5f7ff;
+  --muted:#bcd1e6;
+  --blue:#3fd3ff;
+  --red:#ff5b7a;
+  --navy:#031024;
+  --night:#010713;
+  --grass:#0fbf73;
+  --grass2:#0aa05f;
+  --gold:#ffd76a;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--ink);
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background: radial-gradient(1200px 600px at -10% -10%, #002a52, transparent 60%),
+             linear-gradient(180deg, var(--night), var(--navy) 55%, #02101c);
+  overflow:hidden;
+}
+
+/* Sky + subtle stars */
+.sky{
+  position:fixed; inset:0; z-index:0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, #ffffff55, transparent 60%),
+    radial-gradient(1px 1px at 40% 10%, #ffffff55, transparent 60%),
+    radial-gradient(1px 1px at 70% 30%, #ffffff55, transparent 60%),
+    radial-gradient(1px 1px at 85% 15%, #ffffff55, transparent 60%);
+  animation: twinkle 8s linear infinite;
+}
+@keyframes twinkle {
+  0%,100%{opacity:.9} 50%{opacity:.6}
+}
+
+/* Police lightbar sweep */
+.lightbar{
+  position:fixed; inset:-10% -10% 60% -10%; z-index:1; mix-blend-mode:screen;
+  filter: blur(40px); opacity:.20; pointer-events:none;
+  animation: sweep 6.4s ease-in-out infinite;
+}
+.lightbar.red{ background: radial-gradient(60% 50% at 10% 50%, var(--red), transparent 60%) }
+.lightbar.blue{ background: radial-gradient(60% 50% at 90% 50%, var(--blue), transparent 60%); animation-delay: 3.2s }
+@keyframes sweep{
+  0%{ transform: translateX(-10%) }
+  50%{ transform: translateX(10%) }
+  100%{ transform: translateX(-10%) }
+}
+
+/* 3D Grass field */
+.field{
+  position:fixed; left:0; right:0; bottom:-6vh; height:42vh; z-index:2;
+  perspective: 900px;
+}
+.grasslayer{
+  position:absolute; left:-10vw; right:-10vw; bottom:0; height:30vh;
+  transform-style: preserve-3d;
+  background:
+    repeating-linear-gradient(90deg, #0f8c5a 0 2px, transparent 2px 8px),
+    linear-gradient(180deg, #0b5, #0a3 40%, #072 90%);
+  border-top-left-radius: 60% 24%;
+  border-top-right-radius: 60% 24%;
+  filter: drop-shadow(0 -6px 20px rgba(0,255,150,.15));
+  animation: sway 7.5s ease-in-out infinite alternate;
+  transform: rotateX(48deg) translateZ(-120px);
+}
+.g2{
+  height:34vh; opacity:.9; filter: drop-shadow(0 -8px 26px rgba(0,255,150,.18));
+  animation-duration: 9s; transform: rotateX(56deg) translateZ(-200px);
+}
+.g3{
+  height:38vh; opacity:.85; animation-duration: 11s;
+  transform: rotateX(62deg) translateZ(-280px);
+}
+@keyframes sway{
+  0%{ transform: rotateX(var(--rx,48deg)) translateZ(var(--tz,-120px)) translateX(-1%) }
+  100%{ transform: rotateX(var(--rx,48deg)) translateZ(var(--tz,-120px)) translateX(1%) }
+}
+
+/* Peace/badge floaters */
+.floaters{
+  position:fixed; inset:0; z-index:2; pointer-events:none;
+  animation: drift 20s linear infinite alternate;
+}
+.floaters span{
+  position:absolute; font-size:22px; opacity:.5;
+  animation: bob 6s ease-in-out infinite;
+}
+.floaters span:nth-child(1){left:10%; top:38%}
+.floaters span:nth-child(2){left:80%; top:26%}
+.floaters span:nth-child(3){left:22%; top:18%}
+.floaters span:nth-child(4){left:65%; top:44%}
+.floaters span:nth-child(5){left:48%; top:12%}
+@keyframes bob{ 0%,100%{transform:translateY(-6px)} 50%{transform:translateY(6px)} }
+@keyframes drift{ 0%{transform:translateX(-1%)} 100%{transform:translateX(1%)} }
+
+/* HUD */
+.hud{
+  position:fixed; top:10px; left:50%; transform:translateX(-50%); z-index:4;
+  text-align:center; padding:8px 12px; backdrop-filter: blur(8px);
+}
+.logo{
+  margin:0; font-size: clamp(22px, 4vw, 38px);
+  text-shadow: 0 0 12px #4fe, 0 0 26px #f57;
+}
+.tag{ margin:6px 0 10px; color:var(--muted) }
+.nav{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center }
+.nav a{
+  color:#eaf2ff; text-decoration:none; padding:8px 14px; border-radius:999px;
+  border:1px solid #ffffff22; background:#ffffff12; transition:.25s;
+}
+.nav a:hover{background:#ffffff22; box-shadow:0 0 14px #5ef}
+.nav a.active{border-color:#5ef; box-shadow:0 0 18px #5ef8}
+
+/* Stage */
+.stage{
+  position:relative; z-index:3; padding-top:140px; display:flex; justify-content:center;
+}
+
+/* Reggie character */
+.reggie-wrap{
+  width:min(1100px, 92vw); display:grid; grid-template-columns: 360px 1fr; gap:18px; align-items:end;
+}
+@media (max-width: 900px){
+  .reggie-wrap{ grid-template-columns: 1fr; justify-items:center }
+}
+
+.reggie{
+  width:320px; aspect-ratio:1/1.05; position:relative;
+  background: radial-gradient(80% 70% at 50% 55%, #092531, transparent 60%),
+              linear-gradient(180deg, #071725, #04101d 60%);
+  border:1px solid #ffffff1e; border-radius:20px; box-shadow: 0 0 30px rgba(0,255,255,.18);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  transition:.25s;
+}
+.reggie:focus{ outline: 2px solid #5ef; outline-offset: 3px }
+.reggie:hover{ transform: translateY(-2px); box-shadow: 0 0 44px rgba(0,255,255,.26) }
+.hint{ position:absolute; bottom:8px; width:100%; text-align:center; color:#b8cde2; font-size:.9rem }
+
+/* Simple CSS “logo dog” with hippie vibe */
+.dog{ position:relative; width:180px; height:220px; }
+.ear{ position:absolute; width:46px; height:56px; background:#1a2430; top:0; border-radius:18px 18px 6px 6px; box-shadow: inset 0 -8px 16px #0b1420 }
+.ear.left{ left:12px; transform: rotate(-8deg) }
+.ear.right{ right:12px; transform: rotate(8deg) }
+.head{
+  position:absolute; left:50%; top:24px; transform:translateX(-50%);
+  width:140px; height:120px; background:#1f2a3a; border-radius:60px;
+  box-shadow: inset 0 -10px 20px #101a28, inset 0 10px 16px #2d415a;
+}
+.glasses{
+  position:absolute; left:50%; top:44px; transform:translateX(-50%);
+  width:110px; height:26px; border-radius:16px;
+  background: linear-gradient(90deg, #00ffff66, #ff00ff66);
+  box-shadow: 0 0 16px rgba(0,255,255,.6), 0 0 24px rgba(255,0,255,.5);
+}
+.nose{
+  position:absolute; left:50%; top:78px; transform:translateX(-50%);
+  width:28px; height:18px; background:#0f1824; border-radius:40% 40% 60% 60%;
+}
+.smile{
+  position:absolute; left:50%; top:98px; transform:translateX(-50%);
+  width:60px; height:18px; border-radius:0 0 18px 18px; background:#0a1220;
+  box-shadow: inset 0 -6px 10px #02060c;
+}
+.bandana{
+  position:absolute; left:50%; bottom:-10px; transform:translateX(-50%) rotate(-2deg);
+  width:120px; height:26px; border-radius:8px;
+  background: conic-gradient(from 0deg, #6cf 0 25%, #ff8bd1 25% 50%, #5effb1 50% 75%, #ffe27a 75% 100%);
+  filter: saturate(1.2) brightness(1.08);
+}
+.body{
+  position:absolute; left:50%; top:124px; transform:translateX(-50%);
+  width:160px; height:90px; border-radius:20px; background:#213146;
+  box-shadow: inset 0 -10px 20px #132033, inset 0 10px 16px #2b3e58;
+}
+.badge{
+  position:absolute; right:16px; top:12px; width:26px; height:26px; border-radius:50%;
+  display:grid; place-items:center; color:#04101d;
+  background: radial-gradient(circle at 30% 30%, #fff6c4, #ffd76a 70%);
+  box-shadow: 0 0 16px rgba(255,215,106,.6);
+  font-weight:700;
+}
+.tail{
+  position:absolute; right:-8px; top:150px; width:56px; height:14px; border-radius:14px;
+  background:#223149; transform-origin:left center; animation: wag 1.4s ease-in-out infinite;
+}
+@keyframes wag{ 0%,100%{ transform: rotate(10deg) } 50%{ transform: rotate(-18deg) } }
+
+/* Story card */
+.card{
+  position:relative; z-index:1;
+  padding:18px 16px 20px; border-radius:16px;
+  width:100%;
+  background: linear-gradient(180deg, #0b1826cc, #07131fef);
+  border:1px solid #ffffff16;
+  box-shadow: 0 0 28px rgba(0,255,180,.22), 0 0 38px rgba(0,80,255,.16);
+}
+.badge-pill{
+  display:inline-block; padding:8px 12px; border-radius:999px;
+  background: linear-gradient(90deg, #9dffcf, #e6ffb5);
+  color:#052018; font-weight:600; box-shadow: 0 6px 22px rgba(157,255,207,.35);
+}
+.card h2{ margin:10px 0 6px; text-shadow: 0 0 12px #6ff }
+.story{ color:#d7e7f7; line-height:1.65 }
+.hr{ height:1px; margin:12px 0; background:linear-gradient(90deg, transparent, #ffffff2a, transparent) }
+.moral-title{ color:#aef7d0 }
+.moral{ color:#cfeadf }
+
+.ftr{
+  position:fixed; bottom:10px; width:100%;
+  text-align:center; color:#a6c1d8; z-index:4;
+}
