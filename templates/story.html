@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel story">
+  <h2>Today’s Story</h2>
+  <div class="story-box">
+    <p id="story-text">{{ text }}</p>
+    <button id="toggle">Continue reading…</button>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const btn = document.getElementById('toggle');
+    const p = document.getElementById('story-text');
+    let expanded = false;
+    btn.onclick = function(){
+      expanded = !expanded;
+      p.classList.toggle('expanded', expanded);
+      btn.textContent = expanded ? "Show less" : "Continue reading…";
+    };
+  })();
+</script>
+{% endblock %}
