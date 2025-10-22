@@ -1,36 +1,11 @@
-<!-- templates/base.html -->
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ title }} · TimmyApp</title>
-
-  <!-- Main neon theme -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
-  <!-- Bubbles animation -->
-  <script defer src="{{ url_for('static', filename='js/bubbles.js') }}"></script>
-</head>
-<body>
-  <!-- Bubble canvas lives behind everything -->
-  <canvas id="bubble-canvas" aria-hidden="true"></canvas>
-
-  <header class="site-header">
-    <nav class="nav">
-      <a href="{{ url_for('home') }}">🏠 Home</a>
-      <a href="{{ url_for('ideas') }}">💡 Ideas</a>
-      <a href="{{ url_for('bubbles') }}">🫧 Bubbles</a>
-      <a href="{{ url_for('music') }}">🎵 Music</a>
-      <a href="{{ url_for('police') }}">🐾 Police Corner</a>
-      <a href="{{ url_for('tickle') }}">🌊 Daily Tickle</a>
-      <a href="{{ url_for('riddles') }}">🧩 Riddles</a>
-      <a href="{{ url_for('weather') }}">☀️ Weather</a>
-    </nav>
-  </header>
-
-  <main class="content">
-    {% block content %}{% endblock %}
-  </main>
-</body>
-</html>
+<nav class="nav">
+  <a href="{{ url_for('home') }}">🏠 Home</a>
+  <a href="{{ url_for('ideas') }}">💡 Ideas</a>
+  <a href="{{ url_for('bubbles') }}">🫧 Bubbles</a>
+  <a href="{{ url_for('music') }}">🎵 Music</a>
+  <a href="{{ url_for('police') }}">🐾 Police Corner</a>
+  <a href="{{ url_for('tickle') }}">🌊 Daily Tickle</a>
+  <a href="{{ url_for('riddles') }}">🧩 Riddles</a>
+  <a href="{{ url_for('weather') }}">☀️ Weather</a>
+  <a href="{{ url_for('events') }}">📅 Events</a>   <!-- NEW -->
+</nav>
