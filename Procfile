@@ -1,1 +1,1 @@
-web: gunicorn serv_timmyapp:create_app()
+web: gunicorn wsgi:app --log-file - --timeout 120
