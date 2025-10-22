@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Music for Creators</h1>
-  <section class="card">
-    <p>{{ note }}</p>
-    <ul class="link-list">
+  <section class="card glow">
+    <h2>Music • Royalty-Free for Creators</h2>
+    <p class="lead">Playlists open in Suno. Safe for reels, shorts, and background vibes.</p>
+
+    <div class="grid">
       {% for p in playlists %}
-        <li>
-          <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
-        </li>
+      <a class="tile tile-play" href="{{ p.url }}" target="_blank" rel="noopener">
+        <div class="tile-title">{{ p.title }}</div>
+        <div class="tile-sub">{{ p.note }}</div>
+      </a>
       {% endfor %}
-    </ul>
+    </div>
+
+    <p class="tiny">Tip: iPhone won’t auto-play in the background for privacy; tap a playlist and hit play.</p>
   </section>
 {% endblock %}
