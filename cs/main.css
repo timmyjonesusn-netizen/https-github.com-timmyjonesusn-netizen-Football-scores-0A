@@ -1,0 +1,74 @@
+/* static/css/main.css */
+:root{
+  --bg1:#100318;       /* deep burgundy-purple */
+  --bg2:#2a0140;       /* dark plum */
+  --neon1:#ff4fd8;     /* pink */
+  --neon2:#8f5bff;     /* purple */
+  --ink:#f2f2f2;
+  --muted:#c9bfe6;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(143,91,255,.25), transparent 60%),
+    radial-gradient(1000px 700px at 80% 90%, rgba(255,79,216,.18), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  color:var(--ink);
+  font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Bubble canvas sits behind content */
+#bubble-canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+.site-header{
+  position:sticky; top:0; z-index:2;
+  backdrop-filter: blur(6px);
+  background:linear-gradient(90deg, rgba(16,3,24,.7), rgba(42,1,64,.6));
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav{
+  display:flex; flex-wrap:wrap; gap:.75rem;
+  padding:.75rem 1rem;
+}
+
+.nav a{
+  color:var(--muted); text-decoration:none;
+  padding:.35rem .65rem; border-radius:.6rem;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 0 12px rgba(143,91,255,.18);
+  transition:transform .12s ease, box-shadow .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.nav a:hover{
+  color:white;
+  border-color: rgba(255,79,216,.45);
+  box-shadow:
+    0 0 10px rgba(255,79,216,.35),
+    0 0 18px rgba(143,91,255,.28);
+  transform: translateY(-1px);
+}
+
+.content{
+  position:relative; z-index:1;
+  max-width: 900px; margin: 1.25rem auto 3rem;
+  padding: 0 1rem;
+  background: rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 60px rgba(143,91,255,.08),
+    0 12px 40px rgba(0,0,0,.35);
+}
+
+h1,h2,h3{ color:white; text-shadow:0 0 16px rgba(255,79,216,.25), 0 0 24px rgba(143,91,255,.25) }
+p,li{ color:var(--ink) }
+a{ color:#cfa9ff }
