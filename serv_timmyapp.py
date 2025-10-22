@@ -4,7 +4,7 @@ from flask import Flask, render_template, make_response
 def create_app():
     app = Flask(__name__, static_folder="static", template_folder="templates", static_url_path="/static")
 
-    # ---------- PAGES (endpoints must match template links) ----------
+    # ---------- PAGES ----------
     @app.route("/", endpoint="home")
     def home():
         return render_template("home.html")
@@ -15,11 +15,20 @@ def create_app():
 
     @app.route("/weather", endpoint="weather")
     def weather():
+        # No API calls here — render-only to avoid 502s
         return render_template("weather.html")
 
-    @app.route("/whodunnit", endpoint="whodunnit")
-    def whodunnit():
-        return render_template("whodunnit.html")
+    @app.route("/pemdas", endpoint="pemdas")
+    def pemdas():
+        return render_template("pemdas.html")
+
+    @app.route("/riddle", endpoint="riddle")
+    def riddle():
+        return render_template("riddle.html")
+
+    @app.route("/police", endpoint="police")
+    def police():
+        return render_template("police.html")
 
     # ---------- Service worker (optional) ----------
     @app.route("/service-worker.js", endpoint="service_worker")
