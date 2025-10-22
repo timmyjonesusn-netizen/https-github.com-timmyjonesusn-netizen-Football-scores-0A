@@ -1,147 +1,52 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% block content %}
-<style>
-  :root{
-    --deep-purple:#0b0013;
-    --pulse-pink:#ff2aa1;
-    --card-bg:#13001f;
-    --card-edge:#3a0a58;
-    --text:#f2e7fb;
-    --muted:#bda8d6;
-    --glass: rgba(255,255,255,0.06);
-  }
-  html,body{height:100%;}
-  body{
-    margin:0; color:var(--text);
-    font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;
-    background: radial-gradient(1200px 800px at 50% 50%, rgba(255,42,161,0.15), transparent 60%) , var(--deep-purple);
-    overflow-x:hidden;
-  }
-  body::before{
-    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
-    background:
-      radial-gradient(900px 600px at 50% 55%, rgba(255,42,161,0.22), transparent 55%),
-      radial-gradient(700px 500px at 30% 40%, rgba(255,42,161,0.14), transparent 60%),
-      radial-gradient(700px 500px at 70% 60%, rgba(255,42,161,0.14), transparent 60%);
-    animation:pulse 2.6s ease-in-out infinite;
-  }
-  @keyframes pulse{0%,100%{opacity:.55;filter:blur(0)}40%{opacity:.85;filter:blur(1px)}55%{opacity:.95;filter:blur(1.4px)}}
-  @media (prefers-reduced-motion:reduce){body::before{animation:none}}
+<section class="hero">
+  <h1>TimmyApp — The Creator’s Playground</h1>
+  <p class="tag">If it’s not glowing, it’s not going.</p>
 
-  .bubbles{position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:1; filter:saturate(120%)}
-  .bubble{
-    position:absolute; bottom:-10vh; border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), rgba(255,255,255,.25) 40%, rgba(255,255,255,.12) 60%, rgba(255,255,255,.06) 75%, rgba(255,42,161,.18));
-    box-shadow: 0 0 12px 2px rgba(255,42,161,.35), inset 0 0 10px rgba(255,42,161,.25);
-    opacity:.9; will-change: transform, opacity;
-    animation-name: rise, drift;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-    filter: blur(var(--blur,0px));
-  }
-  @keyframes rise{0%{transform:translateY(0) translateX(0);opacity:0}6%{opacity:.85}100%{transform:translateY(-120vh) translateX(0);opacity:0}}
-  @keyframes drift{0%{transform:translateX(-6px)}50%{transform:translateX(6px)}100%{transform:translateX(-6px)}}
+  <div class="grid music-grid">
+    {% for title, note, href in music %}
+    <a class="pill" href="{{ href }}" target="_blank" rel="noopener">
+      <div class="pill-title">{{ title }}</div>
+      <div class="pill-sub">{{ note }}</div>
+    </a>
+    {% endfor %}
+  </div>
 
-  .wrap{position:relative; z-index:2; min-height:100svh; display:flex; flex-direction:column}
-  header{padding:20px clamp(16px,3vw,40px)}
-  .brand{font-weight:800; letter-spacing:.5px; font-size:clamp(22px,3.2vw,34px); text-shadow:0 0 18px rgba(255,42,161,.35); display:inline-flex; gap:.6ch}
-  .dot{width:.6em;height:.6em;border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff,#ffd5ef 40%,#ff2aa1 65%,#7a1a70); box-shadow:0 0 12px rgba(255,42,161,.8),0 0 28px rgba(255,42,161,.35); animation:throb 2.6s ease-in-out infinite}
-  @keyframes throb{0%,100%{transform:scale(.9)}50%{transform:scale(1.08)}}
+  <div class="share">
+    <button id="copyBtn">Share this app</button>
+    <div id="copyMsg" class="copy-msg" role="status" aria-live="polite"></div>
+  </div>
 
-  .events{
-    padding:0 clamp(14px,3vw,40px) 40px;
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    grid-auto-rows: 12px; /* base unit */
-    gap:14px;
-  }
-  .card{
-    background: linear-gradient(180deg, var(--glass), rgba(255,255,255,0.02));
-    border: 1px solid color-mix(in oklab, var(--card-edge), #ffffff 12%);
-    border-radius:14px;
-    box-shadow: 0 8px 28px -8px rgba(255,42,161,.25), inset 0 0 32px rgba(255,42,161,.05);
-    padding:14px 14px 12px;
-    display:flex; flex-direction:column; gap:10px;
-    backdrop-filter: blur(6px);
-    overflow:hidden;
-    transition: transform .2s ease, box-shadow .2s ease, border .2s ease;
-  }
-  .card:hover{ transform:translateY(-2px); box-shadow:0 14px 36px -8px rgba(255,42,161,.35), inset 0 0 48px rgba(255,42,161,.07);
-    border-color: color-mix(in oklab, var(--card-edge), #ffffff 25%)
-  }
-  .meta{font-size:.86rem; color:var(--muted)}
-  .title{margin:0; font-size:1.06rem; line-height:1.15}
-  .story{margin:0; line-height:1.25; color:#f8f2ff; background:rgba(0,0,0,.18); border-radius:10px; padding:10px; overflow:auto}
-  .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:auto}
-  .tag{font-size:.72rem; padding:4px 8px; border-radius:999px; background:rgba(255,42,161,.18); border:1px solid rgba(255,42,161,.35); color:#ffe6f4; white-space:nowrap}
-  .story::-webkit-scrollbar{width:10px}
-  .story::-webkit-scrollbar-thumb{background:linear-gradient(180deg, rgba(255,42,161,.6), rgba(255,42,161,.25)); border-radius:999px}
-</style>
-
-<div class="bubbles" id="bubbles"></div>
-
-<div class="wrap">
-  <header><div class="brand"><span class="dot"></span> TimmyTime — Events</div></header>
-  <section class="events" id="eventsGrid"></section>
-</div>
+  <div class="today-strip">
+    <div class="mini-weather">
+      <span class="light {{ m.light }}"></span>
+      <span class="mw-text">
+        {{ m.place }} — {{ m.temp }}°F (Hi {{ m.hi }}° / Lo {{ m.lo }}°) • {{ m.code_text }}
+      </span>
+    </div>
+    <div class="mini-riddle">
+      <strong>Riddle:</strong> {{ riddle_q }}
+      <span class="answer" onclick="this.classList.toggle('show')"> (tap for answer)</span>
+      <span class="answer-text">{{ riddle_a }}</span>
+    </div>
+    <div class="mini-story">
+      <strong>Story:</strong> {{ story_teaser }}
+      <a class="more" href="/story">read more</a>
+    </div>
+  </div>
+</section>
 
 <script>
-(function makeBubbles(){
-  const layer = document.getElementById('bubbles');
-  const count = 28;               // ↑ for more, ↓ for speed
-  for(let i=0;i<count;i++){
-    const b=document.createElement('div'); b.className='bubble';
-    const size = 12 + Math.random()*34;    // px
-    const left = Math.random()*100;        // vw
-    const rise = 9  + Math.random()*18;    // s
-    const delay= Math.random()*12;         // s
-    const blur = Math.random()<.5 ? (Math.random()*2.6).toFixed(1)+'px' : '0px';
-    b.style.width=size+'px'; b.style.height=size+'px'; b.style.left=left+'vw';
-    b.style.animationDuration = `${rise}s, ${3+Math.random()*3}s`; // rise, drift
-    b.style.animationDelay = `${delay}s, ${Math.random()*2}s`;
-    b.style.setProperty('--blur', blur);
-    layer.appendChild(b);
-  }
-})();
-
-const events = [
-  { title:"Ragland Fall Night Market", time:"Thu • 7:00–10:00 PM", tags:["Local","Vendors"], weight:85,
-    story:`Food trucks, live sets, and glow-sticks. Bring a hoodie; river breeze hits different.` },
-  { title:"Purple Devils Pep Rally", time:"Fri • 3:30 PM", tags:["School"], weight:60,
-    story:`Band warm-up, mascot photo ops, and the new hype routine.` },
-  { title:"Fort Strother History Walk", time:"Sat • 9:00 AM", tags:["Outdoors","Heritage"], weight:75,
-    story:`Guided loop with bite-size blurbs and a spooky bridge fact or two.` },
-  { title:"Coffee & Code — HUI mini-lab", time:"Sun • 10:00 AM", tags:["Maker","Tech"], weight:45,
-    story:`Bring your iPhone dev setup; we’ll bench-press CORS and add neon without breaking the build.` },
-  { title:"Yeti Comedy Pop-Up", time:"Sat • 8:30 PM", tags:["Comedy"], weight:95,
-    story:`Yes, the Yeti returns. Snow-cold one-liners, Alabama-warm delivery.` },
-  { title:"Quiet Hours", time:"Daily • 11:00 PM", tags:["Wellness"], weight:25 }
-];
-
-function spansFromWeight(w, hasStory){
-  const x = Math.max(1, Math.min(100, w|0));
-  let row = x>=85?4 : x>=65?3 : x>=40?2 : 1;
-  if(hasStory && row<3) row += 1;            // stories get room
-  const col = x>=80?2:1;                      // wide for heavy hitters
-  return {row, col};
-}
-
-(function renderEvents(){
-  const grid = document.getElementById('eventsGrid');
-  events.forEach(ev=>{
-    const {row,col}=spansFromWeight(ev.weight??40, !!ev.story);
-    const card=document.createElement('article');
-    card.className='card';
-    card.style.gridRow=`span ${row}`;
-    card.style.gridColumn=`span ${col}`;
-    card.innerHTML = `
-      <div class="meta">${ev.time??""}</div>
-      <h3 class="title">${ev.title??"Untitled Event"}</h3>
-      ${ev.story?`<p class="story">${ev.story}</p>`:""}
-      ${Array.isArray(ev.tags)&&ev.tags.length?`<div class="tags">${ev.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:""}
-    `;
-    grid.appendChild(card);
-  });
-})();
+  (function(){
+    var url = location.origin;
+    var btn = document.getElementById('copyBtn');
+    var msg = document.getElementById('copyMsg');
+    btn.addEventListener('click', async function(){
+      try{ await navigator.clipboard.writeText(url); msg.textContent="Link copied: " + url; }
+      catch(e){ msg.textContent="Copy failed. Long-press to share."; }
+      setTimeout(function(){ msg.textContent=""; }, 2400);
+    });
+  })();
 </script>
 {% endblock %}
