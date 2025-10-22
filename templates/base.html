@@ -4,23 +4,35 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ title or "TimmyApp" }}</title>
-  <link rel="stylesheet" href="/static/style.css">
+
+  <!-- Cache-bust CSS to avoid white theme on wake -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ APP_VERSION }}">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 </head>
 <body>
-  <header class="nav">
-    <a href="/" class="brand">TimmyApp</a>
-    <nav>
-      <a href="/weather">Weather</a>
-      <a href="/riddles">Riddles</a>
-      <a href="/story">Story</a>
-    </nav>
-  </header>
 
-  <main class="content">
+  <!-- Background bubbles behind all content -->
+  <canvas id="bubbles" class="bubbles" aria-hidden="true"></canvas>
+
+  <!-- Top Nav -->
+  <nav class="nav wrapper">
+    <a href="/" class="{{ 'active' if request.path=='/' else '' }}">Home</a>
+    <a href="/weather" class="{{ 'active' if request.path.startswith('/weather') else '' }}">Weather</a>
+    <a href="/music" class="{{ 'active' if request.path.startswith('/music') else '' }}">Music</a>
+    <a href="/story" class="{{ 'active' if request.path.startswith('/story') else '' }}">Story</a>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="wrapper">
     {% block content %}{% endblock %}
   </main>
 
-  <canvas id="bubbles" aria-hidden="true"></canvas>
-  <script src="/static/bubbles.js"></script>
+  <!-- Service Robot (hook this to your assistant later) -->
+  <button class="robot-fab" id="robotFab" aria-label="Service Robot">🤖</button>
+
+  <!-- Global JS (bubbles + weather lights) -->
+  <script src="{{ url_for('static', filename='app.js') }}?v={{ APP_VERSION }}"></script>
 </body>
 </html>
