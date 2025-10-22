@@ -1,4 +1,4 @@
-// Simple floating bubbles on a full-screen canvas (no external libs)
+// Floating neon bubbles — no libs.
 const canvas = document.getElementById('bubbles');
 const ctx = canvas.getContext('2d');
 
@@ -19,33 +19,34 @@ function makeBubble() {
     r,
     vy: 0.6 + Math.random()*1.6,
     sway: (Math.random()*1.5 + 0.5) * (Math.random() < 0.5 ? -1 : 1),
-    hue: 280 + Math.random()*80 // purple-pink range
+    hue: 280 + Math.random()*80 // purple→pink
   };
 }
 
 for (let i = 0; i < 60; i++) bubbles.push(makeBubble());
 
-function tick() {
+function draw() {
   ctx.clearRect(0, 0, W, H);
 
   for (const b of bubbles) {
+    // upward drift + gentle side sway
     b.y -= b.vy;
     b.x += Math.sin((Date.now()/600 + b.y/80)) * (b.sway*0.08);
 
+    // neon bubble gradient
     const g = ctx.createRadialGradient(b.x, b.y, b.r*0.2, b.x, b.y, b.r);
     g.addColorStop(0, `hsla(${b.hue}, 90%, 70%, .95)`);
-    g.addColorStop(1, `hsla(${b.hue}, 90%, 50%, .05)`);
+    g.addColorStop(1, `hsla(${b.hue}, 90%, 50%, .06)`);
 
     ctx.beginPath();
     ctx.fillStyle = g;
     ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
     ctx.fill();
 
-    if (b.y < -b.r - 10) {
-      Object.assign(b, makeBubble(), { y: H + b.r + Math.random()*H*0.3 });
-    }
+    // recycle at top
+    if (b.y < -b.r - 10) Object.assign(b, makeBubble(), { y: H + b.r + Math.random()*H*0.3 });
   }
 
-  requestAnimationFrame(tick);
+  requestAnimationFrame(draw);
 }
-tick();
+draw();
