@@ -1,34 +1,39 @@
 from flask import Flask, render_template
 
-def create_app():
-    app = Flask(__name__)
+app = Flask(__name__)
 
-    @app.route("/")
-    def home():
-        return render_template("home.html", title="Timmyapp")
+# === PLAYLISTS (slot #5 uses your new Suno link) ===
+PLAYLISTS = [
+    {
+        "title": "Yeti Chill Sessions",
+        "vibe": "Playful lo-fi with icy holographic shimmer — calm focus & cozy reels.",
+        "url": "https://suno.com/playlist/your-yeti-chill-link"
+    },
+    {
+        "title": "Mr. Bill’s Beat Lab",
+        "vibe": "Funky, experimental, comedic bounce — quick cuts & high-energy edits.",
+        "url": "https://suno.com/playlist/your-mr-bill-link"
+    },
+    {
+        "title": "HUI Frequencies",
+        "vibe": "Meditative, dimensional tone-maps — grounding pads for deep workflow.",
+        "url": "https://suno.com/playlist/your-hui-link"
+    },
+    {
+        "title": "Timmy’s Neon Flow",
+        "vibe": "Smooth synthwave for late-night editing — steady motion, cinematic glow.",
+        "url": "https://suno.com/playlist/your-neon-flow-link"
+    },
+    {
+        "title": "Timmy’s Sexy Sax",
+        "vibe": "Holographic, seductive, neon-warm, and smooth — perfect for creative content & ambient focus.",
+        "url": "https://suno.com/playlist/01b65a04-d231-4574-bbb6-713997ca5b44"  # replaced slot #5
+    }
+]
 
-    # keep your other endpoints if you have them:
-    @app.route("/music")
-    def music():
-        return "<h1>Music</h1><p>Wire this later.</p>"
+@app.route("/music")
+def music():
+    return render_template("music.html", playlists=PLAYLISTS)
 
-    @app.route("/weather")
-    def weather():
-        return "<h1>Weather</h1><p>Wire this later.</p>"
-
-    @app.route("/pemdas")
-    def pemdas():
-        return "<h1>PEMDAS</h1>"
-
-    @app.route("/riddle")
-    def riddle():
-        return "<h1>Riddle</h1>"
-
-    @app.route("/police")
-    def police():
-        return "<h1>Police</h1>"
-
-    return app
-
-# Render/Gunicorn entry point
-app = create_app()
+if __name__ == "__main__":
+    app.run(debug=True)
