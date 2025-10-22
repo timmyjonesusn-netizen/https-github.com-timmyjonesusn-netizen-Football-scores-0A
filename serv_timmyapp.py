@@ -1,55 +1,47 @@
-# serv_timmyapp.py — Flask app (no f-strings)
-import os
-from datetime import datetime
-from flask import Flask, send_from_directory, make_response
-
-APP_NAME = "TimmyApp"
-
-def create_app():
-    app = Flask(__name__, static_folder="static", static_url_path="/static")
-
-    @app.route("/")
-    def root():
-        # Tiny HTML to prove it’s alive even if templates fail
+    @app.route("/home")
+    def home():
         html = (
             "<!doctype html><meta charset='utf-8'/>"
-            "<title>TimmyApp</title>"
-            "<link rel='stylesheet' href='/static/style.css'/>"
-            "<div class='wrap'>"
-            "<h1>TimmyApp is live ✅</h1>"
-            "<p>Deployed at: " + datetime.utcnow().isoformat() + "Z</p>"
-            "<p><a class='btn' href='/home'>Go to Home</a></p>"
+            "<meta name='viewport' content='width=device-width, initial-scale=1'/>"
+            "<title>TimmyApp — Home</title>"
+            "<style>"
+            ":root{--bg1:#1a0731;--bg2:#3b0b5e;--glow:#ff4fd8;--ink:#f7e9ff;--card:#240a41}"
+            "*{box-sizing:border-box}html,body{height:100%;margin:0}"
+            "body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;"
+            "color:var(--ink);background:radial-gradient(120% 120% at 50% 0%,var(--bg2),var(--bg1));overflow:hidden}"
+            "@keyframes pulse{0%,100%{box-shadow:0 0 20px 4px rgba(255,79,216,.20)}50%{box-shadow:0 0 40px 10px rgba(255,79,216,.45)}}"
+            ".container{position:relative;z-index:2;padding:24px;max-width:980px;margin:0 auto}"
+            "h1{margin:0 0 12px;text-shadow:0 0 12px rgba(255,79,216,.6)}"
+            ".cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}"
+            ".card{background:linear-gradient(180deg,rgba(255,79,216,.07),rgba(255,79,216,.01));"
+            "border:1px solid rgba(255,79,216,.25);border-radius:14px;padding:14px;animation:pulse 3s ease-in-out infinite}"
+            ".scrollbox{max-height:180px;overflow:auto;padding-right:6px}"
+            "#bubbles{position:fixed;inset:0;z-index:1}"
+            "a.btn{display:inline-block;margin-top:10px;padding:8px 12px;border:1px solid rgba(255,79,216,.6);"
+            "border-radius:10px;text-decoration:none;color:var(--ink)}"
+            "</style>"
+            "<canvas id='bubbles'></canvas>"
+            "<div class='container'>"
+            "<h1>Purple/Pink Glow + Bubbles</h1>"
+            "<p>If you can read this, we’re golden.</p>"
+            "<section class='cards'>"
+            "<div class='card'><h3>Events</h3><p>Display-only boxes (no inputs).</p></div>"
+            "<div class='card'><h3>Whodunnit</h3><div class='scrollbox'>"
+            "<p>Ragland’s mystery unfolded under the stadium lights…</p>"
+            "</div></div></section>"
+            "<a class='btn' href='/'>Back to Root</a>"
             "</div>"
+            "<script>(function(){"
+            "const c=document.getElementById('bubbles');const x=c.getContext('2d');let W,H,B=[];"
+            "function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}window.addEventListener('resize',resize);resize();"
+            "function spawn(){const n=24;B=new Array(n).fill(0).map(()=>({x:Math.random()*W,y:H+Math.random()*H,r:4+Math.random()*18,"
+            "s:.4+Math.random()*1.6,drift:(Math.random()*.6)-.3,a:.15+Math.random()*.35}))}spawn();"
+            "function tick(){x.clearRect(0,0,W,H);for(const b of B){b.y-=b.s;b.x+=b.drift;if(b.y+b.r<-20){b.y=H+20;b.x=Math.random()*W}"
+            "x.beginPath();const g=x.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);"
+            "g.addColorStop(0,'rgba(255,79,216,'+(b.a+.25)+')');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;"
+            "x.arc(b.x,b.y,b.r,0,Math.PI*2);x.fill()}requestAnimationFrame(tick)}tick();"
+            "})();</script>"
         )
         resp = make_response(html, 200)
         resp.headers["Content-Type"] = "text/html; charset=utf-8"
         return resp
-
-    @app.route("/home")
-    def home():
-        return send_from_directory("static", "index.html")
-
-    @app.route("/healthz")
-    def healthz():
-        return "ok", 200
-
-    # Optional service worker (kept super simple)
-    @app.route("/service-worker.js")
-    def sw():
-        js = (
-            "self.addEventListener('install', e=>self.skipWaiting());"
-            "self.addEventListener('activate', e=>self.clients.claim());"
-            "self.addEventListener('fetch', e=>{e.respondWith(fetch(e.request).catch(()=>new Response('Offline',{status:200})));});"
-        )
-        resp = make_response(js, 200)
-        resp.headers["Content-Type"] = "application/javascript; charset=utf-8"
-        return resp
-
-    return app
-
-# Local debug runner (Render will NOT use this — it uses Procfile)
-if __name__ == "__main__":
-    app = create_app()
-    port = int(os.environ.get("PORT", "5000"))
-    app.run(host="0.0.0.0", port=port)
- 
