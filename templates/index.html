@@ -1,41 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TimmyApp — Glow Mode</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-  <canvas id="bubbles"></canvas>
+{% extends "base.html" %}
+{% block content %}
+  <section class="card glow">
+    <h1 class="title">Welcome to TimmyApp</h1>
+    <p class="lead">All systems glowing. Purple base, blue &amp; white bubbles, and pink pulse are live.</p>
+  </section>
 
-  <main class="wrap">
-    <h1>TimmyApp</h1>
-    <p class="tag">purple + pink holographic goodness</p>
-
-    <div class="cards">
-      <a class="card" href="https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b" target="_blank" rel="noopener">
-        <h2>Creator Playlist</h2>
-        <p>Royalty-friendly vibes for your reels.</p>
-      </a>
-      <a class="card" href="https://suno.com/playlist/e95ddd12-7e37-43e2-b3e0-fe342085a19f" target="_blank" rel="noopener">
-        <h2>Playlist 2</h2>
-        <p>Drop the beat, not the ball.</p>
-      </a>
-      <a class="card" href="https://suno.com/playlist/2e2eefa6-6828-40ba-bf5b-02bf338e3243" target="_blank" rel="noopener">
-        <h2>Playlist 3</h2>
-        <p>Made for creators. No claims.</p>
-      </a>
+  <section class="card glow">
+    <h2>Quick Links</h2>
+    <div class="grid">
+      <a class="tile" href="{{ url_for('weather_page') }}">Weather</a>
+      <a class="tile" href="{{ url_for('music_page') }}">Music</a>
     </div>
-
-    <footer>
-      <span>Built for Timmy — if it’s not glowing, we’re not going.</span>
-    </footer>
-  </main>
-
-  <script src="/static/app.js"></script>
-</body>
-</html>
+  </section>
+{% endblock %}
