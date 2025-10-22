@@ -1,40 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Today's Story | TimmyApp</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <nav class="navbar">
-    <h1>TimmyApp</h1>
-    <div class="nav-links">
-      <a href="/weather">Weather</a>
-      <a href="/riddles">Riddles</a>
-      <a href="/story" class="active">Story</a>
-    </div>
-  </nav>
+{% extends "base.html" %}
+{% block content %}
+  <h1>Tonight’s Story</h1>
 
   <div class="story-box">
-    <h2>Today's Story</h2>
-    <p>
-      They said the river kept secrets. That night it kept time, too—one, two, flash.
-      “Bonsoir,” the wind teased, rustling the banners. Timmy spotted a smear of purple chalk on
-      the press box knob. Pas un hasard—not an accident. He traced it to a small tin whistle
-      and a scribble, ‘Follow the bassline.’ He did, and the night began to hum.
-    </p>
-    <button>Continue reading...</button>
+    <h2>Whispers by the River</h2>
+    <p>{{ text }}</p>
   </div>
-
-  <div class="eatery-box">
-    <h2>🍽️ #1 Place to Eat Today</h2>
-    <p id="eatery-name">
-      Mama Dee’s Southern Kitchen — Fried Catfish & Sweet Tea Heaven 🐟🍋
-    </p>
-    <button id="next-eatery">Next Pick</button>
-  </div>
-
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% endblock %}
