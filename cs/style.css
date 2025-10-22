@@ -1,0 +1,56 @@
+/* Deep purple with pulsing pink */
+:root { --bg1: #1a0731; --bg2: #3b0b5e; --glow: #ff4fd8; --ink: #f7e9ff; --card: #240a41; }
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(120% 120% at 50% 0%, var(--bg2), var(--bg1));
+  overflow: hidden;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 20px 4px rgba(255,79,216,0.20); }
+  50%      { box-shadow: 0 0 40px 10px rgba(255,79,216,0.45); }
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  padding: 24px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 0 0 12px;
+  text-shadow: 0 0 12px rgba(255,79,216,0.6);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,79,216,0.07), rgba(255,79,216,0.01));
+  border: 1px solid rgba(255,79,216,0.25);
+  border-radius: 14px;
+  padding: 14px;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.scrollbox {
+  max-height: 180px;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+/* full-screen bubble canvas behind content */
+#bubbles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
