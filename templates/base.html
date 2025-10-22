@@ -1,32 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Timmyapp</title>
-  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
-</head>
-<body>
-  <!-- hypnotic animated backdrop -->
-  <div id="bubble-field" aria-hidden="true"></div>
-
-  <header>
-    <div class="brand">Timmyapp</div>
-    <nav>
-      <a href="{{ url_for('home') }}">Home</a>
-      <a href="{{ url_for('music') }}">Music</a>
-      <a href="{{ url_for('weather') }}">Weather</a>
-      <a href="{{ url_for('whodunnit') }}">Whodunnit</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="card">
-      {% block content %}{% endblock %}
-    </section>
-  </main>
-
-  <script src="{{ url_for('static', filename='js/bubbles.js') }}"></script>
-</body>
-</html>
+<header>
+  <div class="brand">Timmyapp</div>
+  <nav>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('music') }}">Music</a>
+    <a href="{{ url_for('weather') }}">Weather</a>
+    <a href="{{ url_for('pemdas') }}">PEMDAS</a>
+    <a href="{{ url_for('riddle') }}">Riddle</a>
+    <a href="{{ url_for('police') }}">Police</a>
+  </nav>
+</header>
