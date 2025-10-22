@@ -1,0 +1,24 @@
+:root{
+  --bg:#0f1a17;
+  --card:#111d1a;
+  --text:#e9efe9;
+  --muted:#b9c4be;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+.page{min-height:100%;position:relative;overflow:hidden}
+
+/* earthy bubble backdrop */
+.page::before,.page::after{
+  content:"";position:absolute;inset:-20%;
+  background:
+    radial-gradient(150px 150px at 15% 25%, #a26a3c40 0 70%, transparent 71%),
+    radial-gradient(240px 240px at 75% 20%, #6e845a3b 0 70%, transparent 71%),
+    radial-gradient(180px 180px at 25% 80%, #c8b07a33 0 70%, transparent 71%),
+    radial-gradient(210px 210px at 80% 75%, #7aa6b833 0 70%, transparent 71%),
+    radial-gradient(120px 120px at 50% 50%, #6b3f2e33 0 70%, transparent 71%);
+  filter: blur(8px);z-index:0;
+}
+.page::after{transform:scale(1.2) rotate(8deg);opacity:.5}
+
+header{position:relative;z-index:1;padding:48px
