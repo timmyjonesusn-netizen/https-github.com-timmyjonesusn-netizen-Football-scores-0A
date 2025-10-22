@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>💡 Million-Dollar Idea</h2>
+  <p class="idea">{{ DATA.idea }}</p>
+
+  <h2>🍗 #1 Southern Spot (Today)</h2>
+  <div class="eat">
+    <strong>{{ DATA.restaurant.name }}</strong>
+    <p>{{ DATA.restaurant.note }}</p>
+  </div>
+{% endblock %}
