@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Weather — Ragland</h1>
-  <div class="grid">
-    <div class="tile span-6">
-      <h2>Right Now</h2>
-      <p style="font-size:2rem;margin:.25rem 0;"><strong>72°F</strong> · Partly Cloudy</p>
-      <p>Wind: 5 mph · Humidity: 58%</p>
-      <p>Feels like: 73°F</p>
-    </div>
-    <div class="tile span-6">
-      <h2>Today</h2>
-      <p>High 78°F · Low 60°F · 10% precip.</p>
-      <p>Sunset 6:12 PM</p>
-    </div>
-    <div class="tile span-12">
-      <h2>Next Hours</h2>
-      <p>7 PM 71°F • 8 PM 69°F • 9 PM 67°F • 10 PM 66°F</p>
-    </div>
+  <h1>Weather</h1>
+
+  <!-- Status lights -->
+  <div id="wx-status" class="wx-status" aria-live="polite">
+    <span class="wx-label">Conditions</span>
+    <span class="signal green" id="sig-green" title="Good"></span>
+    <span class="signal yellow" id="sig-yellow" title="Wind ≥ 20 mph"></span>
+    <span class="signal red" id="sig-red" title="Wind ≥ 40 mph or Alert"></span>
+    <span class="wx-text" id="wx-text">checking…</span>
   </div>
+
+  <!-- Values from server -->
+  <div id="wx-data"
+       data-wind-mph="{{ weather.wind_mph|int }}"
+       data-has-alert="{{ 'true' if weather.has_alert else 'false' }}">
+  </div>
+
+  <section class="card">
+    <h2>Right Now</h2>
+    <p>Wind: <strong>{{ weather.wind_mph|int }} mph</strong> —
+      Alerts: <strong>{{ 'Yes' if weather.has_alert else 'No' }}</strong></p>
+    <p class="meta">Try <code>?wind=27</code> or <code>?wind=45&alert=true</code> in the URL for a quick test.</p>
+  </section>
 {% endblock %}
