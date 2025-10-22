@@ -1,6 +1,6 @@
-# serv_timmyapp.py
-from flask import Flask, send_from_directory, render_template
+# serv_timmyapp.py — stable fallback
 import os
+from flask import Flask, render_template, jsonify
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
@@ -8,9 +8,9 @@ app = Flask(__name__, static_folder="static", template_folder="templates")
 def home():
     return render_template("index.html")
 
-@app.route("/static/<path:path>")
-def static_files(path):
-    return send_from_directory("static", path)
+@app.route("/health")
+def health():
+    return jsonify(status="ok")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
