@@ -1,6 +1,4 @@
-{% set title = "TimmyTunes" %}
-<!doctype html>
-<html lang{% extends "base.html" %}
+{% extends "base.html" %}
 {% block content %}
   <h1 class="h1">🎵 TimmyTunes</h1>
   <p class="lead">Four fire playlists — neon vault vibes, Suno-powered.</p>
@@ -11,128 +9,11 @@
   </p>
 
   <section class="grid">
-    <article class="card">
-      <h2>Neon Nights</h2>
-      <p>Late-drive anthems, chrome reflections, midnight swagger.</p>
+    <article class="card"><h2>Neon Nights</h2><p>Late-drive anthems.</p>
       <p><a class="btn" target="_blank" rel="noopener" href="https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df">🔊 Open Playlist</a></p>
     </article>
-
-    <article class="card">
-      <h2>Vibe Supply</h2>
-      <p>Daymaker grooves — clean, glossy, bounce for the grind.</p>
+    <article class="card"><h2>Vibe Supply</h2><p>Daymaker grooves.</p>
       <p><a class="btn" target="_blank" rel="noopener" href="https://suno.com/playlist/06b80fa9-8c72-4e0a-b277-88d00c441316">🔊 Open Playlist</a></p>
     </article>
-
-    <article class="card">
-      <h2>Spirit Drive</h2>
-      <p>Holy hustle, golden glow — faith that flexes back.</p>
-      <p><a class="btn" target="_blank" rel="noopener" href="https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b">🔊 Open Playlist</a></p>
-    </article>
-
-    <article class="card">
-      <h2>Matrix Lounge</h2>
-      <p>Holographic chill — pink/purple neon with soft edges.</p>
-      <p><a class="btn" target="_blank" rel="noopener" href="https://suno.com/playlist/e95ddd12-7e37-43e2-b">🔊 Open Playlist</a></p>
-    </article>
-  </section>
-
-  <script>
-    const lists = [
-      "https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df",
-      "https://suno.com/playlist/06b80fa9-8c72-4e0a-b277-88d00c441316",
-      "https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b",
-      "https://suno.com/playlist/e95ddd12-7e37-43e2-b"
-    ];
-    function openAll(){ lists.forEach(u => window.open(u, "_blank")); }
-    function shufflePick(){ window.open(lists[Math.floor(Math.random()*lists.length)], "_blank"); }
-  </script>
-{% endblock %}
-="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
-  <title>{{ title }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/neon.css') }}">
-</head>
-<body>
-
-  <!-- Animated bubble backdrop -->
-  <div class="bubbles" aria-hidden="true">
-    <!-- 18 floating bubbles w/ randomized custom properties -->
-    {% for i in range(18) %}
-      <span style="--x: {{ (i*5 + (i%3)*7) % 95 }}%; --dur: {{ 9 + (i%7) * 1.2 }}s; --drift: {{ (-40 + (i%9)*10) }}px;"></span>
-    {% endfor %}
-  </div>
-
-  <main class="wrap">
-    <h1 class="h1">🎵 TimmyTunes</h1>
-    <p class="lead">Four fire playlists — neon vault vibes, Suno-powered.</p>
-
-    <!-- Neon nav -->
-    <nav class="nav">
-      <a href="/">🏠 Home</a>
-      <a href="/ideas">💡 Ideas</a>
-      <a href="/bubbles">🫧 Bubbles</a>
-      <a href="/music">🎶 Music</a>
-      <a href="/police">🐾 Police Corner</a>
-      <a href="/tickle">🌊 Daily Tickle</a>
-      <a href="/riddles">🧩 Riddles</a>
-      <a href="/weather">☀️ Weather</a>
-    </nav>
-
-    <div class="tip">Tip: iPhone may block multi-tab auto-open — tap playlists one-by-one if needed.</div>
-
-    <!-- PLAY CONTROLS -->
-    <p style="margin:14px 0 2px;">
-      <a class="btn" href="#" onclick="openAll(); return false;"><span class="dot"></span> Play All</a>
-      <a class="btn" href="#" onclick="shufflePick(); return false;"><span class="dot"></span> Shuffle Pick</a>
-    </p>
-
-    <!-- PLAYLIST CARDS -->
-    <section class="grid">
-      <article class="card">
-        <h2>Neon Nights</h2>
-        <p>Late-drive anthems, chrome reflections, midnight swagger.</p>
-        <p><a class="btn" href="https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df" target="_blank" rel="noopener">🔊 Open Playlist</a></p>
-      </article>
-
-      <article class="card">
-        <h2>Vibe Supply</h2>
-        <p>Daymaker grooves — clean, glossy, bounce for the grind.</p>
-        <p><a class="btn" href="https://suno.com/playlist/06b80fa9-8c72-4e0a-b277-88d00c441316" target="_blank" rel="noopener">🔊 Open Playlist</a></p>
-      </article>
-
-      <article class="card">
-        <h2>Spirit Drive</h2>
-        <p>Holy hustle, golden glow — faith that flexes back.</p>
-        <p><a class="btn" href="https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b" target="_blank" rel="noopener">🔊 Open Playlist</a></p>
-      </article>
-
-      <article class="card">
-        <h2>Matrix Lounge</h2>
-        <p>Holographic chill — pink/purple neon with soft edges.</p>
-        <p><a class="btn" href="https://suno.com/playlist/e95ddd12-7e37-43e2-b" target="_blank" rel="noopener">🔊 Open Playlist</a></p>
-      </article>
-    </section>
-
-    <p class="tip">Made with 💜 in Ragland. Purple/pink glow locked.</p>
-  </main>
-
-  <script>
-    // Simple helpers for "Play All" & "Shuffle"
-    const lists = [
-      "https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df",
-      "https://suno.com/playlist/06b80fa9-8c72-4e0a-b277-88d00c441316",
-      "https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b",
-      "https://suno.com/playlist/e95ddd12-7e37-43e2-b"
-    ];
-    function openAll(){
-      lists.forEach(u => window.open(u, "_blank"));
-    }
-    function shufflePick(){
-      const u = lists[Math.floor(Math.random()*lists.length)];
-      window.open(u, "_blank");
-    }
-  </script>
-</body>
-</html>
+    <article class="card"><h2>Spirit Drive</h2><p>Golden glow.</p>
+      <p><a class="btn" target="_blank" rel="noopener" href="https://suno.com/playlist/2ec04889-1c23-4e2d-9_
