@@ -1,108 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>🧩 Riddles & Whodunnit</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='riddles.css') }}">
-</head>
-<body>
-  <header class="hud">
-    <h1 class="logo">🧩 Riddles & Whodunnit</h1>
-    <p class="tag">Lean, clean mystery machine — no inputs needed, just solve.</p>
-    <nav class="nav">
-      <a href="/">🏠 Home</a>
-      <a href="/ideas">💡 Ideas</a>
-      <a href="/bibles">🫧 Bubbles</a>
-      <a href="/music">🎶 Music</a>
-      <a href="/police">🐾 Police Corner</a>
-      <a href="/tickle">🌊 Daily Tickle</a>
-      <a class="active" href="/riddles">🧩 Riddles</a>
-      <a href="/weather">☀️ Weather</a>
-    </nav>
-  </header>
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2>Riddles</h2>
+  <p class="hint">Tap a riddle to reveal the answer.</p>
 
-  <main class="wrap">
-    <!-- Whodunnit Story (scrollable) -->
-    <section class="panel story" aria-label="Whodunnit Story">
-      <h2>Whodunnit: The Case of the Midnight Mascot</h2>
-      <div class="scroll">
-        <p>
-          Ragland woke up to a prank: the Purple Devil mascot costume was found
-          perched on top of the press box, sunglasses on, neon glow sticks
-          dangling. Security cameras caught only a silhouette dancing across the
-          field at 2:13 AM — smooth moves, no fingerprints.
-        </p>
-        <p>
-          Suspects? <strong>Coach Dee</strong> (closing up the weight room),
-          <strong>Jasmine</strong> (runs the student council keys), and
-          <strong>Uncle Buck</strong> (swears he was night-fishing at Ten Islands).
-        </p>
-        <p>
-          A single clue: a trail of glitter shaped like tiny paw prints leading
-          to the concession stand, where a half-eaten funnel cake sat beside a
-          sticker: “<em>Reggie Was Here</em>.” Cameras go dark near the stand
-          for exactly three minutes — right when the dance happened.
-        </p>
-        <p>
-          Witness #1 heard a voice say “Ten-four, Chief,” then a squeaky toy.
-          Witness #2 saw diet cola cans stacked into a tiny pyramid. The
-          janitor found grass clippings in the hallway the next morning.
-        </p>
-        <p class="q">
-          <strong>Your call, Detective:</strong> who pulled the prank?
-        </p>
-      </div>
-      <div class="choices">
-        <label for="who">Suspect:</label>
-        <select id="who" aria-label="Choose the culprit">
-          <option value="">— pick one —</option>
-          <option value="dee">Coach Dee</option>
-          <option value="jasmine">Jasmine</option>
-          <option value="buck">Uncle Buck</option>
-          <option value="reggie">Reggie the Dog 😎</option>
-        </select>
-        <button id="reveal" class="pill">Reveal</button>
-      </div>
-      <div id="verdict" class="verdict" role="status" aria-live="polite"></div>
-    </section>
+  <details class="qa">
+    <summary>What has to be broken before you can use it?</summary>
+    <div class="answer">An egg.</div>
+  </details>
 
-    <!-- Riddles Deck (dropdown answers) -->
-    <section class="panel riddles" aria-label="Riddles">
-      <h2>Quick Riddles</h2>
+  <details class="qa">
+    <summary>I’m tall when I’m young, and short when I’m old. What am I?</summary>
+    <div class="answer">A candle.</div>
+  </details>
 
-      <div class="card">
-        <p class="r">I speak without a mouth and hear without ears. What am I?</p>
-        <select data-answer="Echo">
-          <option value="">— choose —</option>
-          <option>Silence</option><option>Shadow</option><option>Echo</option><option>Wind</option>
-        </select>
-        <div class="result"></div>
-      </div>
+  <details class="qa">
+    <summary>What can travel around the world while staying in a corner?</summary>
+    <div class="answer">A postage stamp.</div>
+  </details>
 
-      <div class="card">
-        <p class="r">What has keys but can’t open locks?</p>
-        <select data-answer="Piano">
-          <option value="">— choose —</option>
-          <option>Piano</option><option>Map</option><option>Keyboard cat</option><option>Safe</option>
-        </select>
-        <div class="result"></div>
-      </div>
-
-      <div class="card">
-        <p class="r">The more you take, the more you leave behind. What are they?</p>
-        <select data-answer="Footsteps">
-          <option value="">— choose —</option>
-          <option>Memories</option><option>Footsteps</option><option>Raindrops</option><option>Secrets</option>
-        </select>
-        <div class="result"></div>
-      </div>
-
-    </section>
-  </main>
-
-  <footer class="ftr">Built with 💜 by Chief Timmy & Capt. Reg Dog</footer>
-
-  <script src="{{ url_for('static', filename='riddles.js') }}"></script>
-</body>
-</html>
+  <details class="qa">
+    <summary>What gets wetter the more it dries?</summary>
+    <div class="answer">A towel.</div>
+  </details>
+</section>
+{% endblock %}
