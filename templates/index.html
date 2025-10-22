@@ -1,47 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TimmyApp — Purple-Pink Bubbles</title>
-  <meta name="description" content="Timmy’s live show page: glowing purple-pink background, floating bubbles, Suno vibes, and good energy." />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://timmyapp.onrender.com/" />
-  <meta property="og:title" content="TimmyApp is LIVE" />
-  <meta property="og:description" content="Come see the purple-pink bubble universe + music!" />
-  <!-- Placeholder social image; replace later with your own -->
-  <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=TimmyApp+LIVE" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TimmyApp is LIVE" />
-  <meta name="twitter:description" content="Come see the purple-pink bubble universe + music!" />
-  <meta name="twitter:image" content="https://via.placeholder.com/1200x630.png?text=TimmyApp+LIVE" />
-
-  <link rel="icon" href="/static/favicon.png" />
-  <link rel="stylesheet" href="/static/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ app_name }} — Glow</title>
+  <link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;TimmyApp&quot;,&quot;short_name&quot;:&quot;TimmyApp&quot;,&quot;start_url&quot;:&quot;/&quot;,&quot;display&quot;:&quot;standalone&quot;}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
+  <canvas id="bubbles"></canvas>
+
   <main class="wrap">
-    <h1 class="title">TimmyApp is LIVE</h1>
-    <p class="tagline">Purple-pink glow, floating bubbles, and good vibes.</p>
+    <h1 class="title">✨ {{ app_name }} ✨</h1>
+    <p class="tag">Purple–pink holographic glow. Floating bubbles. Smooth vibes.</p>
 
-    <div class="bubble-field" aria-hidden="true">
-      <!-- 12 bubbles -->
-      <span class="b b1"></span><span class="b b2"></span><span class="b b3"></span>
-      <span class="b b4"></span><span class="b b5"></span><span class="b b6"></span>
-      <span class="b b7"></span><span class="b b8"></span><span class="b b9"></span>
-      <span class="b b10"></span><span class="b b11"></span><span class="b b12"></span>
-    </div>
-
-    <section class="card">
-      <h2>Welcome</h2>
-      <p>Share <strong>https://timmyapp.onrender.com/</strong> anywhere. Social sites should show a preview now.</p>
+    <section class="cards">
+      <a class="card" href="https://suno.com" target="_blank" rel="noopener">
+        <h3>🎧 Music</h3>
+        <p>Tap for Suno playlists (creator-friendly background vibes).</p>
+      </a>
+      <div class="card">
+        <h3>🗺️ Local</h3>
+        <p>This block is a placeholder — swap for events, riddles, or whodunnit later.</p>
+      </div>
+      <div class="card">
+        <h3>🧪 Lab</h3>
+        <p>Add UFC stories, weather, and more when you’re ready to expand.</p>
+      </div>
     </section>
+
+    <footer class="foot">Serving from Render • <code>/health</code> = ok • Service Worker on</footer>
   </main>
+
+  <script>
+    // register the simple SW (does nothing destructive)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+    }
+  </script>
+  <script src="{{ url_for('static', filename='bubbles.js') }}"></script>
 </body>
 </html>
