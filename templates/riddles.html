@@ -1,27 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="panel">
-  <h2>Riddles</h2>
-  <p class="hint">Tap a riddle to reveal the answer.</p>
-
-  <details class="qa">
-    <summary>What has to be broken before you can use it?</summary>
-    <div class="answer">An egg.</div>
-  </details>
-
-  <details class="qa">
-    <summary>I’m tall when I’m young, and short when I’m old. What am I?</summary>
-    <div class="answer">A candle.</div>
-  </details>
-
-  <details class="qa">
-    <summary>What can travel around the world while staying in a corner?</summary>
-    <div class="answer">A postage stamp.</div>
-  </details>
-
-  <details class="qa">
-    <summary>What gets wetter the more it dries?</summary>
-    <div class="answer">A towel.</div>
-  </details>
-</section>
+  <h1>Riddle of the Day</h1>
+  <div class="tile span-12">
+    <p>I speak without a mouth and hear without ears. I have nobody, but I come alive with wind. What am I?</p>
+    <select id="riddle">
+      <option value="">Choose your answer…</option>
+      <option>Shadow</option>
+      <option>Echo</option>
+      <option>Whistle</option>
+      <option>Cloud</option>
+    </select>
+    <p id="r-msg" style="margin-top:.5rem;"></p>
+  </div>
+  <script>
+    (function(){
+      const sel = document.getElementById('riddle');
+      const msg = document.getElementById('r-msg');
+      sel.addEventListener('change', ()=>{
+        if(sel.value === 'Echo') { msg.textContent = 'Correct! 🥳'; }
+        else if(sel.value) { msg.textContent = 'Not quite — try again.'; }
+        else { msg.textContent = ''; }
+      });
+    })();
+  </script>
 {% endblock %}
