@@ -1,46 +1,24 @@
-# serv_timmyapp.py
-from flask import Flask, render_template, url_for
-import os
-
-APP_NAME = "TimmyApp"
-
-def create_app():
-    app = Flask(__name__, static_folder="static", static_url_path="/static", template_folder="templates")
-
-    # ---- Routes ----
-    @app.route("/")
-    def home():
-        return render_template("home.html", title="Home")
-
-    @app.route("/ideas")
-    def ideas():
-        return render_template("ideas.html", title="Ideas")
-
-    @app.route("/bubbles")
-    def bubbles():
-        # same look as home, just shows the bubbles full-screen
-        return render_template("bubbles.html", title="Bubbles")
-
-    @app.route("/music")
-    def music():
-        # embeds your Suno playlist link
-        return render_template("music.html", title="Music")
-
-    @app.route("/police")
-    def police():
-        return render_template("police.html", title="Police Corner")
-
-    @app.route("/tickle")
-    def tickle():
-        return render_template("tickle.html", title="Daily Tickle")
-
-    @app.route("/riddles")
-    def riddles():
-        return render_template("riddles.html", title="Riddles & Whodunnit")
-
-    @app.route("/weather")
-    def weather():
-        # simple placeholder page (we can wire API after colors are locked)
-        return render_template("weather.html", title="Weather")
-
-    return app
+@app.route("/events")
+def events():
+    # Sample data; replace with your feed later
+    sample_events = [
+        {
+            "title": "Ragland Friday Night Lights",
+            "when": "Fri 7:00 PM · Stadium",
+            "blurb": "Purple Devils host a rivalry showdown. Bring the cowbells.",
+            "story": "The mascot tunnel is getting an LED glow-up. Rumor says the Yeti might do a halftime cameo..."
+        },
+        {
+            "title": "Ten Islands Picnic & Jam",
+            "when": "Sat 11:00 AM · Ten Islands Park",
+            "blurb": "Local pickers, BBQ, and kid zone.",
+            "story": ""
+        },
+        {
+            "title": "Fort Strother Walk & Talk",
+            "when": "Sun 2:00 PM · Fort Strother",
+            "blurb": "Short walk + living history chat.",
+            "story": "Captain Reggie recounts the ‘Midnight Mascot’ mystery and how glitter paw-prints changed case law. 😉"
+        }
+    ]
+    return render_template("events.html", title="Events", events=sample_events)
