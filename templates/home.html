@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="hero">
-  <h1>TimmyApp — The Creator’s Playground</h1>
-  <p class="tag">If it’s not glowing, it’s not going.</p>
+  <h1>Welcome to TimmyApp</h1>
 
-  <div class="grid music-grid">
-    <a class="pill" href="#" target="_blank" rel="noopener">
-      <div class="pill-title">Creator Flow Vol. 1</div>
-      <div class="pill-sub">Royalty-friendly for Reels/Shorts.</div>
-    </a>
-  </div>
+  <section class="card">
+    <h2>Right Now</h2>
+    <p>All systems glowing. Purple base, blue & white bubbles, and pink pulse are live.</p>
+  </section>
 
-  <div class="today-strip">
-    <div class="mini-weather">
-      <span class="light off"></span>
-      <span class="mw-text">Ragland, AL — loading…</span>
+  <section class="card">
+    <h2>Events</h2>
+    <div class="event-grid">
+      <article class="event-card">
+        <h3>Community Bowling Night</h3>
+        <p>Friday 7:00 PM • Strikers Alley</p>
+      </article>
+      <article class="event-card">
+        <h3>Open Mic</h3>
+        <p>Saturday 8:30 PM • Main Street Stage</p>
+      </article>
     </div>
-  </div>
-</section>
+  </section>
 {% endblock %}
