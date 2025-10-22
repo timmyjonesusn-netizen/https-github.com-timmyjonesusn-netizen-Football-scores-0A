@@ -4,12 +4,11 @@
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{{ app_name }} — LIVE</title>
 
-  <!-- Safe, simple share tags (static only) -->
+  <!-- Solid share tags (static image optional later) -->
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="TimmyApp is LIVE"/>
   <meta property="og:description" content="Purple-pink glow, floating bubbles, and good vibes."/>
   <meta property="og:url" content="{{ base_url }}/"/>
-  <meta property="og:image" content="{{ base_url }}/static/og-fallback.jpg"/>
   <meta name="twitter:card" content="summary_large_image"/>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -24,11 +23,11 @@
       <a class="card" href="https://suno.com" target="_blank" rel="noopener">
         <h3>🎧 Music</h3><p>Suno playlists for creators.</p>
       </a>
-      <div class="card"><h3>🗺️ Local</h3><p>Swap for Events/Stories.</p></div>
+      <div class="card"><h3>🗺️ Local</h3><p>Events/Stories coming.</p></div>
       <div class="card"><h3>🧪 Lab</h3><p>Weather, riddles, UFC next.</p></div>
     </section>
 
-    <footer class="foot">Live on Render • <code>/health</code> OK</footer>
+    <footer class="foot">Live on Render • <code>/health</code> OK • <code>/__whoami</code> diag</footer>
   </main>
 
   <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js').catch(()=>{});}</script>
