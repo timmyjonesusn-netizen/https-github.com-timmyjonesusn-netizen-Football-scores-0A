@@ -8,8 +8,7 @@
   --pink:#ff5cc8;
   --blue:#6cc4ff;
   --violet:#a98bff;
-
-  --beat: 8s;         /* rhythm speed (slower = more relaxed) */
+  --beat: 8s;         /* rhythm speed */
 }
 
 /* Base */
@@ -55,7 +54,7 @@ p,li{ font-size:clamp(1rem,3.8vw,1.15rem); opacity:.96; }
 a{ color:var(--text); text-decoration-thickness:2px; text-underline-offset:.18em; }
 a:hover, a:focus{ color:var(--pink); }
 
-/* Sticky nav (optional .nav wrapper) */
+/* Sticky nav */
 .nav{
   display:flex; gap:clamp(14px,4vw,24px); align-items:center;
   padding: clamp(8px,2.5vw,14px) clamp(12px,3vw,20px);
@@ -116,15 +115,33 @@ a:hover, a:focus{ color:var(--pink); }
 .signal.yellow{ background:#FFD400; }
 .signal.red{ background:#FF3B3B; }
 .signal.on{
-  opacity:1;
-  box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  opacity:1; box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
 }
+
+/* Simple list style for music links */
+.link-list{ list-style:none; padding-left:0; margin:0; }
+.link-list li{ margin:.4rem 0; }
 
 /* Bubbles canvas behind everything */
 .bubbles{
   position:fixed; inset:0; z-index:0; pointer-events:none;
   opacity:.3;
 }
+
+/* Robot button */
+.robot-fab{
+  position: fixed;
+  right: clamp(12px, 3.5vw, 18px);
+  bottom: clamp(12px, 3.5vw, 18px);
+  width: 56px; height: 56px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #b9cfff 60%, #7aa8ff 100%);
+  border: 2px solid var(--pink);
+  box-shadow: 0 0 14px rgba(255,92,200,.55), 0 10px 24px rgba(0,0,0,.35);
+  color:#1a0030; font-size: 26px; line-height: 1;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; z-index:10;
+}
+.robot-fab:active{ transform: translateY(1px); }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
