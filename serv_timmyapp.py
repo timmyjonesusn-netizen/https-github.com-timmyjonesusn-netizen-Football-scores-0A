@@ -16,7 +16,6 @@ def create_app():
     def health():
         return {"status": "ok", "app": APP_NAME}, 200
 
-    # Lightweight service worker
     @app.route("/service-worker.js")
     def service_worker():
         js = (
@@ -25,47 +24,39 @@ def create_app():
             "self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request)"
             ".catch(()=>new Response('Offline',{status:200})))});"
         )
-        resp = make_response(js); resp.headers["Content-Type"] = "application/javascript"
+        resp = make_response(js)
+        resp.headers["Content-Type"] = "application/javascript"
         return resp
 
-    # Dynamic OG/Twitter preview image (1200x630 PNG)
+    # dynamic Open Graph preview image
     @app.route("/og.png")
     def og_image():
         W, H = 1200, 630
         img = Image.new("RGB", (W, H), "#120216")
         d = ImageDraw.Draw(img)
-
-        # gradient bars
         for y in range(H):
-            r = int(18 + 120 * (y / H)); g = 0; b = int(60 + 195 * (y / H))
+            r = int(18 + 120 * (y / H))
+            g = 0
+            b = int(60 + 195 * (y / H))
             d.line([(0, y), (W, y)], fill=(r, g, b))
-
-        # glow ellipse
         d.ellipse([200, 60, 1000, 620], outline=(255, 0, 170), width=12)
-
-        # fonts (fallback to default if no system fonts)
         try:
-            title_font = ImageFont.truetype("DejaVuSans-Bold.ttf", 92)
-            sub_font   = ImageFont.truetype("DejaVuSans.ttf", 42)
+            f1 = ImageFont.truetype("DejaVuSans-Bold.ttf", 92)
+            f2 = ImageFont.truetype("DejaVuSans.ttf", 42)
         except:
-            title_font = ImageFont.load_default()
-            sub_font   = ImageFont.load_default()
-
+            f1 = f2 = ImageFont.load_default()
         title = f"{APP_NAME} is LIVE"
         sub = "Purple-pink glow, floating bubbles, and good vibes."
-
-        tw, th = d.textbbox((0,0), title, font=title_font)[2:]
-        sx, sy = (W - tw)//2, 200
-        d.text((sx+2, sy+2), title, font=title_font, fill=(255, 0, 200))
-        d.text((sx, sy), title, font=title_font, fill=(255, 255, 255))
-
-        sw, sh = d.textbbox((0,0), sub, font=sub_font)[2:]
-        d.text(((W - sw)//2, sy + th + 30), sub, font=sub_font, fill=(240, 220, 255))
-
-        buf = BytesIO(); img.save(buf, format="PNG"); buf.seek(0)
+        tw = d.textlength(title, font=f1)
+        sw = d.textlength(sub, font=f2)
+        d.text(((W - tw)/2, 200), title, font=f1, fill=(255, 255, 255))
+        d.text(((W - sw)/2, 330), sub, font=f2, fill=(255, 180, 255))
+        buf = BytesIO()
+        img.save(buf, "PNG")
+        buf.seek(0)
         resp = make_response(buf.read())
         resp.headers["Content-Type"] = "image/png"
-        resp.headers["Cache-Control"] = "public, max-age=3600"
+        resp.headers["Cache-Control"] = "public, max-age=86400"
         return resp
 
     return app
