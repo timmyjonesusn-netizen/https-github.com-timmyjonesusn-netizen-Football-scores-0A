@@ -1,4 +1,4 @@
-# serv_timmyapp.py — TimmyApp Final Public Build
+# serv_timmyapp.py — TimmyApp: Full Fresh Build (no f-strings, single-file)
 import os, random
 from datetime import datetime, date
 from flask import Flask, make_response, redirect, jsonify
@@ -7,7 +7,7 @@ import requests
 APP_NAME = "TimmyApp"
 RAGLAND_LAT, RAGLAND_LON = 33.744, -86.150
 
-# ---------- DATA ----------
+# --------- DATA ---------
 POLICE_NOTES = [
     {"title": "Community Reminder", "body": "School zone patrols active 7–9 AM and 2–4 PM. Please slow down."},
     {"title": "Safety Tip", "body": "Lock vehicles at night. Report suspicious activity via non-emergency line."},
@@ -54,7 +54,7 @@ TEN_ISLANDS_STORY = (
     "only footprints in clay and the stubborn echo of drum and bugle."
 )
 
-# ---------- STYLES ----------
+# --------- STYLE ---------
 def css_global():
     return (
         "<style>"
@@ -67,128 +67,219 @@ def css_global():
         ".wrap{position:relative;z-index:2;max-width:1000px;margin:0 auto;padding:22px}"
         ".nav{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 16px}"
         ".btn{display:inline-block;padding:10px 14px;border:1px solid rgba(255,79,216,.6);border-radius:12px;"
-        "text-decoration:none;color:var(--ink)}.btn.blue{border-color:var(--blue);background:transparent}"
+        "text-decoration:none;color:var(--ink)}"
+        ".btn.blue{border-color:var(--blue);background:transparent}"
+        ".pill{display:inline-block;background:rgba(255,79,216,.15);border:1px solid rgba(255,79,216,.35);"
+        "padding:6px 10px;border-radius:999px;font-size:14px}"
         ".grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}"
         ".card{background:linear-gradient(180deg,rgba(255,79,216,.07),rgba(255,79,216,.01));"
         "border:1px solid rgba(255,79,216,.25);border-radius:18px;padding:16px;animation:pulse 3s ease-in-out infinite}"
         ".card h3{margin:0 0 8px}"
         ".scroll{max-height:65vh;overflow:auto;padding-right:8px}"
         ".wordmark{font-family:cursive;font-size:28px;letter-spacing:2px;opacity:.95;margin-bottom:12px;"
-        "text-shadow:0 0 12px rgba(255,255,255,.25),0 0 18px rgba(255,79,216,.35)}"
+        "text-shadow:0 0 12px rgba(255,255,255,.25), 0 0 18px rgba(255,79,216,.35)}"
         "h1{margin:8px 0 2px;font-size:42px;text-shadow:0 0 16px rgba(255,79,216,.55)}"
         "footer{opacity:.8;margin-top:20px;font-size:14px}"
         "</style>"
     )
 
 def bubbles_js():
+    # Purple core, with occasional blue and rare white bubbles
     return (
-        "<script>(function(){const c=document.getElementById('bubbles');"
-        "const x=c.getContext('2d');let W,H,B=[];function R(){W=c.width=innerWidth;H=c.height=innerHeight}"
-        "addEventListener('resize',R);R();function color(){const r=Math.random();if(r<0.05)return'white';if(r<0.25)return'blue';return'pink'}"
+        "<script>(function(){"
+        "const c=document.getElementById('bubbles');const x=c.getContext('2d');let W,H,B=[];"
+        "function R(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',R);R();"
+        "function color(){const r=Math.random();if(r<0.05)return'white';if(r<0.25)return'blue';return'pink'}"
         "function S(){const n=34;B=new Array(n).fill(0).map(()=>({x:Math.random()*W,y:H+Math.random()*H,r:5+Math.random()*22,"
         "s:.35+Math.random()*1.7,d:(Math.random()*.7)-.35,a:.15+Math.random()*.35,t:color()}))}S();"
         "function T(){x.clearRect(0,0,W,H);for(const b of B){b.y-=b.s;b.x+=b.d;if(b.y+b.r<-24){b.y=H+24;b.x=Math.random()*W;b.t=color()}"
         "x.beginPath();let core='255,79,216';if(b.t==='blue')core='120,170,255';if(b.t==='white')core='255,255,255';"
-        "const g=x.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);g.addColorStop(0,'rgba('+core+','+(b.a+.25)+')');g.addColorStop(1,'rgba(255,255,255,0)');"
-        "x.fillStyle=g;x.arc(b.x,b.y,b.r,0,Math.PI*2);x.fill()}requestAnimationFrame(T)}T();})();</script>"
+        "const g=x.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);"
+        "g.addColorStop(0,'rgba('+core+','+(b.a+.25)+')');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;"
+        "x.arc(b.x,b.y,b.r,0,Math.PI*2);x.fill()}requestAnimationFrame(T)}T();})();</script>"
     )
 
 def navbar(active):
-    def link(href,label,key,extra=""):
-        b="<a class='btn "+extra+"' href='"+href+"'>"+label+"</a>"
-        return "<span class='btn "+extra+"' style='background:rgba(255,79,216,.2)'>"+label+"</span>" if key==active else b
-    return ("<div class='nav'>"
-            +link("/home","Home","home")
-            +link("/police","Police","police","blue")
-            +link("/music","Music","music")
-            +link("/weather","Weather","weather")
-            +link("/learn","PEMDAS & Riddle","learn")
-            +link("/history","Ten Islands History","history")
-            +"</div>")
+    def link(href, label, key, extra=""):
+        base = "<a class='btn " + extra + "' href='" + href + "'>" + label + "</a>"
+        return "<span class='btn " + extra + "' style='background:rgba(255,79,216,.2)'>" + label + "</span>" if key == active else base
+    return (
+        "<div class='nav'>"
+        + link("/home","Home","home")
+        + link("/police","Police","police","blue")
+        + link("/music","Music","music")
+        + link("/weather","Weather","weather")
+        + link("/learn","PEMDAS & Riddle","learn")
+        + link("/history","Ten Islands History","history")
+        + "</div>"
+    )
 
-def page_shell(active,title,body,pill):
-    html = ("<!doctype html><meta charset='utf-8'/>"+css_global()+
-            "<canvas id='bubbles'></canvas><div class='wrap'>"
-            "<div class='wordmark'>Timmy</div><h1>"+title+"</h1>"
-            "<div class='nav'><span class='pill'>"+pill+"</span></div>"
-            +navbar(active)+body+
-            "<footer>© "+str(datetime.utcnow().year)+" Timmy — Deployed "+datetime.utcnow().isoformat()+"Z</footer></div>"+bubbles_js())
-    r=make_response(html,200);r.headers["Content-Type"]="text/html; charset=utf-8";return r
+def page_shell(active, title, inner_html, pill_text):
+    html = (
+        "<!doctype html><meta charset='utf-8'/>"
+        "<meta name='viewport' content='width=device-width, initial-scale=1'/>"
+        "<title>" + title + " — " + APP_NAME + "</title>"
+        + css_global() +
+        "<canvas id='bubbles'></canvas>"
+        "<div class='wrap'>"
+        "<div class='wordmark'>Timmy</div>"
+        "<h1>" + title + "</h1>"
+        "<div class='nav'><span class='pill'>" + pill_text + "</span></div>"
+        + navbar(active) +
+        inner_html +
+        "<footer>© " + str(datetime.utcnow().year) + " Timmy — Deployed " + datetime.utcnow().isoformat() + "Z</footer>"
+        "</div>"
+        + bubbles_js()
+    )
+    r = make_response(html, 200)
+    r.headers["Content-Type"] = "text/html; charset=utf-8"
+    return r
 
+# --------- HELPERS ---------
 def weather_text():
     try:
-        r=requests.get("https://api.open-meteo.com/v1/forecast",
-            params={"latitude":RAGLAND_LAT,"longitude":RAGLAND_LON,"current_weather":True,
-                    "temperature_unit":"fahrenheit","windspeed_unit":"mph"},timeout=5)
+        r = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": RAGLAND_LAT,
+                "longitude": RAGLAND_LON,
+                "current_weather": True,
+                "temperature_unit": "fahrenheit",
+                "windspeed_unit": "mph"
+            },
+            timeout=5
+        )
         if r.ok:
-            d=r.json().get("current_weather",{})
-            t,w=d.get("temperature"),d.get("windspeed")
+            d = r.json().get("current_weather", {})
+            t, w = d.get("temperature"), d.get("windspeed")
             if t is not None and w is not None:
-                return str(int(round(t)))+"°F, "+str(int(round(w)))+" mph wind"
-    except Exception: pass
+                return str(int(round(t))) + "°F, " + str(int(round(w))) + " mph wind"
+    except Exception:
+        pass
     return "Weather unavailable"
 
-# ---------- APP ----------
+# --------- APP ---------
 def create_app():
-    app=Flask(__name__)
+    app = Flask(__name__)
+
+    # Simple security headers
+    @app.after_request
+    def secure(resp):
+        resp.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload"
+        resp.headers["X-Content-Type-Options"] = "nosniff"
+        resp.headers["X-Frame-Options"] = "DENY"
+        return resp
 
     @app.route("/")
-    def root(): return redirect("/home")
+    def root():
+        return redirect("/home", code=302)
 
     @app.route("/home")
     def home():
-        wt=weather_text()
-        cards=("<div class='grid'>"
-               "<div class='card'><h3>Police</h3><p><a class='btn blue' href='/police'>Open Police</a></p></div>"
-               "<div class='card'><h3>Music</h3><p><a class='btn' href='/music'>Open Music</a></p></div>"
-               "<div class='card'><h3>Weather</h3><p>"+wt+"</p><p><a class='btn' href='/weather'>Details</a></p></div>"
-               "<div class='card'><h3>Learn</h3><p><a class='btn' href='/learn'>PEMDAS & Riddle</a></p></div>"
-               "<div class='card'><h3>History</h3><p><a class='btn' href='/history'>Ten Islands</a></p></div></div>")
-        return page_shell("home","Purple/Pink Glow + Bubbles",cards,"Welcome")
+        wt = weather_text()
+        cards = (
+            "<div class='grid'>"
+            "<div class='card'><h3>Police</h3><p>Community notes and safety tips.</p>"
+            "<p><a class='btn blue' href='/police'>Open Police</a></p></div>"
+            "<div class='card'><h3>Music</h3><p>Five Suno playlists — pick your vibe.</p>"
+            "<p><a class='btn' href='/music'>Open Music</a></p></div>"
+            "<div class='card'><h3>Weather</h3><p>" + wt + "</p>"
+            "<p><a class='btn' href='/weather'>Weather Details</a></p></div>"
+            "<div class='card'><h3>PEMDAS & Riddle</h3><p>Quiz your brain and remember the order.</p>"
+            "<p><a class='btn' href='/learn'>Open Learn</a></p></div>"
+            "<div class='card'><h3>Ten Islands History</h3><p>Andrew Jackson, Fort Strother, and the Coosa bend.</p>"
+            "<p><a class='btn' href='/history'>Open History</a></p></div>"
+            "</div>"
+        )
+        return page_shell("home", "Purple/Pink Glow + Bubbles", cards, "Welcome")
 
     @app.route("/police")
     def police():
-        cards="".join("<div class='card'><h3>"+p["title"]+"</h3><p>"+p["body"]+"</p></div>" for p in POLICE_NOTES)
-        return page_shell("police","Police Corner","<div class='grid'>"+cards+"</div>","Community updates")
+        items = "".join("<div class='card'><h3>"+p["title"]+"</h3><p>"+p["body"]+"</p></div>" for p in POLICE_NOTES)
+        return page_shell("police", "Police Corner", "<div class='grid'>"+items+"</div>", "Transparent blue nav button")
 
     @app.route("/music")
     def music():
-        cards=""
+        cards = ""
         for pl in PLAYLISTS:
-            cards+="<div class='card'><h3>"+pl["name"]+"</h3><p><a class='btn' target='_blank' rel='noopener' href='"+pl["url"]+"'>Play Now</a></p>"
+            cards += "<div class='card'><h3>"+pl["name"]+"</h3><p><a class='btn' target='_blank' rel='noopener' href='"+pl["url"]+"'>Play Now</a></p>"
             if "note" in pl:
-                cards+="<p style='font-size:13px;opacity:.9'>"+pl["note"]+"</p>"
-            cards+="</div>"
-        return page_shell("music","Music","<div class='grid'>"+cards+"</div>","Five playlists ready")
+                cards += "<p style='font-size:13px;opacity:.9'>"+pl["note"]+"</p>"
+            cards += "</div>"
+        return page_shell("music", "Music", "<div class='grid'>"+cards+"</div>", "Five playlists ready")
 
     @app.route("/weather")
-    def weather(): return page_shell("weather","Weather","<div class='card'><p>"+weather_text()+"</p></div>","Live data")
+    def weather():
+        return page_shell("weather", "Weather", "<div class='card'><p>"+weather_text()+"</p></div>", "Live data")
 
     @app.route("/learn")
     def learn():
-        rid=date.today().toordinal()%len(RIDDLES);r=RIDDLES[rid]
-        inner=("<div class='grid'>"
-               "<div class='card'><h3>PEMDAS</h3><p>"+PEMDAS_TEXT+"</p></div>"
-               "<div class='card'><h3>Riddle</h3><p>"+r['q']+"</p><details><summary>Choices</summary><ul>"
-               +"".join("<li>"+c+"</li>" for c in r['choices'])+
-               "</ul></details><details><summary>Answer</summary><p><strong>"+r['answer']+"</strong></p></details></div></div>")
-        return page_shell("learn","PEMDAS & Riddle",inner,"Brain tickle time")
+        rid = date.today().toordinal() % len(RIDDLES)
+        r = RIDDLES[rid]
+        inner = (
+            "<div class='grid'>"
+            "<div class='card'><h3>PEMDAS</h3><p>"+PEMDAS_TEXT+"</p></div>"
+            "<div class='card'><h3>Riddle</h3><p>"+r['q']+"</p>"
+            "<details><summary>Choices</summary><ul>"+ "".join("<li>"+c+"</li>" for c in r['choices']) +"</ul></details>"
+            "<details><summary>Answer</summary><p><strong>"+r['answer']+"</strong></p></details></div>"
+            "</div>"
+        )
+        return page_shell("learn", "PEMDAS & Riddle", inner, "Brain tickle time")
 
     @app.route("/history")
     def history():
-        i=datetime.utcnow().timetuple().tm_yday%len(HISTORY_ROTATION);h=HISTORY_ROTATION[i]
-        inner=("<div class='grid'>"
-               "<div class='card'><h3>Ten Islands • Creek War</h3><div class='scroll'><p>"+TEN_ISLANDS_STORY+"</p></div></div>"
-               "<div class='card'><h3>Today’s Mini-Story</h3><p><strong>"+h['title']+"</strong> — "+h['blurb']+"</p></div></div>")
-        return page_shell("history","Historical Ten Islands",inner,"Andrew Jackson & Fort Strother")
+        i = datetime.utcnow().timetuple().tm_yday % len(HISTORY_ROTATION)
+        h = HISTORY_ROTATION[i]
+        inner = (
+            "<div class='grid'>"
+            "<div class='card'><h3>Ten Islands • Creek War (1813–1814)</h3><div class='scroll'><p>"+TEN_ISLANDS_STORY+"</p></div></div>"
+            "<div class='card'><h3>Today’s Mini-Story</h3><p><strong>"+h['title']+"</strong></p><p>"+h['blurb']+"</p></div>"
+            "</div>"
+        )
+        return page_shell("history", "Historical Ten Islands", inner, "Andrew Jackson & Fort Strother")
+
+    # Simple APIs if you ever need them
+    @app.route("/api/police")
+    def api_police():
+        return jsonify({"notes": POLICE_NOTES})
+
+    @app.route("/api/playlists")
+    def api_playlists():
+        return jsonify({"playlists": PLAYLISTS})
+
+    @app.route("/api/weather")
+    def api_weather():
+        try:
+            r = requests.get(
+                "https://api.open-meteo.com/v1/forecast",
+                params={
+                    "latitude": RAGLAND_LAT,
+                    "longitude": RAGLAND_LON,
+                    "current_weather": True,
+                    "temperature_unit": "fahrenheit",
+                    "windspeed_unit": "mph"
+                },
+                timeout=5
+            )
+            if r.ok:
+                return jsonify(r.json())
+            return jsonify({"error": "weather provider error"}), 502
+        except Exception:
+            return jsonify({"error": "weather fetch failed"}), 500
 
     @app.route("/healthz")
-    def health(): return "ok",200
+    def healthz():
+        return "ok", 200
 
-    @app.route("/<path:_>") 
-    def fallback(_): return redirect("/home")
+    # Catch-all → send visitors home (prevents 404s)
+    @app.route("/<path:_unused>")
+    def fallback(_unused):
+        return redirect("/home", code=302)
 
     return app
 
-if __name__=="__main__":
-    app=create_app();app.run(host="0.0.0.0",port=int(os.environ.get("PORT",5000)),debug=False,use_reloader=False)
+# iOS-safe local run (no reloader)
+if __name__ == "__main__":
+    app = create_app()
+    port = int(os.environ.get("PORT", "5000"))
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
