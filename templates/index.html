@@ -2,29 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TimmyApp — Home</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TimmyApp — Purple-Pink Bubbles</title>
+  <meta name="description" content="Timmy’s live show page: glowing purple-pink background, floating bubbles, Suno vibes, and good energy." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://timmyapp.onrender.com/" />
+  <meta property="og:title" content="TimmyApp is LIVE" />
+  <meta property="og:description" content="Come see the purple-pink bubble universe + music!" />
+  <!-- Placeholder social image; replace later with your own -->
+  <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=TimmyApp+LIVE" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TimmyApp is LIVE" />
+  <meta name="twitter:description" content="Come see the purple-pink bubble universe + music!" />
+  <meta name="twitter:image" content="https://via.placeholder.com/1200x630.png?text=TimmyApp+LIVE" />
+
+  <link rel="icon" href="/static/favicon.png" />
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-  <canvas id="bubbles"></canvas>
-  <div class="container">
-    <h1>Purple/Pink Glow + Bubbles</h1>
-    <p>If you can read this, Render is happy and the gateway is clear.</p>
+  <main class="wrap">
+    <h1 class="title">TimmyApp is LIVE</h1>
+    <p class="tagline">Purple-pink glow, floating bubbles, and good vibes.</p>
 
-    <section class="cards">
-      <div class="card">
-        <h3>Events</h3>
-        <p>Boxes grow with content; no input boxes here — display-only.</p>
-      </div>
-      <div class="card">
-        <h3>Whodunnit</h3>
-        <div class="scrollbox">
-          <p>Ragland’s mystery unfolded under the stadium lights... (story placeholder)</p>
-        </div>
-      </div>
+    <div class="bubble-field" aria-hidden="true">
+      <!-- 12 bubbles -->
+      <span class="b b1"></span><span class="b b2"></span><span class="b b3"></span>
+      <span class="b b4"></span><span class="b b5"></span><span class="b b6"></span>
+      <span class="b b7"></span><span class="b b8"></span><span class="b b9"></span>
+      <span class="b b10"></span><span class="b b11"></span><span class="b b12"></span>
+    </div>
+
+    <section class="card">
+      <h2>Welcome</h2>
+      <p>Share <strong>https://timmyapp.onrender.com/</strong> anywhere. Social sites should show a preview now.</p>
     </section>
-  </div>
-  <script src="/static/bubbles.js"></script>
+  </main>
 </body>
 </html>
