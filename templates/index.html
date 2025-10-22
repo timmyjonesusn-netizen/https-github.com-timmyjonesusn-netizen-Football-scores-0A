@@ -1,41 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
   <title>{{ app_name }} — LIVE</title>
 
-  <!-- Open Graph + Twitter -->
-  <meta property="og:title" content="TimmyApp is LIVE" />
-  <meta property="og:description" content="Purple-pink glow, floating bubbles, and good vibes." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="{{ base_url }}" />
-  <meta property="og:image" content="{{ base_url }}/og.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TimmyApp is LIVE" />
-  <meta name="twitter:description" content="Purple-pink glow, floating bubbles, and good vibes." />
-  <meta name="twitter:image" content="{{ base_url }}/og.png" />
+  <!-- Open Graph / Twitter (absolute URLs + cache-bust) -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="TimmyApp is LIVE"/>
+  <meta property="og:description" content="Purple-pink glow, floating bubbles, and good vibes."/>
+  <meta property="og:url" content="{{ base_url }}/"/>
+  <meta property="og:image" content="{{ base_url }}/og.png?v={{ v }}"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="TimmyApp is LIVE"/>
+  <meta name="twitter:description" content="Purple-pink glow, floating bubbles, and good vibes."/>
+  <meta name="twitter:image" content="{{ base_url }}/og.png?v={{ v }}"/>
+  <link rel="canonical" href="{{ base_url }}/"/>
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v={{ v }}">
 </head>
 <body>
   <canvas id="bubbles"></canvas>
+
   <main class="wrap">
     <h1 class="title">✨ {{ app_name }} ✨</h1>
-    <p class="tag">Purple–pink holographic glow, smooth bubbles, local magic.</p>
+    <p class="tag">Purple–pink holographic glow with floating bubbles.</p>
 
     <section class="cards">
       <a class="card" href="https://suno.com" target="_blank" rel="noopener">
-        <h3>🎧 Music</h3><p>Suno playlists for creators — no copyright strikes.</p>
+        <h3>🎧 Music</h3><p>Suno playlists for creators.</p>
       </a>
-      <div class="card"><h3>🗺️ Local</h3><p>Drop in your Ragland events feed soon.</p></div>
-      <div class="card"><h3>🧪 Lab</h3><p>Weather, riddles, UFC — next wave coming.</p></div>
+      <div class="card"><h3>🗺️ Local</h3><p>Swap for Events/Stories.</p></div>
+      <div class="card"><h3>🧪 Lab</h3><p>Weather, riddles, UFC next.</p></div>
     </section>
 
-    <footer class="foot">Now live on Render • /health = OK</footer>
+    <footer class="foot">Live on Render • <code>/health</code> OK</footer>
   </main>
 
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js').catch(()=>{});}</script>
-  <script src="{{ url_for('static', filename='bubbles.js') }}"></script>
+  <script>
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/service-worker.js').catch(()=>{}); }
+  </script>
+  <script src="{{ url_for('static', filename='bubbles.js') }}?v={{ v }}"></script>
 </body>
 </html>
