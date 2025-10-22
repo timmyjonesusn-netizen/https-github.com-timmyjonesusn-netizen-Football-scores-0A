@@ -1,21 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Timmyapp</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TimmyApp — Home</title>
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-  <h1>Timmyapp</h1>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/music">Music</a>
-    <a href="/weather">Weather</a>
-    <a href="/pemdas">PEMDAS</a>
-    <a href="/riddle">Riddle</a>
-    <a href="/police">Police</a>
-  </nav>
+  <canvas id="bubbles"></canvas>
+  <div class="container">
+    <h1>Purple/Pink Glow + Bubbles</h1>
+    <p>If you can read this, Render is happy and the gateway is clear.</p>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <section class="cards">
+      <div class="card">
+        <h3>Events</h3>
+        <p>Boxes grow with content; no input boxes here — display-only.</p>
+      </div>
+      <div class="card">
+        <h3>Whodunnit</h3>
+        <div class="scrollbox">
+          <p>Ragland’s mystery unfolded under the stadium lights... (story placeholder)</p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="/static/bubbles.js"></script>
 </body>
 </html>
