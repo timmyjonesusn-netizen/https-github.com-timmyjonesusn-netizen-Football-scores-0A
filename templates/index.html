@@ -3,41 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ app_name }} — Glow</title>
-  <link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;TimmyApp&quot;,&quot;short_name&quot;:&quot;TimmyApp&quot;,&quot;start_url&quot;:&quot;/&quot;,&quot;display&quot;:&quot;standalone&quot;}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <title>{{ app_name }} — LIVE</title>
+
+  <!-- Open Graph + Twitter -->
+  <meta property="og:title" content="TimmyApp is LIVE" />
+  <meta property="og:description" content="Purple-pink glow, floating bubbles, and good vibes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ base_url }}" />
+  <meta property="og:image" content="{{ base_url }}/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TimmyApp is LIVE" />
+  <meta name="twitter:description" content="Purple-pink glow, floating bubbles, and good vibes." />
+  <meta name="twitter:image" content="{{ base_url }}/og.png" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <canvas id="bubbles"></canvas>
-
   <main class="wrap">
     <h1 class="title">✨ {{ app_name }} ✨</h1>
-    <p class="tag">Purple–pink holographic glow. Floating bubbles. Smooth vibes.</p>
+    <p class="tag">Purple–pink holographic glow, smooth bubbles, local magic.</p>
 
     <section class="cards">
       <a class="card" href="https://suno.com" target="_blank" rel="noopener">
-        <h3>🎧 Music</h3>
-        <p>Tap for Suno playlists (creator-friendly background vibes).</p>
+        <h3>🎧 Music</h3><p>Suno playlists for creators — no copyright strikes.</p>
       </a>
-      <div class="card">
-        <h3>🗺️ Local</h3>
-        <p>This block is a placeholder — swap for events, riddles, or whodunnit later.</p>
-      </div>
-      <div class="card">
-        <h3>🧪 Lab</h3>
-        <p>Add UFC stories, weather, and more when you’re ready to expand.</p>
-      </div>
+      <div class="card"><h3>🗺️ Local</h3><p>Drop in your Ragland events feed soon.</p></div>
+      <div class="card"><h3>🧪 Lab</h3><p>Weather, riddles, UFC — next wave coming.</p></div>
     </section>
 
-    <footer class="foot">Serving from Render • <code>/health</code> = ok • Service Worker on</footer>
+    <footer class="foot">Now live on Render • /health = OK</footer>
   </main>
 
-  <script>
-    // register the simple SW (does nothing destructive)
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
-    }
-  </script>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js').catch(()=>{});}</script>
   <script src="{{ url_for('static', filename='bubbles.js') }}"></script>
 </body>
 </html>
