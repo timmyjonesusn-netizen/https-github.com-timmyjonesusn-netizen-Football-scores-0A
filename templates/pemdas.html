@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>PEMDAS Trainer</h1>
+  <p>Solve in order of operations. Five fresh problems each refresh.</p>
+  <div id="quiz" class="grid"></div>
+  <div class="divider"></div>
+  <button id="check" class="tile span-12">Check Answers</button>
+  <p id="score" style="margin-top:.5rem;"></p>
+  <script src="{{ url_for('static', filename='js/pemdas.js') }}"></script>
+{% endblock %}
