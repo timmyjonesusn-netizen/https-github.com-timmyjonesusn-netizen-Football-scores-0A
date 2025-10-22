@@ -1,56 +1,21 @@
-    @app.route("/home")
+# serv_timmyapp.py
+import os
+from flask import Flask, send_from_directory, render_template_string
+
+def create_app():
+    app = Flask(__name__, static_folder="static", static_url_path="/static")
+
+    @app.route("/")
     def home():
-        # --- HERO HOME (like your “YEA” screenshot) ---
-        html = (
-            "<!doctype html><meta charset='utf-8'/>"
-            "<meta name='viewport' content='width=device-width, initial-scale=1'/>"
-            "<title>Purple/Pink Glow + Bubbles — TimmyApp</title>"
-            # styles (big hero)
-            "<style>"
-            ":root{--bg1:#1a0731;--bg2:#3b0b5e;--ink:#f7e9ff;--glow:#ff4fd8}"
-            "*{box-sizing:border-box}html,body{height:100%;margin:0}"
-            "body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;"
-            "color:var(--ink);background:radial-gradient(120% 120% at 50% 0%,var(--bg2),var(--bg1));overflow:hidden}"
-            "@keyframes pulse{0%,100%{box-shadow:0 0 20px 4px rgba(255,79,216,.2)}50%{box-shadow:0 0 40px 10px rgba(255,79,216,.45)}}"
-            ".container{position:relative;z-index:2;padding:24px;max-width:980px;margin:0 auto}"
-            "h1{margin:0 0 12px;font-size:52px;line-height:1.04;text-shadow:0 0 16px rgba(255,79,216,.55)}"
-            ".cards{display:grid;grid-template-columns:1fr;gap:16px}"
-            ".card{background:linear-gradient(180deg,rgba(255,79,216,.07),rgba(255,79,216,.01));border:1px solid rgba(255,79,216,.25);"
-            "border-radius:18px;padding:16px;animation:pulse 3s ease-in-out infinite}"
-            "#bubbles{position:fixed;inset:0;z-index:1}"
-            "a.btn{display:inline-block;margin-top:14px;padding:10px 14px;border:1px solid rgba(255,79,216,.6);"
-            "border-radius:12px;text-decoration:none;color:var(--ink)}"
-            "</style>"
-            "<canvas id='bubbles'></canvas>"
-            "<div class='container'>"
-            "<h1>Purple/Pink Glow + Bubbles</h1>"
-            "<p>Deployed at: " + datetime.utcnow().isoformat() + "Z</p>"
-            "<section class='cards'>"
-            "<div class='card'><h2>Whodunnit</h2>"
-            "<p>Ragland’s mystery unfolded under the stadium lights…</p></div>"
-            "</section>"
-            "<a class='btn' href='/home'>Refresh Home</a> "
-            "<a class='btn' href='/music'>Music</a> "
-            "<a class='btn' href='/police'>Police</a> "
-            "<a class='btn' href='/weather'>Weather</a> "
-            "<a class='btn' href='/learn'>PEMDAS & Riddle</a> "
-            "<a class='btn' href='/history'>Ten Islands</a>"
-            "</div>"
-            "<script>(function(){"
-            "const c=document.getElementById('bubbles');const x=c.getContext('2d');let W,H,B=[];"
-            "function R(){W=c.width=innerWidth;H=c.height=innerHeight}addEventListener('resize',R);R();"
-            "function color(){const r=Math.random();if(r<0.05)return'white';if(r<0.25)return'blue';return'pink'}"
-            "function S(){const n=28;B=new Array(n).fill(0).map(()=>({x:Math.random()*W,y:H+Math.random()*H,r:5+Math.random()*20,"
-            "s:.35+Math.random()*1.65,d:(Math.random()*.7)-.35,a:.15+Math.random()*.35,t:color()}))}S();"
-            "function T(){x.clearRect(0,0,W,H);for(const b of B){b.y-=b.s;b.x+=b.d;if(b.y+b.r<-24){b.y=H+24;b.x=Math.random()*W;b.t=color()}"
-            "x.beginPath();let core='255,79,216';if(b.t==='blue')core='120,170,255';if(b.t==='white')core='255,255,255';"
-            "const g=x.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);"
-            "g.addColorStop(0,'rgba('+core+','+(b.a+.25)+')');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;"
-            "x.arc(b.x,b.y,b.r,0,Math.PI*2);x.fill()}requestAnimationFrame(T)}T();"
-            "})();</script>"
-        )
-        r = make_response(html, 200)
-        r.headers["Content-Type"] = "text/html; charset=utf-8"
-        # make sure browsers don’t reuse old HTML
-        r.headers["Cache-Control"] = "no-store, max-age=0"
-        return r
+        # Serve index.html from repo root
+        try:
+            return send_from_directory(".", "index.html")
+        except Exception:
+            return render_template_string("<h1>TimmyApp online</h1>")
+
+    # Optional health check (some platforms ping this)
+    @app.route("/healthz")
+    def healthz():
+        return "ok", 200
+
+    return app
