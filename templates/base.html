@@ -4,10 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>{{ page_title or "TimmyApp" }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/neon-bubbles.css') }}">
+
+  <!-- micro fallback so page is never plain -->
+  <style>body{background:linear-gradient(160deg,#0b0a18,#1a1233);color:#f4f1ff}</style>
+
+  <!-- main CSS (cache-busted) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/neon-bubbles.css') }}?v=4">
 </head>
 <body>
-  <!-- Bubble backdrop (generated client-side; zero Jinja tricks) -->
+  <!-- bubble backdrop -->
   <div class="bubbles" id="bubble-backdrop" aria-hidden="true"></div>
 
   <main class="wrap">
@@ -26,20 +31,17 @@
   </main>
 
   <script>
-    // Create 18 animated bubbles without using Jinja range()
+    // generate 18 bubbles (no Jinja loops)
     (function () {
-      const host = document.getElementById('bubble-backdrop');
-      if (!host) return;
-      const n = 18;
-      for (let i = 0; i < n; i++) {
-        const s = document.createElement('span');
-        s.style.setProperty('--x', ((i * 5 + (i % 3) * 7) % 95) + '%');
-        s.style.setProperty('--dur', (9 + (i % 7) * 1.2) + 's');
-        s.style.setProperty('--drift', (-40 + (i % 9) * 10) + 'px');
+      const host = document.getElementById('bubble-backdrop'); if (!host) return;
+      for (let i=0;i<18;i++){
+        const s=document.createElement('span');
+        s.style.setProperty('--x', ((i*5 + (i%3)*7) % 95) + '%');
+        s.style.setProperty('--dur', (9 + (i%7)*1.2) + 's');
+        s.style.setProperty('--drift', (-40 + (i%9)*10) + 'px');
         host.appendChild(s);
       }
     })();
   </script>
 </body>
 </html>
-
