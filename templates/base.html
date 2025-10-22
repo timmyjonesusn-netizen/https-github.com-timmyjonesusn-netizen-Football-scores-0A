@@ -3,28 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TimmyApp</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>{{ DATA.site_title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="bg">
-  <!-- Floating bubbles -->
-  <div class="bubbles">
-    {% for i in range(18) %}
-      <span class="bubble" style="--i:{{ (i % 7) + 3 }};"></span>
-    {% endfor %}
-  </div>
+<body>
+  <!-- Purple/Pink animated background canvas -->
+  <canvas id="bubbles"></canvas>
 
-  <header class="topbar">
-    <nav class="nav">
-      <a href="{{ url_for('home') }}" class="nav__link {% if request.path=='/' %}active{% endif %}">Home</a>
-      <a href="{{ url_for('weather_page') }}" class="nav__link {% if request.path.startswith('/weather') %}active{% endif %}">Weather</a>
-      <a href="{{ url_for('music_page') }}" class="nav__link {% if request.path.startswith('/music') %}active{% endif %}">Music</a>
+  <header class="nav">
+    <div class="brand">🟣 TimmyApp</div>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('music') }}">Music</a>
+      <a href="{{ url_for('weather') }}">Weather</a>
+      <a href="{{ url_for('stories') }}">Stories</a>
+      <a href="{{ url_for('idea') }}">Idea & Eats</a>
     </nav>
-    <div class="brand">TimmyApp</div>
   </header>
 
-  <main class="container">
+  <main class="wrap">
     {% block content %}{% endblock %}
   </main>
+gas
+  <footer class="foot">Made with 💜 for Ragland · TimmyTime</footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
