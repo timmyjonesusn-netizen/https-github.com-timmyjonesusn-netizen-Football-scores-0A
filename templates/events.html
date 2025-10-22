@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Events</h1>
+  <p class="muted">Tap a card. Stories expand if present.</p>
+
+  <section class="event-grid">
+    {% for e in events %}
+    <article class="event-card{% if e.story %} has-story{% endif %}">
+      <header>
+        <h2>{{ e.title }}</h2>
+        <div class="when">{{ e.when }}</div>
+      </header>
+      <p class="blurb">{{ e.blurb }}</p>
+
+      {% if e.story %}
+      <details class="story">
+        <summary>Read the story</summary>
+        <div class="story-body">
+          <p>{{ e.story }}</p>
+        </div>
+      </details>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </section>
+{% endblock %}
