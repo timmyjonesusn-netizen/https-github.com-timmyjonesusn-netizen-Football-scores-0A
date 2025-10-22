@@ -1,21 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <section class="hero-card">
-    <h1>Welcome to <span class="glow">TimmyApp</span></h1>
-    <p>Purple vibes. Pink pulse. Bubbles for days.</p>
-    <div class="grid">
-      <a class="card" href="{{ url_for('music') }}">
-        <h3>🎧 Music</h3><p>Royalty-friendly Suno playlists for creators.</p>
-      </a>
-      <a class="card" href="{{ url_for('weather') }}">
-        <h3>🌤️ Weather</h3><p>Hi/Lo, wind, and alert lights (yellow/red).</p>
-      </a>
-      <a class="card" href="{{ url_for('stories') }}">
-        <h3>📖 Stories & Events</h3><p>Daily short + local hits (avec une ligne française).</p>
-      </a>
-      <a class="card" href="{{ url_for('idea') }}">
-        <h3>💡 Million-Dollar Idea</h3><p>And the #1 Southern spot to eat.</p>
-      </a>
-    </div>
-  </section>
+  <h2>🎧 Music for Creators</h2>
+  <p class="note">Royalty-friendly vibe hub. If Suno opens externally, that’s expected.</p>
+  <ul class="list">
+    {% for pl in DATA.playlists %}
+      <li><a target="_blank" href="{{ pl.url }}">{{ pl.title }}</a></li>
+    {% endfor %}
+  </ul>
 {% endblock %}
