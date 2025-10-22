@@ -1,5 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Police Corner</h1>
-  <p>Local notes / announcements. (Static for now; hook API later.)</p>
+  <div class="grid">
+    <div class="tile span-6">
+      <h2>Community Notes</h2>
+      <ul>
+        <li>Seat belts on, phones down — checkpoints active this week.</li>
+        <li>Report suspicious activity at non-emergency line: (###) ###-####.</li>
+        <li>High-school game nights: expect traffic control near stadiums.</li>
+      </ul>
+    </div>
+    <div class="tile span-6">
+      <h2>Safety Tips</h2>
+      <ul>
+        <li>Lock your vehicles; remove valuables from view.</li>
+        <li>Porch lights + cameras deter opportunistic theft.</li>
+        <li>Know your route; avoid flood-prone roads after storms.</li>
+      </ul>
+    </div>
+    <div class="tile span-12">
+      <h2>Notes</h2>
+      <p>This is a static info board (no external feeds) so it’s rock-solid on Render. We can wire live notices later.</p>
+    </div>
+  </div>
 {% endblock %}
