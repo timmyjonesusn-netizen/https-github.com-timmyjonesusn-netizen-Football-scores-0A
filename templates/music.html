@@ -1,35 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Timmyapp Music{% endblock %}
-
-{% block body %}
-<div class="page">
-  <header>
-    <div class="brand">Timmyapp Music</div>
-    <div class="tag">Feel the Frequency. Create the Moment.</div>
-
-    <!-- Put your header image at /static/img/music-hero.jpg -->
-    <figure class="hero">
-      <img src="{{ url_for('static', filename='img/music-hero.jpg') }}"
-           alt="Black woman enjoying music on headphones">
-      <div class="overlay"></div>
-      <h2>Holographic Vibe Collection</h2>
-    </figure>
-  </header>
-
-  <section class="grid">
-    {% for p in playlists %}
-      <article class="card">
-        <h3>{{ p.title }}</h3>
-        <p class="vibe">{{ p.vibe }}</p>
-        <div class="meta">
-          <span class="pill">Overall Vibe</span>
-          <span class="pill">Copyright-Free</span>
-          <a class="btn" href="{{ p.url }}" target="_blank" rel="noopener">Open Playlist</a>
-        </div>
-      </article>
-    {% endfor %}
+{% block content %}
+  <h1>Music for Creators</h1>
+  <section class="card">
+    <p>{{ note }}</p>
+    <ul class="link-list">
+      {% for p in playlists %}
+        <li>
+          <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
   </section>
-
-  <footer>© Timmy — All playlists copyright-free for creative content, reels, and use in Timmyapp.</footer>
-</div>
 {% endblock %}
