@@ -1,81 +1,52 @@
-/* Reset-ish */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
-  font-family: -apple-system, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  background: radial-gradient(1200px 800px at 20% 10%, rgba(255,0,200,.25), transparent 60%),
-              radial-gradient(900px 900px at 80% 20%, rgba(150,0,255,.25), transparent 55%),
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at 20% 10%, rgba(255,0,200,.25), transparent 60%),
+              radial-gradient(circle at 80% 20%, rgba(150,0,255,.25), transparent 55%),
               linear-gradient(180deg, #120216, #1a0322 35%, #0b0010 100%);
   color: #fff;
-  overflow: hidden; /* canvas sits behind; content scrolls within .wrap if needed */
+  overflow: hidden;
+  animation: pulse 8s ease-in-out infinite;
 }
 
-/* Full-screen bubble canvas */
-#bubbles {
-  position: fixed; inset: 0; width: 100%; height: 100%;
-  display: block; z-index: 0;
-}
+#bubbles { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; }
 
-/* Content wrapper */
 .wrap {
-  position: relative;
-  z-index: 1;
-  max-width: 900px;
-  margin: 6vh auto;
-  padding: 16px;
+  position: relative; z-index: 1; max-width: 900px;
+  margin: 6vh auto; padding: 16px; text-align: center;
 }
 
-/* Title glow */
 .title {
-  text-align: center;
-  font-size: clamp(28px, 5vw, 56px);
-  letter-spacing: 0.5px;
-  text-shadow: 0 0 14px rgba(255, 0, 180, .5), 0 0 32px rgba(150, 0, 255, .45);
-  margin-bottom: 10px;
+  font-size: clamp(30px, 5vw, 60px);
+  text-shadow: 0 0 16px rgba(255,0,200,.5), 0 0 36px rgba(150,0,255,.45);
+  margin-bottom: 12px;
 }
 
-.tag {
-  text-align: center;
-  opacity: .85;
-  margin-bottom: 24px;
-}
+.tag { opacity: .85; margin-bottom: 24px; }
 
-/* Cards */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-  margin-top: 6px;
+  gap: 16px;
 }
 
 .card {
   background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.15);
   border-radius: 14px;
-  padding: 16px;
+  padding: 18px;
   backdrop-filter: blur(6px);
-  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 40px rgba(255,0,170,.08);
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-  text-decoration: none; color: #fff;
+  transition: all .25s ease;
 }
 .card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255,0,200,.45);
-  box-shadow: 0 14px 36px rgba(0,0,0,.45), inset 0 0 60px rgba(160,0,255,.12);
-}
-.card h3 { margin-bottom: 6px; }
-
-.foot {
-  text-align: center;
-  opacity: .65;
-  font-size: 12px;
-  margin-top: 22px;
+  transform: translateY(-3px);
+  border-color: rgba(255,0,200,.5);
+  box-shadow: 0 14px 36px rgba(0,0,0,.4);
 }
 
-/* Small pulse on the whole scene */
-@keyframes heartbeat {
-  0%, 100% { filter: brightness(100%); }
-  50% { filter: brightness(108%); }
-}
-body { animation: heartbeat 8s ease-in-out infinite; }
+.foot { opacity: .7; font-size: 13px; margin-top: 26px; }
 
+@keyframes pulse {
+  0%,100%{filter:brightness(100%);} 50%{filter:brightness(108%);}
+}
