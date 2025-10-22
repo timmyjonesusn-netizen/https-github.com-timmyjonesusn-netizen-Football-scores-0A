@@ -4,7 +4,37 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TimmyApp</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <!-- OG preview so links look good -->
+  <meta property="og:title" content="TimmyApp is LIVE" />
+  <meta property="og:description" content="Purple-pink glow, floating bubbles, and good vibes." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#7a3cff" />
+
+  <!-- INLINE CSS: no dependency on /static paths -->
+  <style>
+    html, body {
+      margin: 0; height: 100%; overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(1200px 800px at 20% 20%, #ff66cc 0%, rgba(255,102,204,.25) 30%, transparent 60%),
+        radial-gradient(1200px 800px at 80% 80%, #7a3cff 0%, rgba(122,60,255,.25) 30%, transparent 60%),
+        #1a0f2b;
+      animation: throb 6s ease-in-out infinite;
+    }
+    @keyframes throb { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.2)} }
+
+    #bubbles { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+    .center {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      text-align: center; padding: 2rem; pointer-events: none;
+    }
+    h1 { margin: 0 0 .25rem; font-size: clamp(28px, 6vw, 56px);
+         text-shadow: 0 6px 24px rgba(255,102,204,.4), 0 2px 10px rgba(122,60,255,.35); }
+    .tag { opacity: .9; }
+  </style>
 </head>
 <body>
   <canvas id="bubbles"></canvas>
@@ -14,6 +44,53 @@
     <p class="tag">Purple-pink glow, floating bubbles, and good vibes.</p>
   </div>
 
-  <script src="{{ url_for('static', filename='js/bubbles.js') }}"></script>
+  <!-- INLINE JS: no dependency on /static paths -->
+  <script>
+    (function () {
+      const canvas = document.getElementById('bubbles');
+      const ctx = canvas.getContext('2d', { alpha: true });
+
+      function size() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      size(); window.addEventListener('resize', size, { passive: true });
+
+      const N = Math.min(80, Math.floor((canvas.width * canvas.height) / 30000));
+      const bubbles = [];
+      const R = (a,b)=>Math.random()*(b-a)+a;
+
+      for (let i=0; i<N; i++) {
+        bubbles.push({
+          x:R(0,canvas.width), y:R(0,canvas.height),
+          r:R(6,22), a:R(0.25,0.9), vx:R(-0.15,0.15), vy:R(-0.35,-0.05),
+          hue:R(260,320) // purple ➜ pink
+        });
+      }
+
+      function tick(){
+        const W=canvas.width, H=canvas.height;
+        ctx.clearRect(0,0,W,H);
+        for (const b of bubbles){
+          b.x+=b.vx; b.y+=b.vy;
+          if (b.y + b.r < 0) { b.y = H + b.r; b.x = R(0,W); }
+          if (b.x - b.r > W) b.x = -b.r;
+          if (b.x + b.r < 0) b.x = W + b.r;
+
+          const g = ctx.createRadialGradient(b.x,b.y,1,b.x,b.y,b.r);
+          g.addColorStop(0, `hsla(${b.hue},90%,70%,${b.a})`);
+          g.addColorStop(1, `hsla(${b.hue},90%,50%,0)`);
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill();
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+  </script>
+
+  <!-- If you want to keep external assets too, uncomment these: they won’t break anything
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v=4) }}">
+  <script src="{{ url_for('static', filename='js/bubbles.js', v=4) }}"></script>
+  -->
 </body>
 </html>
