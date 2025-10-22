@@ -1,58 +1,111 @@
-/* Full-screen purple/pink gradient + subtle heartbeat glow */
-html, body {
-  margin: 0;
-  height: 100%;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #fff;
-  background: radial-gradient(1200px 800px at 20% 20%, #ff66cc 0%, rgba(255,102,204,.25) 30%, transparent 60%),
-              radial-gradient(1200px 800px at 80% 80%, #7a3cff 0%, rgba(122,60,255,.25) 30%, transparent 60%),
-              #1a0f2b;
-  animation: throb 6s ease-in-out infinite;
+:root{
+  --bg1:#19002a;      /* deep purple */
+  --bg2:#3c005c;      /* richer purple */
+  --pink:#ff5ad9;
+  --white:#f6f5ff;
+  --card:#25003d;
+  --card2:#30004d;
+  --good:#8fffba;
+  --yellow:#ffd84d;
+  --red:#ff4d6d;
 }
 
-@keyframes throb {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.2); }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  color:var(--white);
+  background: radial-gradient(1200px 800px at 50% 20%, #43006b 0%, var(--bg1) 40%, #11001b 100%);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  overflow-x:hidden;
 }
 
-#bubbles {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+/* Pulsing global vibe */
+body:before{
+  content:"";
+  position:fixed; inset:0;
+  background: radial-gradient(800px 500px at 60% 10%, rgba(255,90,217,.18), transparent 60%),
+              radial-gradient(700px 400px at 20% 80%, rgba(255,90,217,.12), transparent 60%);
+  mix-blend-mode: screen;
+  animation: heartbeat 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes heartbeat{
+  0%,100%{opacity:.7} 50%{opacity:1}
 }
 
-.center {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 2rem;
-  pointer-events: none; /* bubbles stay clickable-free */
+.nav{
+  position:sticky; top:0; z-index:10;
+  background: linear-gradient(90deg, rgba(37,0,61,.7), rgba(60,0,92,.7));
+  backdrop-filter: blur(8px);
+  display:flex; gap:16px; align-items:center; padding:10px 14px;
+  border-bottom:1px solid rgba(255,255,255,.1);
 }
-
-h1 {
-  margin: 0 0 .25rem 0;
-  font-size: clamp(28px, 6vw, 56px);
-  letter-spacing: 1px;
-  text-shadow: 0 6px 24px rgba(255, 102, 204, .4), 0 2px 10px rgba(122, 60, 255, .35);
+.brand{font-weight:700; letter-spacing:.3px}
+.nav a{
+  color:var(--white); text-decoration:none; padding:8px 10px; border-radius:8px;
 }
+.nav a:hover{background:rgba(255,90,217,.12)}
 
-.tag {
-  opacity: .85;
-  margin: 0 0 1rem 0;
+.wrap{max-width:1000px; margin:24px auto; padding:0 16px}
+
+.hero-card{
+  background: linear-gradient(180deg, rgba(48,0,77,.7), rgba(25,0,42,.7));
+  padding:28px; border:1px solid rgba(255,255,255,.1); border-radius:16px;
 }
+.glow{text-shadow:0 0 14px var(--pink), 0 0 40px var(--pink)}
 
-.btn {
-  pointer-events: auto;
-  display: inline-block;
-  padding: .7rem 1rem;
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 10px;
-  text-decoration: none;
-  color: #fff;
-  backdrop-filter: blur(6px);
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:18px}
+.card{
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px; padding:16px; text-decoration:none; color:var(--white);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card:hover{transform: translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.3)}
+
+.note{opacity:.9}
+.list{list-style:none; padding:0}
+.list li{margin:10px 0}
+.list a{color:#eecbff; text-decoration:underline}
+
+.weather-box{
+  background: linear-gradient(180deg, var(--card), var(--card2));
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px; padding:18px;
+}
+.row{display:flex; gap:18px; flex-wrap:wrap}
+.kv{background:rgba(0,0,0,.2); padding:12px 14px; border-radius:10px}
+.kv span{opacity:.8; display:block; font-size:.9rem}
+
+.lights{display:flex; gap:14px; margin:14px 0}
+.light{
+  width:22px; height:22px; border-radius:50%;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.25);
+  box-shadow: inset 0 0 8px rgba(0,0,0,.4);
+}
+.light.on#light-yellow{background:var(--yellow); box-shadow:0 0 18px var(--yellow), inset 0 0 6px #7a6400}
+.light.on#light-red{background:var(--red); box-shadow:0 0 18px var(--red), inset 0 0 6px #7a0014}
+
+.edit-box{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px}
+.edit-box input[type="number"], .edit-box input[type="text"]{padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.15); background:#160226; color:var(--white)}
+.chk{display:flex; align-items:center; gap:8px}
+.edit-box button{padding:8px 12px; border-radius:8px; border:0; background:var(--pink); color:#2a003f; font-weight:700}
+
+.story{font-size:1.05rem; line-height:1.5; opacity:.95}
+.events{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:10px}
+.event-card{background:rgba(0,0,0,.2); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:12px}
+.event-card .when{opacity:.9; font-size:.95rem}
+.event-card .what{font-weight:700; margin:6px 0}
+.event-card .where{opacity:.85}
+
+.idea{background: linear-gradient(180deg, var(--card), var(--card2)); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:16px}
+.eat{margin-top:16px; background:rgba(0,0,0,.2); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:14px}
+
+.foot{opacity:.8; text-align:center; margin:40px 0}
+
+/* Fullscreen canvas behind everything */
+#bubbles{
+  position:fixed; inset:0; z-index:-1;
+  background: radial-gradient(1200px 800px at 50% 20%, rgba(255,90,217,.06), transparent 60%);
 }
