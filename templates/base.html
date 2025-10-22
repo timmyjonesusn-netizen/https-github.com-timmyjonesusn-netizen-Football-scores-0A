@@ -2,11 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{% block title %}Timmyapp{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/music.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title or "TimmyApp" }}</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  {% block body %}{% endblock %}
+  <header class="nav">
+    <a href="/" class="brand">TimmyApp</a>
+    <nav>
+      <a href="/weather">Weather</a>
+      <a href="/riddles">Riddles</a>
+      <a href="/story">Story</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <canvas id="bubbles" aria-hidden="true"></canvas>
+  <script src="/static/bubbles.js"></script>
 </body>
 </html>
