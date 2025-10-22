@@ -1,26 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Weather</h1>
+  <section class="card glow">
+    <h2>Weather • {{ weather.location or 'Your Area' }}</h2>
 
-  <!-- Status lights -->
-  <div id="wx-status" class="wx-status" aria-live="polite">
-    <span class="wx-label">Conditions</span>
-    <span class="signal green" id="sig-green" title="Good"></span>
-    <span class="signal yellow" id="sig-yellow" title="Wind ≥ 20 mph"></span>
-    <span class="signal red" id="sig-red" title="Wind ≥ 40 mph or Alert"></span>
-    <span class="wx-text" id="wx-text">checking…</span>
-  </div>
+    <div class="status-row">
+      <div class="badge badge-{{ alert_level|default('none') }}"></div>
+      <div class="badge-text">
+        {{ alert_msg or 'All clear' }}
+        {% if weather.warning %}<span class="warn">{{ weather.warning }}</span>{% endif %}
+      </div>
+    </div>
 
-  <!-- Values from server -->
-  <div id="wx-data"
-       data-wind-mph="{{ weather.wind_mph|int }}"
-       data-has-alert="{{ 'true' if weather.has_alert else 'false' }}">
-  </div>
+    <div class="wx-grid">
+      <div class="wx-box">
+        <div class="wx-label">Now</div>
+        <div class="wx-value">{{ weather.temp_f or 0 }}°F</div>
+        <div class="wx-sub">{{ weather.condition or 'N/A' }}</div>
+      </div>
+      <div class="wx-box">
+        <div class="wx-label">Wind</div>
+        <div class="wx-value">{{ weather.wind_mph or 0 }} mph</div>
+        <div class="wx-sub">
+          {% if (weather.wind_mph or 0) >= 40 %}⚠️ Gusty
+          {% elif (weather.wind_mph or 0) >= 25 %}⚠️ Breezy
+          {% else %}Calm{% endif %}
+        </div>
+      </div>
+      <div class="wx-box">
+        <div class="wx-label">High</div>
+        <div class="wx-value">{{ weather.hi_f or 0 }}°F</div>
+      </div>
+      <div class="wx-box">
+        <div class="wx-label">Low</div>
+        <div class="wx-value">{{ weather.lo_f or 0 }}°F</div>
+      </div>
+    </div>
 
-  <section class="card">
-    <h2>Right Now</h2>
-    <p>Wind: <strong>{{ weather.wind_mph|int }} mph</strong> —
-      Alerts: <strong>{{ 'Yes' if weather.has_alert else 'No' }}</strong></p>
-    <p class="meta">Try <code>?wind=27</code> or <code>?wind=45&alert=true</code> in the URL for a quick test.</p>
+    <p class="note">Yellow light = winds ≥25 mph. Red = winds ≥40 mph or active warnings.</p>
   </section>
 {% endblock %}
