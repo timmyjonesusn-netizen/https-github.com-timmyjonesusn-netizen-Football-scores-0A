@@ -1,41 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-  <section class="card glow">
-    <h2>Weather • {{ weather.location or 'Your Area' }}</h2>
+  <h2>🌤️ Weather — {{ DATA.weather.location }}</h2>
 
-    <div class="status-row">
-      <div class="badge badge-{{ alert_level|default('none') }}"></div>
-      <div class="badge-text">
-        {{ alert_msg or 'All clear' }}
-        {% if weather.warning %}<span class="warn">{{ weather.warning }}</span>{% endif %}
-      </div>
+  <div class="weather-box">
+    <div class="row">
+      <div class="kv"><span>High</span><strong>{{ DATA.weather.hi_f }}°F</strong></div>
+      <div class="kv"><span>Low</span><strong>{{ DATA.weather.lo_f }}°F</strong></div>
+      <div class="kv"><span>Wind</span><strong id="wind">{{ DATA.weather.wind_mph }}</strong><strong> mph</strong></div>
     </div>
 
-    <div class="wx-grid">
-      <div class="wx-box">
-        <div class="wx-label">Now</div>
-        <div class="wx-value">{{ weather.temp_f or 0 }}°F</div>
-        <div class="wx-sub">{{ weather.condition or 'N/A' }}</div>
-      </div>
-      <div class="wx-box">
-        <div class="wx-label">Wind</div>
-        <div class="wx-value">{{ weather.wind_mph or 0 }} mph</div>
-        <div class="wx-sub">
-          {% if (weather.wind_mph or 0) >= 40 %}⚠️ Gusty
-          {% elif (weather.wind_mph or 0) >= 25 %}⚠️ Breezy
-          {% else %}Calm{% endif %}
-        </div>
-      </div>
-      <div class="wx-box">
-        <div class="wx-label">High</div>
-        <div class="wx-value">{{ weather.hi_f or 0 }}°F</div>
-      </div>
-      <div class="wx-box">
-        <div class="wx-label">Low</div>
-        <div class="wx-value">{{ weather.lo_f or 0 }}°F</div>
-      </div>
+    <div class="lights">
+      <div class="light" id="light-yellow" title="Yellow &gt;= 25 mph"></div>
+      <div class="light" id="light-red" title="Red &gt;= 40 mph or warnings"></div>
     </div>
 
-    <p class="note">Yellow light = winds ≥25 mph. Red = winds ≥40 mph or active warnings.</p>
-  </section>
+    <form method="post" class="edit-box">
+      <input name="location" placeholder="Location" value="{{ DATA.weather.location }}" />
+      <input name="hi_f" type="number" placeholder="Hi °F" value="{{ DATA.weather.hi_f }}" />
+      <input name="lo_f" type="number" placeholder="Lo °F" value="{{ DATA.weather.lo_f }}" />
+      <input name="wind_mph" type="number" placeholder="Wind mph" value="{{ DATA.weather.wind_mph }}" />
+      <label class="chk">
+        <input type="checkbox" name="warnings" {% if DATA.weather.warnings %}checked{% endif %}>
+        Warnings present
+      </label>
+      <button type="submit">Update</button>
+    </form>
+  </div>
+
+  <script>
+    (function(){
+      const wind = parseInt(document.getElementById('wind').textContent || "0", 10);
+      const warn = {{ 'true' if DATA.weather.warnings else 'false' }};
+      const yellow = document.getElementById('light-yellow');
+      const red = document.getElementById('light-red');
+
+      if (wind >= 25) yellow.classList.add('on');
+      if (wind >= 40 || warn) red.classList.add('on');
+    })();
+  </script>
 {% endblock %}
