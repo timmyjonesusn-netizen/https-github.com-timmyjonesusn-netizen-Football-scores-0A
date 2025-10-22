@@ -1,3 +1,108 @@
-html,body{margin:0;padding:0;background:#0b0013;color:#fff;font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif}
-.wrap{max-width:680px;margin:12vh auto;padding:24px;border-radius:16px;background:linear-gradient(135deg,#2a0040, #18002a);box-shadow:0 10px 30px rgba(255,0,255,.25)}
-h1{margin-top:0}
+/* Global reset */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: radial-gradient(1200px 800px at 20% 10%, #ff9efc33, transparent),
+              radial-gradient(1000px 900px at 80% 20%, #b388ff33, transparent),
+              linear-gradient(180deg, #0b0612 0%, #110720 100%);
+  color: #f3eaff;
+  overflow: hidden; /* canvas backdrop covers page; main scrolls internally */
+}
+
+/* Bubble canvas sits behind */
+#bubble-canvas {
+  position: fixed; inset: 0;
+  z-index: 0;
+}
+
+/* Layout */
+.nav {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(20, 8, 40, 0.6);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #2b184a;
+}
+.nav .brand { font-weight: 700; letter-spacing: .5px; }
+.nav a {
+  color: #ffd6ff; text-decoration: none; margin-left: 16px; font-weight: 600;
+}
+.nav a:hover { text-decoration: underline; }
+
+.content {
+  position: relative; z-index: 2;
+  padding: 24px;
+  height: calc(100vh - 64px);
+  overflow: auto; /* internal page scroll */
+}
+
+.foot {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 2;
+  padding: 6px 12px; font-size: 12px;
+  color: #ceb3ff;
+  background: linear-gradient(180deg, transparent, rgba(20,8,40,.7));
+  border-top: 1px solid #2b184a;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block; padding: 10px 16px; margin: 6px;
+  border-radius: 10px; border: 1px solid #f5adff66;
+  background: rgba(255, 158, 252, 0.12);
+  color: #ffe6ff; text-decoration: none; font-weight: 700;
+  box-shadow: 0 0 20px #ff9efc22, inset 0 0 12px #b388ff22;
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 0 30px #ff9efc44; }
+.btn.ghost { background: transparent; }
+
+/* Hero */
+.hero { text-align: center; margin-top: 10vh; }
+.glow-title {
+  font-size: 42px; margin: 0 0 10px;
+  text-shadow: 0 0 12px #ff9efc, 0 0 24px #b388ff;
+}
+.tag { color: #d9c6ff; opacity: .85; }
+
+/* Matrix face orb */
+.matrix-face { display: flex; justify-content: center; margin: 36px 0; }
+.face-orb {
+  width: 180px; height: 180px; border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, #ffffff55, transparent 40%),
+    radial-gradient(circle at 70% 70%, #ff9efc55, transparent 40%),
+    radial-gradient(circle at 50% 50%, #b388ff44, transparent 60%);
+  filter: drop-shadow(0 0 20px #b388ff66);
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* Panels */
+.panel {
+  max-width: 900px; margin: 0 auto;
+  background: rgba(22, 10, 42, 0.55);
+  border: 1px solid #381b67; border-radius: 16px;
+  padding: 18px 18px 8px 18px;
+  box-shadow: 0 10px 40px #00000055, inset 0 0 40px #b388ff0f;
+}
+
+/* Riddle Q/A */
+.qa { margin: 10px 0; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.03); }
+.qa > summary { cursor: pointer; font-weight: 700; }
+.qa .answer { margin-top: 8px; color: #ffe3ff; opacity: .95; }
+
+/* Whodunnit story box */
+.story-box {
+  max-height: 52vh; overflow: auto; padding-right: 8px; margin-top: 10px;
+  line-height: 1.55;
+  background: linear-gradient(180deg, rgba(255,158,252,0.05), rgba(179,136,255,0.05));
+  border: 1px solid #3a1e69; border-radius: 12px; padding: 14px;
+}
+
+/* Links */
+a { color: #ffd6ff; }
