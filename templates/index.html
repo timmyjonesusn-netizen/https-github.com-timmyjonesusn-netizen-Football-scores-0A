@@ -1,36 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>{{ app_name }} — LIVE</title>
-
-  <!-- Solid share tags (static image optional later) -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="TimmyApp is LIVE"/>
-  <meta property="og:description" content="Purple-pink glow, floating bubbles, and good vibes."/>
-  <meta property="og:url" content="{{ base_url }}/"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TimmyApp</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
   <canvas id="bubbles"></canvas>
-  <main class="wrap">
-    <h1 class="title">✨ {{ app_name }} ✨</h1>
-    <p class="tag">Purple–pink holographic glow with floating bubbles.</p>
 
-    <section class="cards">
-      <a class="card" href="https://suno.com" target="_blank" rel="noopener">
-        <h3>🎧 Music</h3><p>Suno playlists for creators.</p>
-      </a>
-      <div class="card"><h3>🗺️ Local</h3><p>Events/Stories coming.</p></div>
-      <div class="card"><h3>🧪 Lab</h3><p>Weather, riddles, UFC next.</p></div>
-    </section>
+  <div class="center">
+    <h1>TimmyApp</h1>
+    <p class="tag">Purple–Pink Glow • Smooth & Stable</p>
+    <a class="btn" href="/health">Health Check</a>
+  </div>
 
-    <footer class="foot">Live on Render • <code>/health</code> OK • <code>/__whoami</code> diag</footer>
-  </main>
-
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js').catch(()=>{});}</script>
-  <script src="{{ url_for('static', filename='bubbles.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bubbles.js') }}"></script>
 </body>
 </html>
