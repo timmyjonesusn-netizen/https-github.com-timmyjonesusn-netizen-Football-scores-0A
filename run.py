@@ -1,9 +1,7 @@
 # run.py
-import os
 from serv_timmyapp import create_app
 
-app = create_app()
-
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app = create_app()
+    # 0.0.0.0 so it works on Render/local; port 8000 default
+    app.run(host="0.0.0.0", port=8000, debug=True)
