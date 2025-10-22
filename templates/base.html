@@ -1,11 +1,49 @@
-<nav class="nav">
-  <a href="{{ url_for('home') }}">🏠 Home</a>
-  <a href="{{ url_for('ideas') }}">💡 Ideas</a>
-  <a href="{{ url_for('bubbles') }}">🫧 Bubbles</a>
-  <a href="{{ url_for('music') }}">🎵 Music</a>
-  <a href="{{ url_for('police') }}">🐾 Police Corner</a>
-  <a href="{{ url_for('tickle') }}">🌊 Daily Tickle</a>
-  <a href="{{ url_for('riddles') }}">🧩 Riddles</a>
-  <a href="{{ url_for('weather') }}">☀️ Weather</a>
-  <a href="{{ url_for('events') }}">📅 Events</a>   <!-- NEW -->
-</nav>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timmyapp</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <style>
+    :root { --bg1:#120016; --bg2:#2a0040; --glow:#ff3df2; --pop:#9a6bff; }
+    body {
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      min-height:100svh;
+      background: radial-gradient(1200px 600px at 50% -10%, var(--pop) 0%, transparent 50%),
+                  radial-gradient(800px 400px at 70% 110%, var(--glow) 0%, transparent 55%),
+                  linear-gradient(180deg, var(--bg2), var(--bg1));
+      color:#fff;
+    }
+    .glow { box-shadow:0 0 30px var(--glow), inset 0 0 20px rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:16px; }
+    header, nav { display:flex; gap:.75rem; align-items:center; padding:12px 16px; }
+    nav a { padding:8px 12px; text-decoration:none; color:white; border-radius:12px; border:1px solid rgba(255,255,255,.15); }
+    nav a:hover { box-shadow:0 0 14px var(--pop); }
+    main { padding:16px; }
+    .bubbles {
+      position:fixed; inset:0; pointer-events:none; z-index:-1; overflow:hidden;
+      background:
+        radial-gradient(60px 60px at 10% 80%, rgba(255,255,255,.16) 0%, transparent 60%) no-repeat,
+        radial-gradient(80px 80px at 80% 30%, rgba(255,192,255,.18) 0%, transparent 65%) no-repeat,
+        radial-gradient(50px 50px at 50% 60%, rgba(154,107,255,.22) 0%, transparent 70%) no-repeat;
+      animation: pulse 4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{ filter:brightness(1); } 50%{ filter:brightness(1.25); } }
+  </style>
+</head>
+<body>
+  <div class="bubbles"></div>
+  <header>
+    <strong>Timmyapp</strong>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('music') }}">Music</a>
+      <a href="{{ url_for('weather') }}">Weather</a>
+      <a href="{{ url_for('whodunnit') }}">Whodunnit</a>
+    </nav>
+  </header>
+  <main class="glow">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
