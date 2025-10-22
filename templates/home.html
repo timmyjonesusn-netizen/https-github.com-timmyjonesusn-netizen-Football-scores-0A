@@ -5,48 +5,17 @@
   <p class="tag">If it’s not glowing, it’s not going.</p>
 
   <div class="grid music-grid">
-    {% for title, note, href in music %}
-    <a class="pill" href="{{ href }}" target="_blank" rel="noopener">
-      <div class="pill-title">{{ title }}</div>
-      <div class="pill-sub">{{ note }}</div>
+    <a class="pill" href="#" target="_blank" rel="noopener">
+      <div class="pill-title">Creator Flow Vol. 1</div>
+      <div class="pill-sub">Royalty-friendly for Reels/Shorts.</div>
     </a>
-    {% endfor %}
-  </div>
-
-  <div class="share">
-    <button id="copyBtn">Share this app</button>
-    <div id="copyMsg" class="copy-msg" role="status" aria-live="polite"></div>
   </div>
 
   <div class="today-strip">
     <div class="mini-weather">
-      <span class="light {{ m.light }}"></span>
-      <span class="mw-text">
-        {{ m.place }} — {{ m.temp }}°F (Hi {{ m.hi }}° / Lo {{ m.lo }}°) • {{ m.code_text }}
-      </span>
-    </div>
-    <div class="mini-riddle">
-      <strong>Riddle:</strong> {{ riddle_q }}
-      <span class="answer" onclick="this.classList.toggle('show')"> (tap for answer)</span>
-      <span class="answer-text">{{ riddle_a }}</span>
-    </div>
-    <div class="mini-story">
-      <strong>Story:</strong> {{ story_teaser }}
-      <a class="more" href="/story">read more</a>
+      <span class="light off"></span>
+      <span class="mw-text">Ragland, AL — loading…</span>
     </div>
   </div>
 </section>
-
-<script>
-  (function(){
-    var url = location.origin;
-    var btn = document.getElementById('copyBtn');
-    var msg = document.getElementById('copyMsg');
-    btn.addEventListener('click', async function(){
-      try{ await navigator.clipboard.writeText(url); msg.textContent="Link copied: " + url; }
-      catch(e){ msg.textContent="Copy failed. Long-press to share."; }
-      setTimeout(function(){ msg.textContent=""; }, 2400);
-    });
-  })();
-</script>
 {% endblock %}
