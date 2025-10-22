@@ -1,32 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🏠 TimmyApp Home</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
-</head>
-<body>
-  <div class="matrix-overlay"></div>
-
-  <div class="center-content">
-    <h1 class="title">💜 Welcome to TimmyApp 💜</h1>
-    <p class="subtitle">Where ideas glow, beats flow, and Reggie steals the show.</p>
-
-    <div class="nav-buttons">
-      <a href="/ideas">💡 Ideas</a>
-      <a href="/bibles">🫧 Timmy Bubbles</a>
-      <a href="/music">🎶 Music</a>
-      <a href="/police">🐾 Police Corner</a>
-      <a href="/tickle">🌊 Daily Tickle</a>
-      <a href="/riddles">🧩 Riddles</a>
-      <a href="/weather">☀️ Weather</a>
-    </div>
-
-    <footer>Built with ❤️ in Ragland by Chief Timmy & Capt. Reg Dog</footer>
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1 class="glow-title">Welcome to TimmyApp</h1>
+  <p class="tag">Purple-pink glow, smooth bubbles, clean vibes.</p>
+  <div class="matrix-face">
+    <div class="face-orb"></div>
   </div>
-
-  <script src="{{ url_for('static', filename='home.js') }}"></script>
-</body>
-</html>
-
+  <div class="cta-row">
+    <a class="btn" href="{{ url_for('music') }}">Open Music</a>
+    <a class="btn ghost" href="{{ url_for('riddles') }}">Try Riddles</a>
+    <a class="btn ghost" href="{{ url_for('whodunnit') }}">Read Whodunnit</a>
+  </div>
+</section>
+{% endblock %}
