@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Riddle of the Day</h1>
-  <div class="tile span-12">
-    <p>I speak without a mouth and hear without ears. I have nobody, but I come alive with wind. What am I?</p>
-    <select id="riddle">
-      <option value="">Choose your answer…</option>
-      <option>Shadow</option>
-      <option>Echo</option>
-      <option>Whistle</option>
-      <option>Cloud</option>
-    </select>
-    <p id="r-msg" style="margin-top:.5rem;"></p>
+<section class="panel riddles">
+  <h2>Riddle of the Day</h2>
+  <div class="riddle-card">
+    <div id="rq" class="q"></div>
+    <div id="ra" class="a"></div>
   </div>
-  <script>
-    (function(){
-      const sel = document.getElementById('riddle');
-      const msg = document.getElementById('r-msg');
-      sel.addEventListener('change', ()=>{
-        if(sel.value === 'Echo') { msg.textContent = 'Correct! 🥳'; }
-        else if(sel.value) { msg.textContent = 'Not quite — try again.'; }
-        else { msg.textContent = ''; }
-      });
-    })();
-  </script>
+  <div class="riddle-actions">
+    <button id="reveal">Reveal Answer</button>
+    <button id="next">Next Riddle</button>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const items = {{ items|tojson }};
+    let i = 0, shown = false;
+    const rq = document.getElementById('rq');
+    const ra = document.getElementById('ra');
+    function load(idx){ rq.textContent = items[idx][0]; ra.textContent = ""; shown=false; }
+    document.getElementById('reveal').onclick = function(){ if(!shown){ ra.textContent = items[i][1]; shown = true; } };
+    document.getElementById('next').onclick = function(){ i = (i+1) % items.length; load(i); };
+    load(new Date().getDate() % items.length);
+  })();
+</script>
 {% endblock %}
