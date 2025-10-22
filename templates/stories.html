@@ -1,1 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>📖 {{ DATA.story.title }}</h2>
+  <p class="story">{{ DATA.story.text }}</p>
 
+  <h3>🗓️ Events</h3>
+  <div class="events">
+    {% for e in DATA.events %}
+      <div class="event-card">
+        <div class="when">{{ e.when }}</div>
+        <div class="what">{{ e.what }}</div>
+        <div class="where">@ {{ e.where }}</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
