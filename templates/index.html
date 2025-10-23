@@ -1,16 +1,254 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TimmyApp — Glow Check</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Timmy Bubbles — Creator-Safe Playlists</title>
+<meta name="description" content="Deep-purple glow, floating bubbles, and direct Suno playlists targeted for creators and copyright-safe background use." />
+
+<style>
+  :root{
+    --purple-1:#120727;   /* deep space */
+    --purple-2:#21114a;   /* inner glow */
+    --pink:#ff7ad9;       /* accent glow */
+    --blue:#86d3ff;       /* light blue bubbles */
+    --white:#ffffff;
+    --glass:rgba(255,255,255,0.12);
+  }
+
+  html,body{
+    height:100%;
+  }
+  body{
+    margin:0;
+    color:#f6f3ff;
+    background:
+      radial-gradient(1200px 800px at 70% 20%, rgba(255,122,217,0.18), transparent 60%),
+      radial-gradient(900px 700px at 20% 80%, rgba(134,211,255,0.17), transparent 60%),
+      linear-gradient(180deg, var(--purple-2), var(--purple-1));
+    overflow:hidden; /* keeps scrollbars off as bubbles drift */
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* gentle breathing glow for the whole scene */
+  @keyframes breathe {
+    0%,100% { filter: drop-shadow(0 0 0px var(--pink)); }
+    50%     { filter: drop-shadow(0 0 8px var(--pink)); }
+  }
+  .scene{
+    position:relative;
+    width:100%;
+    height:100%;
+    animation:breathe 6s ease-in-out infinite;
+  }
+
+  /* BUBBLES */
+  .bubbles{
+    position:absolute; inset:0;
+    pointer-events:none;
+  }
+  .bubble{
+    position:absolute;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.15) 65%, rgba(255,255,255,0.05) 80%, transparent 100%);
+    box-shadow:
+      0 0 12px rgba(255,255,255,0.35),
+      inset 0 0 18px rgba(255,255,255,0.25);
+    mix-blend-mode:screen;
+    opacity:0.92;
+    filter: blur(var(--blur,0px));
+    transform: translateY(100vh) scale(var(--scale,1));
+    animation: floatUp var(--dur, 22s) linear var(--delay, 0s) infinite;
+  }
+  .bubble.blue{
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(134,211,255,0.65) 45%, rgba(134,211,255,0.18) 70%, rgba(134,211,255,0.08) 85%, transparent 100%);
+    box-shadow:
+      0 0 14px rgba(134,211,255,0.35),
+      inset 0 0 18px rgba(134,211,255,0.25);
+  }
+
+  @keyframes floatUp{
+    0%   { transform: translateY(100vh) translateX(0) scale(var(--scale,1)); opacity:0; }
+    5%   { opacity:0.9; }
+    100% { transform: translateY(-15vh) translateX(var(--drift, 20px)) scale(var(--scale,1)); opacity:0; }
+  }
+
+  /* CONTENT PANEL */
+  .center{
+    position:relative;
+    z-index:2;
+    width:min(680px, 94vw);
+    text-align:center;
+    padding:28px 22px 30px;
+    backdrop-filter: blur(10px) saturate(120%);
+    background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:18px;
+    box-shadow:
+      0 10px 40px rgba(0,0,0,0.35),
+      0 0 24px rgba(255,122,217,0.18);
+  }
+
+  .title{
+    font-weight:800;
+    letter-spacing:0.3px;
+    font-size: clamp(28px, 5.6vw, 46px);
+    line-height:1.05;
+    margin:0 0 8px 0;
+    text-shadow:
+      0 0 14px rgba(255,122,217,0.45),
+      0 0 6px rgba(134,211,255,0.25);
+  }
+  .subtitle{
+    margin:0 0 20px 0;
+    font-size: clamp(14px, 2.9vw, 18px);
+    color:#e7e4ff;
+    opacity:0.95;
+  }
+
+  /* CREATOR BADGE */
+  .badge{
+    display:inline-block;
+    margin-bottom:18px;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.28);
+    background: linear-gradient(180deg, rgba(134,211,255,0.18), rgba(255,255,255,0.06));
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:0.2px;
+    box-shadow: 0 0 10px rgba(134,211,255,0.25);
+  }
+
+  /* BUTTONS (direct to Suno) */
+  .buttons{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:12px;
+    margin-top:8px;
+  }
+  @media (min-width:560px){
+    .buttons{ grid-template-columns: 1fr 1fr; }
+  }
+  a.play{
+    display:flex; align-items:center; justify-content:center;
+    gap:10px;
+    padding:14px 16px;
+    border-radius:14px;
+    text-decoration:none;
+    color:#0b0b18;
+    background:
+      radial-gradient(120% 120% at 15% 10%, rgba(255,255,255,0.85), rgba(255,255,255,0.75)),
+      linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.55));
+    border:1px solid rgba(255,255,255,0.6);
+    box-shadow:
+      0 8px 22px rgba(0,0,0,0.28),
+      0 0 20px rgba(134,211,255,0.25);
+    font-weight:700;
+    letter-spacing:0.2px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  a.play:hover, a.play:focus-visible{
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 28px rgba(0,0,0,0.35),
+      0 0 26px rgba(255,122,217,0.28);
+    outline:none;
+  }
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:6px 10px; border-radius:999px;
+    background: rgba(134,211,255,0.2);
+    border:1px solid rgba(134,211,255,0.35);
+    color:#0b0b18; font-weight:700; font-size:12px;
+  }
+
+  /* FOOTNOTE */
+  .note{
+    margin-top:16px;
+    font-size:12px;
+    color:#efeaff;
+    opacity:0.85;
+  }
+
+  /* Accessibility: reduce motion */
+  @media (prefers-reduced-motion: reduce){
+    .scene{ animation:none; }
+    .bubble{ animation: none; opacity: 0.6; }
+  }
+</style>
 </head>
+
 <body>
-  <main class="card">
-    <h1>TimmyApp is LIVE ✅</h1>
-    <p>If you can see the pulsing purple/pink, gunicorn ↔ Flask is wired right.</p>
-    <p>Health check: <code>/healthz</code> returns JSON.</p>
-  </main>
+  <div class="scene">
+    <div class="bubbles" id="bubbles"></div>
+
+    <main class="center" role="main" aria-label="Creator playlists">
+      <h1 class="title">Timmy Bubbles</h1>
+      <p class="subtitle">Deep purple. Dreamy drift. <strong>Direct Suno playlists for creators</strong> — built for background use.</p>
+      <div class="badge" aria-label="Targeted for creators">🎧 Creator-Safe • No Embeds • Opens in Suno</div>
+
+      <div class="buttons">
+        <a class="play" href="https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b" target="_blank" rel="noopener">
+          <span class="pill">Suno</span> Creator Pack 1
+        </a>
+        <a class="play" href="https://suno.com/playlist/e95ddd12-7e37-43e2-b3e0-fe342085a19f" target="_blank" rel="noopener">
+          <span class="pill">Suno</span> Creator Pack 2
+        </a>
+        <a class="play" href="https://suno.com/playlist/2e2eefa6-6828-40ba-bf5b-02bf338e3243" target="_blank" rel="noopener">
+          <span class="pill">Suno</span> Creator Pack 3
+        </a>
+        <a class="play" href="https://suno.com/playlist/06b80fa9-8c72-4e0a-b277-88d00c441316" target="_blank" rel="noopener">
+          <span class="pill">Suno</span> Creator Pack 4
+        </a>
+      </div>
+
+      <p class="note">Tip for creators: tracks are designed for background/royalty-friendly use — always double-check your platform’s rules before publishing big content.</p>
+    </main>
+  </div>
+
+<script>
+/* Lightweight bubble field. Creates white & light-blue bubbles with random sizes,
+   speeds, blur and drift. Keeps it performant for phones. */
+(function(){
+  const root = document.documentElement;
+  const wrap = document.getElementById('bubbles');
+  const count = 34; // number of bubbles (tweak for density)
+  const rnd = (min,max)=> Math.random()*(max-min)+min;
+
+  for(let i=0;i<count;i++){
+    const b = document.createElement('div');
+    const isBlue = Math.random() < 0.55; // mix of white and light-blue
+    b.className = 'bubble' + (isBlue ? ' blue' : '');
+    const size = rnd(14, 64);                 // px
+    const blur = rnd(0, 2.8).toFixed(1) + 'px';
+    const left = rnd(-8, 108);                // vw beyond edges for natural entry
+    const delay = (-1) * rnd(0, 18);          // negative to start at random progress
+    const dur = rnd(16, 32);                  // seconds
+    const scale = rnd(0.9, 1.35).toFixed(2);
+    const drift = rnd(-40, 40).toFixed(0) + 'px';
+
+    b.style.width = b.style.height = size + 'px';
+    b.style.left = left + 'vw';
+    b.style.setProperty('--blur', blur);
+    b.style.setProperty('--delay', delay + 's');
+    b.style.setProperty('--dur', dur + 's');
+    b.style.setProperty('--scale', scale);
+    b.style.setProperty('--drift', drift);
+    wrap.appendChild(b);
+  }
+
+  // Respect reduced motion dynamically
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const toggle = () => {
+    wrap.style.display = mq.matches ? 'none' : 'block';
+  };
+  mq.addEventListener('change', toggle);
+  toggle();
+})();
+</script>
 </body>
 </html>
