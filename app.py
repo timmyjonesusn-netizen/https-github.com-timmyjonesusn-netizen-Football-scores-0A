@@ -1,10 +1,6 @@
 from flask import Flask
+app = Flask(__name__)
 
-def create_app():
-    app = Flask(__name__)
-
-    @app.get("/")
-    def index():
-        return "TimmyApp is alive ✨"
-
-    return app
+@app.get("/")
+def index():
+    return "TimmyApp is alive ✨"
