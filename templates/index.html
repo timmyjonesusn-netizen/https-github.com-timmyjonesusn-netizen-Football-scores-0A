@@ -1,10 +1,16 @@
-{% extends "base.html" %}
-{% block content %}
-  <h2>🎧 Music for Creators</h2>
-  <p class="note">Royalty-friendly vibe hub. If Suno opens externally, that’s expected.</p>
-  <ul class="list">
-    {% for pl in DATA.playlists %}
-      <li><a target="_blank" href="{{ pl.url }}">{{ pl.title }}</a></li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TimmyApp — Glow Check</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="card">
+    <h1>TimmyApp is LIVE ✅</h1>
+    <p>If you can see the pulsing purple/pink, gunicorn ↔ Flask is wired right.</p>
+    <p>Health check: <code>/healthz</code> returns JSON.</p>
+  </main>
+</body>
+</html>
