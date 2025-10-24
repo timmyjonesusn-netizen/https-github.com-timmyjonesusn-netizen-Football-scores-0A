@@ -2,7 +2,6 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# --- BASIC HOME ROUTE ---
 @app.route("/")
 def home():
     return """
@@ -46,14 +45,11 @@ def home():
     </html>
     """
 
-# --- SIMPLE HEALTH CHECK FOR RENDER LOGS ---
 @app.route("/health")
 def health():
     return jsonify(status="ok", service="timmyapp"), 200
 
-
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
-    # 0.0.0.0 is REQUIRED on Render so the outside world can see it
     app.run(host="0.0.0.0", port=port, debug=False)
