@@ -3,7 +3,6 @@ import os
 
 app = Flask(__name__)
 
-# --- simple home route ---
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -96,10 +95,9 @@ def index():
           white-space:pre-wrap;
         }
 
-        /* highlight changes (vibrant) vs unchanged (dim) */
-        .changed   { color:#22c55e; font-weight:600; }   /* green glow idea */
-        .unchanged { color:#666;    font-weight:400; }
-
+        /* change-highlighting idea */
+        .changed   { color:#22c55e; font-weight:600; }  /* “new / updated” */
+        .unchanged { color:#666;    font-weight:400; }  /* “same as before” */
       </style>
     </head>
     <body>
@@ -118,8 +116,9 @@ def index():
 
         {% if reply %}
           <div class="reply-box">
-            <div><span class="unchanged">Timmy1 heard: </span>
-                 <span class="changed">{{ reply }}</span>
+            <div>
+              <span class="unchanged">Timmy1 heard: </span>
+              <span class="changed">{{ reply }}</span>
             </div>
           </div>
         {% endif %}
@@ -128,12 +127,12 @@ def index():
     </html>
     """, reply=reply)
 
-# health check for Render
 @app.route("/healthz")
 def healthz():
     return {"status": "ok"}, 200
 
-# local dev only
 if __name__ == "__main__":
+    # Render gives us PORT, so respect it
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    # debug=False so it doesn't spawn the reloader twice
+    app.run(host="0.0.0.0", port=port, debug=False)
