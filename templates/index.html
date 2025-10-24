@@ -1,474 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TimmyApp Music Hub</title>
-
-<style>
-    :root {
-        /* --- COLOR SYSTEM --- */
-        --bg-core-hotpink: rgba(255, 0, 200, 0.6);
-        --bg-core-purple: rgba(80, 0, 80, 1);
-        --bg-deep-purple: rgb(15, 0, 20);
-        --bg-deep-black: rgb(0, 0, 0);
-
-        --pulse-color: rgba(255, 0, 200, 0.4); /* background breathing glow */
-
-        --text-main: #ffffff;
-        --text-dim: rgba(255,255,255,0.8);
-        --accent-hot: #ff00d4; /* neon pink for headings */
-
-        /* cards */
-        --panel-bg: rgba(10,0,20,0.6);
-        --panel-border: rgba(255,255,255,0.22);
-
-        --radius-lg: 18px;
-        --radius-md: 12px;
-        --radius-sm: 8px;
-
-        --shadow-card:
-            0 0 24px rgba(255,0,212,0.4),
-            0 0 60px rgba(255,0,212,0.15);
-    }
-
-    * {
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* ===============================
-       PAGE BACKGROUND
-       purple base + neon pink hue
-       =============================== */
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", sans-serif;
-        color: var(--text-main);
-
-        /* Layered gradients:
-           - hot magenta center
-           - purple field
-           - deep edge falloff
-        */
-        background:
-            radial-gradient(circle at 50% 30%,
-                rgba(255,0,200,0.55) 0%,
-                rgba(180,0,150,0.4) 25%,
-                rgba(90,0,120,0.5) 50%,
-                rgba(40,0,60,0.8) 70%,
-                rgba(10,0,20,1) 100%) fixed;
-
-        min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
-        overflow-y: auto;
-
-        animation: bgPulse 4s ease-in-out infinite;
-    }
-
-    @keyframes bgPulse {
-        0% {
-            box-shadow: 0 0 120px 40px var(--pulse-color) inset;
-            filter: brightness(1);
-        }
-        50% {
-            box-shadow: 0 0 20px 6px rgba(0,0,0,0.6) inset;
-            filter: brightness(0.85);
-        }
-        100% {
-            box-shadow: 0 0 120px 40px var(--pulse-color) inset;
-            filter: brightness(1);
-        }
-    }
-
-    /* ===============================
-       BUBBLES LAYER
-       tiny, outlined, color-pop
-       =============================== */
-    .bubbles-layer {
-        position: fixed;
-        inset: 0;
-        z-index: 5;            /* behind content */
-        pointer-events: none;  /* taps go through */
-        overflow: hidden;
-    }
-
-    /* BASE bubble style:
-       - very small
-       - crisp outline
-       - strong inner core
-       - subtle outer glow
-       NOTE: we are NOT using mix-blend-mode,
-       because iPhone will sometimes mute that layer.
-    */
-    .bubble {
-        position: absolute;
-        border-radius: 50%;
-        opacity: 1;
-
-        /* default bubble is neon pink/magenta */
-        background: radial-gradient(circle,
-            rgba(255, 0, 200, 1) 0%,        /* hot core */
-            rgba(255, 0, 200, 0.5) 40%,     /* quick halo */
-            rgba(255, 0, 200, 0) 70%        /* fade out */
-        );
-
-        border: 2px solid rgba(255, 0, 255, 0.9);
-
-        box-shadow:
-            0 0 6px rgba(255, 0, 255, 1),
-            0 0 16px rgba(255, 0, 255, 0.8),
-            0 0 32px rgba(255, 0, 255, 0.5),
-            0 0 60px rgba(255, 0, 255, 0.3);
-
-        animation: drift 24s linear infinite;
-    }
-
-    /* dark / electric blue bubble */
-    .bubble.blueish {
-        background: radial-gradient(circle,
-            rgba(40, 80, 255, 1) 0%,         /* bright electric blue core */
-            rgba(40, 80, 255, 0.5) 40%,
-            rgba(40, 80, 255, 0) 70%
-        );
-
-        border: 2px solid rgba(0, 150, 255, 0.9);
-
-        box-shadow:
-            0 0 6px rgba(0,150,255,1),
-            0 0 16px rgba(0,150,255,0.8),
-            0 0 32px rgba(0,150,255,0.5),
-            0 0 60px rgba(0,150,255,0.3);
-    }
-
-    /* orange bubble (ember / lava vibe) */
-    .bubble.orangeish {
-        background: radial-gradient(circle,
-            rgba(255,130,0,1) 0%,           /* hot ember core */
-            rgba(255,130,0,0.5) 40%,
-            rgba(255,130,0,0) 70%
-        );
-
-        border: 2px solid rgba(255,140,0,0.9);
-
-        box-shadow:
-            0 0 6px rgba(255,140,0,1),
-            0 0 16px rgba(255,140,0,0.8),
-            0 0 32px rgba(255,140,0,0.5),
-            0 0 60px rgba(255,140,0,0.3);
-    }
-
-    /* motion:
-       - gentle float
-       - slight sway
-       - slow spin
-       - NOT huge travel, so it feels like little lights drifting
-    */
-    @keyframes drift {
-        0%   { transform: translateY(0vh) translateX(0vw) scale(1) rotate(0deg); }
-        50%  { transform: translateY(-15vh) translateX(-2vw) scale(1.07) rotate(180deg); }
-        100% { transform: translateY(0vh) translateX(0vw) scale(1) rotate(360deg); }
-    }
-
-    /* ===============================
-       MAIN CONTENT PANEL
-       glass card sitting over bubbles
-       =============================== */
-    .app-shell {
-        position: relative;
-        z-index: 10; /* ABOVE bubbles */
-        max-width: 480px;
-        margin: 24px auto 120px auto;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-border);
-        border-radius: var(--radius-lg);
-
-        box-shadow:
-            0 0 32px rgba(255,0,212,0.6),
-            0 0 80px rgba(255,0,212,0.3),
-            0 0 140px rgba(255,0,212,0.15);
-
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-
-    .app-title-text {
-        font-size: 1.6rem;
-        font-weight: 600;
-        line-height: 1.25;
-        color: #fff;
-        text-shadow:
-            0 0 8px rgba(255,0,212,1),
-            0 0 24px rgba(255,0,212,0.7),
-            0 0 60px rgba(255,0,212,0.4);
-
-        margin-bottom: 8px;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .title-heart {
-        font-size: 1.4rem;
-        line-height: 1;
-        color: var(--accent-hot);
-        text-shadow:
-            0 0 6px var(--accent-hot),
-            0 0 18px rgba(255,0,212,0.7),
-            0 0 36px rgba(255,0,212,0.4);
-    }
-
-    .tagline {
-        font-size: 0.95rem;
-        line-height: 1.4;
-        color: var(--text-dim);
-        margin-bottom: 16px;
-    }
-
-    .section-headline {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #fff;
-        text-shadow:
-            0 0 8px rgba(255,0,212,1),
-            0 0 24px rgba(255,0,212,0.7),
-            0 0 60px rgba(255,0,212,0.4);
-        margin-bottom: 4px;
-    }
-
-    .section-sub {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: rgba(255,255,255,0.7);
-        margin-bottom: 16px;
-    }
-
-    /* ===============================
-       PLAYLIST LIST
-       =============================== */
-    .playlist-list {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .playlist-item {
-        background:
-            radial-gradient(circle at 20% 20%,
-                rgba(30,0,40,0.9) 0%,
-                rgba(10,0,20,0.7) 60%,
-                rgba(0,0,0,0.6) 100%);
-        border: 1px solid rgba(255,255,255,0.18);
-        border-radius: var(--radius-md);
-        padding: 14px 16px;
-        box-shadow:
-            0 0 24px rgba(255,0,212,0.4),
-            0 0 64px rgba(255,0,212,0.2);
-    }
-
-    .playlist-link {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-    }
-
-    .playlist-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        line-height: 1.3;
-        color: #fff;
-        text-shadow:
-            0 0 10px var(--accent-hot),
-            0 0 28px rgba(255,0,212,0.7),
-            0 0 60px rgba(255,0,212,0.4);
-        margin-bottom: 6px;
-    }
-
-    .playlist-desc {
-        font-size: 1rem;
-        line-height: 1.4;
-        color: #ddd;
-    }
-
-    .playlist-link:active {
-        opacity: 0.8;
-    }
-
-    /* ===============================
-       FOOTER
-       =============================== */
-    .footer {
-        text-align: center;
-        font-size: 0.7rem;
-        color: rgba(255,255,255,0.7);
-        line-height: 1.4;
-        padding-top: 12px;
-    }
-
-    .footer span.brand {
-        color: var(--accent-hot);
-        font-weight: 600;
-        text-shadow:
-            0 0 10px var(--accent-hot),
-            0 0 28px rgba(255,0,212,0.7),
-            0 0 60px rgba(255,0,212,0.4);
-    }
-
-    @supports(padding:max(0px)) {
-        body {
-            padding-bottom: max(0px, env(safe-area-inset-bottom));
-        }
-        .app-shell {
-            margin-bottom: max(120px, calc(env(safe-area-inset-bottom) + 80px));
-        }
-    }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimmyApp Playlists</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-    <!-- BUBBLES BACKGROUND LAYER -->
-    <div class="bubbles-layer" id="bubbles-layer"></div>
+  <!-- pastel yellow -> pale pink glow background -->
+  <div class="bg-gradient"></div>
 
-    <!-- MAIN CONTENT PANEL -->
-    <main class="app-shell">
-        <header>
-            <div class="app-title-text">
-                <span>TimmyApp Music Hub</span>
-                <span class="title-heart">💜</span>
-            </div>
+  <!-- floating bubbles layer -->
+  <div id="bubble-layer"></div>
 
-            <div class="tagline">
-                Royalty-friendly vibe tracks for creators.
-                Use for background, reels, shorts. No strikes.
-            </div>
+  <!-- MAIN CONTENT -->
+  <main class="page-shell">
+    <section class="playlist-section">
+      <div class="section-head">
+        <h1 class="section-title">Today’s Featured Playlist</h1>
+        <p class="section-sub">Hand-picked for mood &amp; flow</p>
+      </div>
 
-            <div class="section-headline">Today’s Featured Playlist</div>
-            <div class="section-sub">Hand-picked for mood &amp; flow</div>
-        </header>
+      <!-- CARD: Midnight Neon Cruise -->
+      <article class="playlist-card">
+        <h2 class="playlist-name">Midnight Neon Cruise</h2>
+        <p class="playlist-desc">
+          dreamy synth / slow drift / safe for socials
+        </p>
+      </article>
 
-        <section class="playlist-list">
+      <!-- CARD: Southern Heatwave -->
+      <article class="playlist-card">
+        <h2 class="playlist-name">Southern Heatwave</h2>
+        <p class="playlist-desc">
+          swagger beat / outlaw country trap / creator-safe
+        </p>
+      </article>
 
-            <div class="playlist-item">
-                <a class="playlist-link"
-                   href="https://suno.com/playlist/2ec04889-1c23-4e2d-9e18-5c8bf5b24e8d"
-                   target="_blank" rel="noopener noreferrer">
-                    <div class="playlist-title">Midnight Neon Cruise</div>
-                    <div class="playlist-desc">
-                        dreamy synth / slow drift / safe for socials
-                    </div>
-                </a>
-            </div>
+      <!-- CARD: Halo Pulse -->
+      <article class="playlist-card">
+        <h2 class="playlist-name">Halo Pulse</h2>
+        <p class="playlist-desc">
+          angel pads / uplight energy / intro &amp; outro friendly
+        </p>
+      </article>
 
-            <div class="playlist-item">
-                <a class="playlist-link"
-                   href="https://suno.com/song/c0943681-4a5f-48f0-9e18-5c8bf5b24e8d"
-                   target="_blank" rel="noopener noreferrer">
-                    <div class="playlist-title">Southern Heatwave</div>
-                    <div class="playlist-desc">
-                        swagger beat / outlaw country trap / creator-safe
-                    </div>
-                </a>
-            </div>
+      <!-- CARD: Purple Drive -->
+      <article class="playlist-card">
+        <h2 class="playlist-name">Purple Drive</h2>
+        <p class="playlist-desc">
+          midtempo glide / neon ride / safe for ads
+        </p>
+      </article>
 
-            <div class="playlist-item">
-                <a class="playlist-link"
-                   href="https://www.nativecrafts.us/medicine-bags-c-164.html"
-                   target="_blank" rel="noopener noreferrer">
-                    <div class="playlist-title">Halo Pulse</div>
-                    <div class="playlist-desc">
-                        angel pads / uplight energy / intro &amp; outro friendly
-                    </div>
-                </a>
-            </div>
+      <!-- CARD: Yeti Stomp -->
+      <article class="playlist-card">
+        <h2 class="playlist-name">Yeti Stomp</h2>
+        <p class="playlist-desc">
+          heavy bass / crowd hype / walk-in music / promo safe
+        </p>
+      </article>
 
-            <div class="playlist-item">
-                <a class="playlist-link"
-                   href="https://suno.com/playlist/01b65a04-d231-4574-bbb6-713997ca5b44"
-                   target="_blank" rel="noopener noreferrer">
-                    <div class="playlist-title">Purple Drive</div>
-                    <div class="playlist-desc">
-                        midtempo glide / neon ride / safe for ads
-                    </div>
-                </a>
-            </div>
+    </section>
+  </main>
 
-            <div class="playlist-item">
-                <a class="playlist-link"
-                   href="https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df"
-                   target="_blank" rel="noopener noreferrer">
-                    <div class="playlist-title">Yeti Stomp</div>
-                    <div class="playlist-desc">
-                        heavy bass / crowd hype / walk-in energy
-                    </div>
-                </a>
-            </div>
+  <!-- BUBBLE SCRIPT -->
+  <script>
+    // HOW THIS WORKS:
+    // we spawn tiny bubbles (<15px) that only float upward.
+    // each bubble: random start X, tiny sideways drift, random size,
+    // bluish / orange-ish / dark blue with neon ring.
+    // after it finishes floating, we recycle it at the bottom again.
+    (function () {
+      const layer = document.getElementById('bubble-layer');
 
-        </section>
+      const BUBBLE_COUNT = 40; // a lot of little clingy bubbles
+      const MIN_SIZE = 6;      // px radius-ish
+      const MAX_SIZE = 14;     // px radius-ish
+      const DURATION_MIN = 10; // seconds
+      const DURATION_MAX = 22; // seconds
 
-        <footer class="footer">
-            <div><span class="brand">TimmyApp</span> — live beta</div>
-            <div>All vibes are creator-friendly use only.</div>
-        </footer>
-    </main>
-
-<script>
-/*
-   BUBBLE GENERATOR (OUTLINED + SMALL)
-   - way smaller bubbles
-   - neon pink / electric blue / ember orange
-   - gentle float
-*/
-(function makeBubbles() {
-    const layer = document.getElementById('bubbles-layer');
-    if (!layer) return;
-
-    // counts tuned for subtle sparkle
-    const bubbleSets = [
-        { cls: '',            count: 4 }, // magenta / pink (default .bubble)
-        { cls: ' blueish',    count: 3 }, // dark blue neon
-        { cls: ' orangeish',  count: 3 }  // ember orange
-    ];
-
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    bubbleSets.forEach(set => {
-        for (let i = 0; i < set.count; i++) {
-            const b = document.createElement('div');
-            b.className = 'bubble' + set.cls;
-
-            // 10x smaller: ~20px - 40px only
-            const size = Math.floor(20 + Math.random() * 20); // 20-40px
-
-            // random start spot
-            const leftPx = Math.floor(Math.random() * vw);
-            const topPx  = Math.floor(Math.random() * vh);
-
-            // slow float, each a little different
-            const duration = (15 + Math.random() * 15).toFixed(2) + 's';
-            const delay = (-Math.random() * 15).toFixed(2) + 's';
-
-            b.style.width = size + 'px';
-            b.style.height = size + 'px';
-            b.style.left = leftPx + 'px';
-            b.style.top = topPx + 'px';
-            b.style.animationDuration = duration;
-            b.style.animationDelay = delay;
-
-            layer.appendChild(b);
+      // possible bubble color themes
+      const COLOR_SETS = [
+        // dark blue bubble w/ electric outline
+        {
+          fill: 'radial-gradient(circle at 30% 30%, rgba(30,60,255,0.6) 0%, rgba(10,10,40,0.0) 70%)',
+          ring: 'rgba(0,150,255,0.8)'
+        },
+        // orange bubble w/ warm ring
+        {
+          fill: 'radial-gradient(circle at 30% 30%, rgba(255,140,0,0.55) 0%, rgba(60,20,0,0.0) 70%)',
+          ring: 'rgba(255,180,80,0.9)'
+        },
+        // purple w/ pink hue ring to match neon header
+        {
+          fill: 'radial-gradient(circle at 30% 30%, rgba(200,0,255,0.5) 0%, rgba(30,0,50,0.0) 70%)',
+          ring: 'rgba(255,0,200,0.8)'
         }
-    });
-})();
-</script>
+      ];
 
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function makeBubble() {
+        const b = document.createElement('span');
+        b.className = 'bubble';
+
+        // random size small
+        const size = rand(MIN_SIZE, MAX_SIZE); // px
+        b.style.setProperty('--size', size + 'px');
+
+        // random horizontal start (vw)
+        const startX = rand(-10, 110); // can start slightly off edge for natural look
+        b.style.setProperty('--xStart', startX + 'vw');
+
+        // small sideways drift (clingy sideways wobble, not huge travel)
+        const xDrift = rand(-20, 20); // px total horizontal wander
+        b.style.setProperty('--xDrift', xDrift + 'px');
+
+        // float duration
+        const duration = rand(DURATION_MIN, DURATION_MAX);
+        b.style.setProperty('--floatTime', duration + 's');
+
+        // delay so they aren't all synced
+        const delay = rand(0, 8);
+        b.style.setProperty('--delayTime', delay + 's');
+
+        // choose color theme
+        const c = COLOR_SETS[Math.floor(Math.random() * COLOR_SETS.length)];
+        b.style.setProperty('--bubbleFill', c.fill);
+        b.style.setProperty('--bubbleRing', c.ring);
+
+        // when animation ends (bubble reached top), recycle it
+        b.addEventListener('animationend', () => {
+          // reset values to "respawn" at bottom
+          const newSize = rand(MIN_SIZE, MAX_SIZE);
+          b.style.setProperty('--size', newSize + 'px');
+
+          const newStartX = rand(-10, 110);
+          b.style.setProperty('--xStart', newStartX + 'vw');
+
+          const newXDrift = rand(-20, 20);
+          b.style.setProperty('--xDrift', newXDrift + 'px');
+
+          const newDuration = rand(DURATION_MIN, DURATION_MAX);
+          b.style.setProperty('--floatTime', newDuration + 's');
+
+          const newDelay = rand(0, 8);
+          b.style.setProperty('--delayTime', newDelay + 's');
+
+          const newColor = COLOR_SETS[Math.floor(Math.random() * COLOR_SETS.length)];
+          b.style.setProperty('--bubbleFill', newColor.fill);
+          b.style.setProperty('--bubbleRing', newColor.ring);
+
+          // force reflow to restart animation
+          b.classList.remove('run');
+          // eslint-disable-next-line no-unused-expressions
+          b.offsetHeight;
+          b.classList.add('run');
+        });
+
+        layer.appendChild(b);
+      }
+
+      // create all bubbles
+      for (let i = 0; i < BUBBLE_COUNT; i++) {
+        makeBubble();
+      }
+
+      // kick animations after a tiny tick so CSS variables are applied
+      requestAnimationFrame(() => {
+        const all = layer.querySelectorAll('.bubble');
+        all.forEach(b => b.classList.add('run'));
+      });
+    })();
+  </script>
 </body>
 </html>
