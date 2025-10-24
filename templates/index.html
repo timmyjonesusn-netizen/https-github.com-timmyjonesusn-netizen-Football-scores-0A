@@ -17,7 +17,7 @@
 
         --text-main: #ffffff;
         --text-dim: rgba(255,255,255,0.8);
-        --accent-hot: #ff00d4; /* pink accent for titles */
+        --accent-hot: #ff00d4; /* neon pink accent */
 
         --card-bg: rgba(0,0,20,0.6);
         --card-border: rgba(255,255,255,0.25);
@@ -27,8 +27,8 @@
         --radius-sm: 8px;
 
         --shadow-card:
-            0 0 24px rgba(0,200,255,0.5),
-            0 0 60px rgba(0,200,255,0.25);
+            0 0 24px rgba(0,200,255,0.4),
+            0 0 60px rgba(0,200,255,0.2);
     }
 
     * {
@@ -38,7 +38,7 @@
         padding: 0;
     }
 
-    /* PAGE BACKGROUND = LIGHT BLUE GLOW */
+    /* PAGE BACKGROUND = BLUE GLOW */
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", sans-serif;
         color: var(--text-main);
@@ -73,14 +73,13 @@
         }
     }
 
-    /* BUBBLE LAYER
-       We’re going SIMPLE so iPhone can’t hide it.
-       No blend modes, no crazy filters. Just glowing circles.
-    */
+    /* ===========================================
+       BUBBLES LAYER - tighter, brighter, smaller
+       =========================================== */
     .bubbles-layer {
         position: fixed;
         inset: 0;
-        z-index: 5;            /* behind content */
+        z-index: 5;            /* behind content panel */
         pointer-events: none;  /* taps go through */
         overflow: hidden;
     }
@@ -88,56 +87,65 @@
     .bubble {
         position: absolute;
         border-radius: 50%;
-        opacity: 0.5;
-        /* BIG BRIGHT GRADIENT CORE */
+        opacity: 0.8; /* brighter */
+        /* punchy neon core -> fast falloff */
         background: radial-gradient(circle,
-            rgba(255,0,220,1) 0%,
-            rgba(255,0,140,0.6) 40%,
-            rgba(255,0,140,0.2) 70%,
-            rgba(255,0,140,0) 100%
+            rgba(255,0,220,1) 0%,        /* hot core */
+            rgba(255,0,150,0.7) 35%,     /* tight halo */
+            rgba(255,0,150,0.15) 60%,    /* quick fade */
+            rgba(255,0,150,0) 75%        /* gone */
         );
-        /* soft shadow halo */
+        /* crisp outer glow ring */
         box-shadow:
-            0 0 30px rgba(255,0,200,0.8),
-            0 0 60px rgba(255,0,200,0.5),
-            0 0 120px rgba(255,0,200,0.3);
-        animation: drift 16s linear infinite;
+            0 0 10px rgba(255,0,200,0.9),
+            0 0 30px rgba(255,0,200,0.7),
+            0 0 60px rgba(255,0,200,0.4),
+            0 0 90px rgba(255,0,200,0.25);
+
+        animation: drift 14s linear infinite;
     }
 
-    /* override tint variants just to add variety */
+    /* blue-tinted variant for contrast on cyan bg */
     .bubble.blueish {
         background: radial-gradient(circle,
             rgba(120,180,255,1) 0%,
-            rgba(120,180,255,0.5) 40%,
-            rgba(120,180,255,0.15) 70%,
-            rgba(120,180,255,0) 100%
+            rgba(120,180,255,0.6) 35%,
+            rgba(120,180,255,0.15) 60%,
+            rgba(120,180,255,0) 75%
         );
         box-shadow:
-            0 0 30px rgba(120,180,255,0.8),
-            0 0 60px rgba(120,180,255,0.5),
-            0 0 120px rgba(120,180,255,0.3);
+            0 0 10px rgba(120,180,255,0.9),
+            0 0 30px rgba(120,180,255,0.7),
+            0 0 60px rgba(120,180,255,0.4),
+            0 0 90px rgba(120,180,255,0.25);
     }
 
+    /* white-hot sparkle */
     .bubble.whiteish {
         background: radial-gradient(circle,
             rgba(255,255,255,1) 0%,
-            rgba(255,255,255,0.5) 40%,
-            rgba(255,255,255,0.15) 70%,
-            rgba(255,255,255,0) 100%
+            rgba(255,255,255,0.6) 35%,
+            rgba(255,255,255,0.15) 60%,
+            rgba(255,255,255,0) 75%
         );
         box-shadow:
-            0 0 30px rgba(255,255,255,0.8),
-            0 0 60px rgba(255,255,255,0.5),
-            0 0 120px rgba(255,255,255,0.3);
+            0 0 10px rgba(255,255,255,0.9),
+            0 0 30px rgba(255,255,255,0.7),
+            0 0 60px rgba(255,255,255,0.4),
+            0 0 90px rgba(255,255,255,0.25);
     }
 
+    /* motion: smaller drift arc now so they look like
+       floating lights, not giant clouds */
     @keyframes drift {
         0%   { transform: translateY(0vh) translateX(0vw) scale(1) rotate(0deg); }
-        50%  { transform: translateY(-40vh) translateX(-5vw) scale(1.1) rotate(180deg); }
+        50%  { transform: translateY(-20vh) translateX(-3vw) scale(1.08) rotate(180deg); }
         100% { transform: translateY(0vh) translateX(0vw) scale(1) rotate(360deg); }
     }
 
-    /* MAIN CONTENT WRAPPER */
+    /* ===========================================
+       MAIN CONTENT PANEL
+       =========================================== */
     .app-shell {
         position: relative;
         z-index: 10; /* ABOVE bubbles */
@@ -148,20 +156,19 @@
         flex-direction: column;
         gap: 20px;
 
-        /* translucent dark panel so text pops */
-        background: rgba(0,0,20,0.5);
-        border: 1px solid rgba(255,255,255,0.2);
+        /* translucent glass card */
+        background: rgba(0,0,20,0.55);
+        border: 1px solid rgba(255,255,255,0.22);
         border-radius: var(--radius-lg);
         box-shadow:
             0 0 32px rgba(0,200,255,0.6),
             0 0 80px rgba(0,200,255,0.3),
-            0 0 120px rgba(0,200,255,0.2);
+            0 0 120px rgba(0,200,255,0.15);
         backdrop-filter: blur(10px);
     }
 
-    /* SECTION HEADERS / TEXT */
     .app-title-text {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: 600;
         line-height: 1.25;
         color: #fff;
@@ -170,6 +177,20 @@
             0 0 24px rgba(0,200,255,0.7),
             0 0 60px rgba(0,200,255,0.4);
         margin-bottom: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .title-heart {
+        font-size: 1.4rem;
+        line-height: 1;
+        color: var(--accent-hot);
+        text-shadow:
+            0 0 6px var(--accent-hot),
+            0 0 18px rgba(255,0,212,0.7),
+            0 0 36px rgba(255,0,212,0.4);
     }
 
     .tagline {
@@ -180,7 +201,7 @@
     }
 
     .section-headline {
-        font-size: 1.15rem;
+        font-size: 1.2rem;
         font-weight: 600;
         color: #fff;
         text-shadow:
@@ -197,7 +218,7 @@
         margin-bottom: 16px;
     }
 
-    /* PLAYLIST BLOCKS */
+    /* PLAYLIST LIST */
     .playlist-list {
         display: flex;
         flex-direction: column;
@@ -205,18 +226,29 @@
     }
 
     .playlist-item {
-        background: rgba(0,0,0,0.4);
-        border: 1px solid var(--card-border);
+        background: radial-gradient(circle at 20% 20%,
+            rgba(30,0,40,0.9) 0%,
+            rgba(10,0,20,0.7) 60%,
+            rgba(0,0,0,0.6) 100%);
+        border: 1px solid rgba(255,255,255,0.18);
         border-radius: var(--radius-md);
         padding: 14px 16px;
-        box-shadow: var(--shadow-card);
+        box-shadow:
+            0 0 16px rgba(255,0,212,0.4),
+            0 0 48px rgba(0,200,255,0.3);
+    }
+
+    .playlist-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
     }
 
     .playlist-title {
-        font-size: 1.25rem;
+        font-size: 1.3rem;
         font-weight: 600;
         line-height: 1.3;
-        color: var(--text-main);
+        color: #fff;
         text-shadow:
             0 0 10px var(--accent-hot),
             0 0 28px rgba(255,0,212,0.7),
@@ -228,12 +260,6 @@
         font-size: 1rem;
         line-height: 1.4;
         color: #ddd;
-    }
-
-    .playlist-link {
-        display: block;
-        text-decoration: none;
-        color: inherit;
     }
 
     .playlist-link:active {
@@ -277,14 +303,18 @@
     <!-- MAIN CONTENT PANEL -->
     <main class="app-shell">
         <header>
-            <div class="app-title-text">TimmyApp Music Hub 💜</div>
+            <div class="app-title-text">
+                <span>TimmyApp Music Hub</span>
+                <span class="title-heart">💜</span>
+            </div>
+
             <div class="tagline">
                 Royalty-friendly vibe tracks for creators.
                 Use for background, reels, shorts. No strikes.
             </div>
 
             <div class="section-headline">Today’s Featured Playlist</div>
-            <div class="section-sub">Hand-picked for mood & flow</div>
+            <div class="section-sub">Hand-picked for mood &amp; flow</div>
         </header>
 
         <section class="playlist-list">
@@ -317,7 +347,7 @@
                    target="_blank" rel="noopener noreferrer">
                     <div class="playlist-title">Halo Pulse</div>
                     <div class="playlist-desc">
-                        angel pads / uplight energy / intro & outro friendly
+                        angel pads / uplight energy / intro &amp; outro friendly
                     </div>
                 </a>
             </div>
@@ -354,19 +384,21 @@
 
 <script>
 /*
-   SUPER SIMPLE BUBBLE GENERATOR
-   (No blend modes. No advanced filters.
-   Just big glowing circles that MOVE.)
+   BUBBLE GENERATOR (FOCUSED MODE)
+   - fewer bubbles
+   - smaller size
+   - higher brightness
+   - gentler travel so they feel like living LEDs behind the card
 */
 (function makeBubbles() {
     const layer = document.getElementById('bubbles-layer');
     if (!layer) return;
 
-    // we’ll do 3 flavors so it looks rich
+    // tuned counts
     const bubbleSets = [
-        { cls: '',        count: 4 },  // hot pink default
-        { cls: ' blueish', count: 3 }, // blue glow
-        { cls: ' whiteish',count: 2 }  // white glow
+        { cls: '',         count: 3 }, // hot magenta
+        { cls: ' blueish', count: 2 }, // cyan/blue
+        { cls: ' whiteish',count: 1 }  // white sparkle
     ];
 
     const vw = window.innerWidth;
@@ -377,12 +409,14 @@
             const b = document.createElement('div');
             b.className = 'bubble' + set.cls;
 
-            const size = Math.floor(90 + Math.random() * 160); // 90-250px
+            // SMALLER range now: 60px - 140px
+            const size = Math.floor(60 + Math.random() * 80); // 60-140
             const leftPx = Math.floor(Math.random() * vw);
             const topPx  = Math.floor(Math.random() * vh);
 
-            const duration = (14 + Math.random() * 14).toFixed(2) + 's';
-            const delay = (-Math.random() * 20).toFixed(2) + 's';
+            // a little faster so motion is visible
+            const duration = (10 + Math.random() * 8).toFixed(2) + 's';
+            const delay = (-Math.random() * 10).toFixed(2) + 's';
 
             b.style.width = size + 'px';
             b.style.height = size + 'px';
