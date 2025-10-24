@@ -1,138 +1,57 @@
-from flask import Flask, render_template_string, request
-import os
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        user_msg = request.form.get("message", "")
-        reply = f"You said: {user_msg}"
-    else:
-        reply = None
-
-    return render_template_string("""
-    <!DOCTYPE html>
+@app.route("/")
+def home():
+    return """
     <html>
-    <head>
-      <meta charset="UTF-8" />
-      <title>Timmy1</title>
-      <style>
-        body {
-          background-color: #0a0a0a;
-          color: #fff;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont,
-                       "Inter", Roboto, "Segoe UI", sans-serif;
-          min-height: 100vh;
-          margin: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .chat-card {
-          background: #1a1a1a;
-          border: 1px solid #333;
-          border-radius: 16px;
-          padding: 24px;
-          width: min(400px, 90vw);
-          box-shadow: 0 30px 80px rgba(0,0,0,0.8);
-        }
-        h1 {
-          font-size: 1rem;
-          font-weight: 600;
-          color: #8b5cf6;
-          margin: 0 0 1rem 0;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .dot {
-          width:8px;
-          height:8px;
-          border-radius:50%;
-          background:#10b981;
-          box-shadow:0 0 8px #10b981;
-        }
-        label {
-          color:#888;
-          font-size:0.8rem;
-        }
-        input[type="text"] {
-          width:100%;
-          background:#0f0f0f;
-          border:1px solid #333;
-          border-radius:8px;
-          color:#fff;
-          padding:10px 12px;
-          font-size:0.9rem;
-          outline:none;
-        }
-        input[type="text"]:focus {
-          border-color:#8b5cf6;
-          box-shadow:0 0 6px #8b5cf6;
-        }
-        button {
-          background:#8b5cf6;
-          border:none;
-          border-radius:8px;
-          padding:10px 12px;
-          font-size:0.9rem;
-          font-weight:600;
-          cursor:pointer;
-          color:#fff;
-          margin-top:12px;
-          width:100%;
-        }
-        .reply-box {
-          background:#0f0f0f;
-          border:1px solid #333;
-          border-radius:8px;
-          padding:12px;
-          color:#fff;
-          margin-top:16px;
-          font-size:0.85rem;
-          line-height:1.4;
-          white-space:pre-wrap;
-        }
-
-        /* change-highlighting idea */
-        .changed   { color:#22c55e; font-weight:600; }  /* “new / updated” */
-        .unchanged { color:#666;    font-weight:400; }  /* “same as before” */
-      </style>
-    </head>
-    <body>
-      <div class="chat-card">
-        <h1>
-          <span class="dot"></span>
-          Timmy1 · live
-        </h1>
-
-        <form method="POST">
-          <label for="msgInput">Send a message</label>
-          <input id="msgInput" name="message" type="text"
-                 placeholder="Talk to Timmy1..." autocomplete="off" />
-          <button type="submit">Send</button>
-        </form>
-
-        {% if reply %}
-          <div class="reply-box">
-            <div>
-              <span class="unchanged">Timmy1 heard: </span>
-              <span class="changed">{{ reply }}</span>
-            </div>
+      <head>
+        <title>TimmyApp is Live</title>
+        <style>
+          body {
+            background: radial-gradient(circle at 20% 20%, #ff4fd8 0%, #4a007a 60%, #000000 100%);
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
+          .glow {
+            font-size: 1.4rem;
+            line-height: 1.5;
+            text-shadow: 0 0 8px #ff4fd8, 0 0 16px #ff4fd8, 0 0 32px #a200ff;
+          }
+          .tag {
+            margin-top: 1rem;
+            font-size: .8rem;
+            opacity: .7;
+          }
+        </style>
+      </head>
+      <body>
+        <div>
+          <div class="glow">
+            💜 TimmyApp endpoint responding 💜<br/>
+            Purple / pink heartbeat online.
           </div>
-        {% endif %}
-      </div>
-    </body>
+          <div class="tag">
+            / route served by Flask → gunicorn → Render
+          </div>
+        </div>
+      </body>
     </html>
-    """, reply=reply)
+    """
 
-@app.route("/healthz")
-def healthz():
-    return {"status": "ok"}, 200
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok", "source": "TimmyApp Render", "v": 1})
 
 if __name__ == "__main__":
-    # Render gives us PORT, so respect it
+    # local dev only
+    import os
     port = int(os.environ.get("PORT", 5000))
-    # debug=False so it doesn't spawn the reloader twice
-    app.run(host="0.0.0.0", port=port, debug=False)
+    app.run(host="0.0.0.0", port=port)
