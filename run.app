@@ -1,12 +1,10 @@
-# run.py
-from app import create_app
+# run.py exists ONLY so gunicorn can do `gunicorn run:app`
+# It just imports the Flask app from app.py and exposes it as `app`.
 
-# Gunicorn will import THIS variable below: run:app
-app = create_app()
+from app import app
 
-# Local dev entrypoint (not used by Gunicorn on Render)
+# Optional: allow `python run.py` to also work locally
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
-    # You can turn off debug in prod, but for local it's nice to have
     app.run(host="0.0.0.0", port=port, debug=True)
