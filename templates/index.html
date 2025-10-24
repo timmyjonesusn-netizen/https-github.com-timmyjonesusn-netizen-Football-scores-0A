@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TimmyApp</title>
+<title>TimmyApp Music Hub</title>
 
 <style>
-    /* ===============================
-       THEME / VARIABLES
-       =============================== */
     :root {
-        --bg-core-light: rgb(180, 240, 255);      /* center glow blue-white */
-        --bg-soft-blue: rgb(70, 120, 255);        /* cyan/blue halo */
-        --bg-deep-blue: rgb(10, 15, 40);          /* dark edge */
-        --pulse-color: rgba(120, 200, 255, 0.45); /* breathing aura */
+        /* cool / light blue background core */
+        --bg-center-light: rgba(200,255,255,1);
+        --bg-center-blue: rgba(120,210,255,0.8);
+        --bg-soft-cyan: rgba(70,140,255,0.4);
+        --bg-deep-navy: rgb(10,15,40);
+
+        --pulse-color: rgba(120,200,255,0.45);
 
         --text-main: #ffffff;
         --text-dim: rgba(255,255,255,0.8);
-        --accent-hot: rgb(255, 0, 200);           /* neon pink highlight */
+        --accent-hot: #ff00d4; /* pink accent for titles */
 
-        --card-bg: rgba(10, 10, 25, 0.55);
-        --card-border: rgba(255,255,255,0.28);
+        --card-bg: rgba(0,0,20,0.6);
+        --card-border: rgba(255,255,255,0.25);
 
         --radius-lg: 18px;
         --radius-md: 12px;
@@ -28,12 +28,7 @@
 
         --shadow-card:
             0 0 24px rgba(0,200,255,0.5),
-            0 0 60px rgba(0,200,255,0.2);
-
-        --shadow-strong:
-            0 0 24px rgba(255,0,255,0.9),
-            0 0 60px rgba(255,0,255,0.5),
-            0 0 120px rgba(255,0,255,0.3);
+            0 0 60px rgba(0,200,255,0.25);
     }
 
     * {
@@ -43,33 +38,23 @@
         padding: 0;
     }
 
-    /* ===============================
-       FULL-SCREEN BACKGROUND
-       NOW LIGHT BLUE / CYAN GLOW
-       =============================== */
+    /* PAGE BACKGROUND = LIGHT BLUE GLOW */
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", sans-serif;
         color: var(--text-main);
 
-        /* layered radial gradients:
-           - white/blue at center
-           - cyan aura
-           - deep navy edges
-        */
         background:
-            radial-gradient(circle at 50% 35%,
-                rgba(255,255,255,0.9) 0%,
-                rgba(180,240,255,0.8) 20%,
-                rgba(120,200,255,0.45) 40%,
-                rgba(70,120,255,0.25) 60%,
-                rgba(10,15,40,1) 100%) fixed;
+            radial-gradient(circle at 50% 30%,
+                var(--bg-center-light) 0%,
+                var(--bg-center-blue) 25%,
+                var(--bg-soft-cyan) 50%,
+                var(--bg-deep-navy) 100%) fixed;
 
         min-height: 100vh;
         position: relative;
         overflow-x: hidden;
         overflow-y: auto;
 
-        /* soft breathing pulse in cool blue */
         animation: bgPulse 4s ease-in-out infinite;
     }
 
@@ -88,153 +73,113 @@
         }
     }
 
-    /* ===============================
-       BUBBLE LAYER
-       (stays neon so it pops off the blue)
-       =============================== */
+    /* BUBBLE LAYER
+       We’re going SIMPLE so iPhone can’t hide it.
+       No blend modes, no crazy filters. Just glowing circles.
+    */
     .bubbles-layer {
         position: fixed;
         inset: 0;
+        z-index: 5;            /* behind content */
+        pointer-events: none;  /* taps go through */
         overflow: hidden;
-        z-index: 90;          /* sits under content */
-        pointer-events: none; /* never block taps */
     }
 
     .bubble {
         position: absolute;
         border-radius: 50%;
-        opacity: 1;
-
-        /* heavy neon aura – pink/magenta glow over blue looks electric */
-        filter:
-            blur(6px)
-            drop-shadow(0 0 20px rgba(255,0,200,0.9))
-            drop-shadow(0 0 50px rgba(255,0,200,0.6))
-            drop-shadow(0 0 90px rgba(255,0,200,0.4));
-
-        mix-blend-mode: screen;
-        animation-name: drift;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
+        opacity: 0.5;
+        /* BIG BRIGHT GRADIENT CORE */
+        background: radial-gradient(circle,
+            rgba(255,0,220,1) 0%,
+            rgba(255,0,140,0.6) 40%,
+            rgba(255,0,140,0.2) 70%,
+            rgba(255,0,140,0) 100%
+        );
+        /* soft shadow halo */
+        box-shadow:
+            0 0 30px rgba(255,0,200,0.8),
+            0 0 60px rgba(255,0,200,0.5),
+            0 0 120px rgba(255,0,200,0.3);
+        animation: drift 16s linear infinite;
     }
 
-    /* PURPLE CORE with pink halo */
-    .bubble.purple {
-        background: radial-gradient(
-            circle,
-            rgba(255, 0, 255, 1) 0%,
-            rgba(255, 0, 180, 0.8) 30%,
-            rgba(255, 100, 255, 0.4) 60%,
-            transparent 100%
+    /* override tint variants just to add variety */
+    .bubble.blueish {
+        background: radial-gradient(circle,
+            rgba(120,180,255,1) 0%,
+            rgba(120,180,255,0.5) 40%,
+            rgba(120,180,255,0.15) 70%,
+            rgba(120,180,255,0) 100%
         );
         box-shadow:
-            0 0 30px rgba(255, 0, 255, 1),
-            0 0 80px rgba(255, 0, 200, 0.8),
-            0 0 140px rgba(255, 0, 200, 0.5);
+            0 0 30px rgba(120,180,255,0.8),
+            0 0 60px rgba(120,180,255,0.5),
+            0 0 120px rgba(120,180,255,0.3);
     }
 
-    /* BLUE with magenta tint */
-    .bubble.blue {
-        background: radial-gradient(
-            circle,
-            rgba(120, 180, 255, 1) 0%,
-            rgba(200, 100, 255, 0.7) 40%,
-            rgba(255, 0, 200, 0.3) 70%,
-            transparent 100%
-        );
-        box-shadow:
-            0 0 30px rgba(120,180,255,1),
-            0 0 80px rgba(255,0,200,0.8),
-            0 0 160px rgba(255,0,200,0.5);
-    }
-
-    /* WHITE with pink edge */
-    .bubble.white {
-        background: radial-gradient(
-            circle,
+    .bubble.whiteish {
+        background: radial-gradient(circle,
             rgba(255,255,255,1) 0%,
-            rgba(255,200,255,0.8) 40%,
-            rgba(255,100,255,0.3) 70%,
-            transparent 100%
+            rgba(255,255,255,0.5) 40%,
+            rgba(255,255,255,0.15) 70%,
+            rgba(255,255,255,0) 100%
         );
         box-shadow:
-            0 0 40px rgba(255,255,255,1),
-            0 0 100px rgba(255,0,200,0.8),
-            0 0 180px rgba(255,0,200,0.5);
+            0 0 30px rgba(255,255,255,0.8),
+            0 0 60px rgba(255,255,255,0.5),
+            0 0 120px rgba(255,255,255,0.3);
     }
 
     @keyframes drift {
-        0%   { transform: translateY(0vh) translateX(0vw) rotate(0deg) scale(1); }
-        50%  { transform: translateY(-40vh) translateX(-4vw) rotate(180deg) scale(1.1); }
-        100% { transform: translateY(0vh) translateX(0vw) rotate(360deg) scale(1); }
+        0%   { transform: translateY(0vh) translateX(0vw) scale(1) rotate(0deg); }
+        50%  { transform: translateY(-40vh) translateX(-5vw) scale(1.1) rotate(180deg); }
+        100% { transform: translateY(0vh) translateX(0vw) scale(1) rotate(360deg); }
     }
 
-    /* ===============================
-       CONTENT WRAPPER
-       =============================== */
+    /* MAIN CONTENT WRAPPER */
     .app-shell {
         position: relative;
-        z-index: 100; /* above bubbles */
+        z-index: 10; /* ABOVE bubbles */
         max-width: 480px;
-        margin: 0 auto;
-        padding: 24px 16px 80px;
+        margin: 24px auto 120px auto;
+        padding: 16px;
         display: flex;
         flex-direction: column;
-        gap: 24px;
-        background: transparent;
-    }
+        gap: 20px;
 
-    /* ===============================
-       HEADER CARD
-       =============================== */
-    .hero-card {
-        background: rgba(0, 5, 20, 0.55);
-        border: 1px solid rgba(255,255,255,0.3);
+        /* translucent dark panel so text pops */
+        background: rgba(0,0,20,0.5);
+        border: 1px solid rgba(255,255,255,0.2);
         border-radius: var(--radius-lg);
-        padding: 16px 20px;
-        box-shadow: var(--shadow-card);
+        box-shadow:
+            0 0 32px rgba(0,200,255,0.6),
+            0 0 80px rgba(0,200,255,0.3),
+            0 0 120px rgba(0,200,255,0.2);
         backdrop-filter: blur(10px);
-        color: #fff;
     }
 
-    .app-title-row {
-        display: flex;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        row-gap: 8px;
-        column-gap: 10px;
-    }
-
+    /* SECTION HEADERS / TEXT */
     .app-title-text {
         font-size: 1.5rem;
         font-weight: 600;
-        line-height: 1.2;
+        line-height: 1.25;
         color: #fff;
         text-shadow:
             0 0 8px rgba(0,200,255,1),
             0 0 24px rgba(0,200,255,0.7),
             0 0 60px rgba(0,200,255,0.4);
-    }
-
-    .title-heart {
-        font-size: 1.5rem;
-        line-height: 1;
-        color: var(--accent-hot);
-        text-shadow:
-            0 0 10px rgba(255,0,212,1),
-            0 0 30px rgba(255,0,212,0.7),
-            0 0 60px rgba(255,0,212,0.4);
+        margin-bottom: 8px;
     }
 
     .tagline {
-        margin-top: 10px;
         font-size: 0.95rem;
         line-height: 1.4;
         color: var(--text-dim);
+        margin-bottom: 16px;
     }
 
     .section-headline {
-        margin-top: 16px;
         font-size: 1.15rem;
         font-weight: 600;
         color: #fff;
@@ -242,30 +187,17 @@
             0 0 8px rgba(0,200,255,1),
             0 0 24px rgba(0,200,255,0.7),
             0 0 60px rgba(0,200,255,0.4);
+        margin-bottom: 4px;
     }
 
     .section-sub {
         font-size: 0.9rem;
         font-weight: 500;
         color: rgba(255,255,255,0.7);
-        margin-top: 4px;
+        margin-bottom: 16px;
     }
 
-    /* ===============================
-       PLAYLIST WRAP CARD
-       =============================== */
-    .playlist-wrapper-card {
-        margin-top: 16px;
-        background: rgba(0,0,0,0.4);
-        border: 1px solid rgba(255,255,255,0.22);
-        border-radius: var(--radius-lg);
-        box-shadow:
-            0 0 20px rgba(0,0,0,0.8),
-            0 0 32px rgba(0,200,255,0.4),
-            0 0 64px rgba(0,200,255,0.25);
-        padding: 16px;
-    }
-
+    /* PLAYLIST BLOCKS */
     .playlist-list {
         display: flex;
         flex-direction: column;
@@ -273,62 +205,57 @@
     }
 
     .playlist-item {
-        background: rgba(0,0,0,0.35);
-        border: 1px solid rgba(255,255,255,0.22);
+        background: rgba(0,0,0,0.4);
+        border: 1px solid var(--card-border);
         border-radius: var(--radius-md);
         padding: 14px 16px;
-        box-shadow:
-            0 0 20px rgba(0,0,0,0.8),
-            0 0 32px rgba(0,200,255,0.4),
-            0 0 64px rgba(0,200,255,0.25);
+        box-shadow: var(--shadow-card);
     }
 
     .playlist-title {
         font-size: 1.25rem;
         font-weight: 600;
-        color: #fff;
         line-height: 1.3;
+        color: var(--text-main);
         text-shadow:
-            0 0 10px rgba(0,200,255,1),
-            0 0 28px rgba(0,200,255,0.7),
-            0 0 60px rgba(0,200,255,0.4);
+            0 0 10px var(--accent-hot),
+            0 0 28px rgba(255,0,212,0.7),
+            0 0 60px rgba(255,0,212,0.4);
         margin-bottom: 6px;
     }
 
     .playlist-desc {
         font-size: 1rem;
         line-height: 1.4;
-        color: #dcdcdc;
+        color: #ddd;
     }
 
     .playlist-link {
         display: block;
-        color: inherit;
         text-decoration: none;
+        color: inherit;
     }
 
     .playlist-link:active {
         opacity: 0.8;
     }
 
-    /* ===============================
-       FOOTER
-       =============================== */
+    /* FOOTER */
     .footer {
         text-align: center;
         font-size: 0.7rem;
         color: rgba(255,255,255,0.7);
         line-height: 1.4;
-        padding-bottom: 32px;
+        padding-top: 12px;
     }
 
     .footer span.brand {
         color: var(--accent-hot);
         font-weight: 600;
         text-shadow:
-            0 0 10px rgba(255,0,200,1),
-            0 0 28px rgba(255,0,200,0.7),
-            0 0 60px rgba(255,0,200,0.4);
+            0 0 10px var(--accent-hot),
+            0 0 28px rgba(255,0,212,0.7),
+            0 0 60px rgba(255,0,212,0.4);
     }
 
     @supports(padding:max(0px)) {
@@ -336,7 +263,7 @@
             padding-bottom: max(0px, env(safe-area-inset-bottom));
         }
         .app-shell {
-            padding-bottom: max(80px, calc(env(safe-area-inset-bottom) + 40px));
+            margin-bottom: max(120px, calc(env(safe-area-inset-bottom) + 80px));
         }
     }
 </style>
@@ -344,136 +271,127 @@
 
 <body>
 
-    <!-- BUBBLES LAYER -->
+    <!-- BUBBLES BACKGROUND LAYER -->
     <div class="bubbles-layer" id="bubbles-layer"></div>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT PANEL -->
     <main class="app-shell">
-
-        <!-- HERO / INTRO -->
-        <section class="hero-card">
-            <div class="app-title-row">
-                <div class="app-title-text">TimmyApp Music Hub</div>
-                <div class="title-heart">💜</div>
-            </div>
-
-            <p class="tagline">
+        <header>
+            <div class="app-title-text">TimmyApp Music Hub 💜</div>
+            <div class="tagline">
                 Royalty-friendly vibe tracks for creators.
                 Use for background, reels, shorts. No strikes.
-            </p>
+            </div>
 
             <div class="section-headline">Today’s Featured Playlist</div>
             <div class="section-sub">Hand-picked for mood & flow</div>
+        </header>
 
-            <!-- PLAYLIST LIST WRAP -->
-            <div class="playlist-wrapper-card">
-                <div class="playlist-list">
+        <section class="playlist-list">
 
-                    <div class="playlist-item">
-                        <a class="playlist-link"
-                           href="https://suno.com/playlist/2ec04889-1c23-4e2d-9e18-5c8bf5b24e8d"
-                           target="_blank" rel="noopener noreferrer">
-                            <div class="playlist-title">Midnight Neon Cruise</div>
-                            <div class="playlist-desc">
-                                dreamy synth / slow drift / safe for socials
-                            </div>
-                        </a>
+            <div class="playlist-item">
+                <a class="playlist-link"
+                   href="https://suno.com/playlist/2ec04889-1c23-4e2d-9e18-5c8bf5b24e8d"
+                   target="_blank" rel="noopener noreferrer">
+                    <div class="playlist-title">Midnight Neon Cruise</div>
+                    <div class="playlist-desc">
+                        dreamy synth / slow drift / safe for socials
                     </div>
-
-                    <div class="playlist-item">
-                        <a class="playlist-link"
-                           href="https://suno.com/song/c0943681-4a5f-48f0-9e18-5c8bf5b24e8d"
-                           target="_blank" rel="noopener noreferrer">
-                            <div class="playlist-title">Southern Heatwave</div>
-                            <div class="playlist-desc">
-                                swagger beat / outlaw country trap / creator-safe
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="playlist-item">
-                        <a class="playlist-link"
-                           href="https://www.nativecrafts.us/medicine-bags-c-164.html"
-                           target="_blank" rel="noopener noreferrer">
-                            <div class="playlist-title">Halo Pulse</div>
-                            <div class="playlist-desc">
-                                angel pads / uplight energy / intro & outro friendly
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="playlist-item">
-                        <a class="playlist-link"
-                           href="https://suno.com/playlist/01b65a04-d231-4574-bbb6-713997ca5b44"
-                           target="_blank" rel="noopener noreferrer">
-                            <div class="playlist-title">Purple Drive</div>
-                            <div class="playlist-desc">
-                                midtempo glide / neon ride / safe for ads
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="playlist-item">
-                        <a class="playlist-link"
-                           href="https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df"
-                           target="_blank" rel="noopener noreferrer">
-                            <div class="playlist-title">Yeti Stomp</div>
-                            <div class="playlist-desc">
-                                heavy bass / crowd hype / walk-in energy
-                            </div>
-                        </a>
-                    </div>
-
-                </div>
+                </a>
             </div>
+
+            <div class="playlist-item">
+                <a class="playlist-link"
+                   href="https://suno.com/song/c0943681-4a5f-48f0-9e18-5c8bf5b24e8d"
+                   target="_blank" rel="noopener noreferrer">
+                    <div class="playlist-title">Southern Heatwave</div>
+                    <div class="playlist-desc">
+                        swagger beat / outlaw country trap / creator-safe
+                    </div>
+                </a>
+            </div>
+
+            <div class="playlist-item">
+                <a class="playlist-link"
+                   href="https://www.nativecrafts.us/medicine-bags-c-164.html"
+                   target="_blank" rel="noopener noreferrer">
+                    <div class="playlist-title">Halo Pulse</div>
+                    <div class="playlist-desc">
+                        angel pads / uplight energy / intro & outro friendly
+                    </div>
+                </a>
+            </div>
+
+            <div class="playlist-item">
+                <a class="playlist-link"
+                   href="https://suno.com/playlist/01b65a04-d231-4574-bbb6-713997ca5b44"
+                   target="_blank" rel="noopener noreferrer">
+                    <div class="playlist-title">Purple Drive</div>
+                    <div class="playlist-desc">
+                        midtempo glide / neon ride / safe for ads
+                    </div>
+                </a>
+            </div>
+
+            <div class="playlist-item">
+                <a class="playlist-link"
+                   href="https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df"
+                   target="_blank" rel="noopener noreferrer">
+                    <div class="playlist-title">Yeti Stomp</div>
+                    <div class="playlist-desc">
+                        heavy bass / crowd hype / walk-in energy
+                    </div>
+                </a>
+            </div>
+
         </section>
 
-        <!-- FOOTER -->
         <footer class="footer">
             <div><span class="brand">TimmyApp</span> — live beta</div>
             <div>All vibes are creator-friendly use only.</div>
         </footer>
-
     </main>
 
 <script>
 /*
-   Bubble generator:
-   Renders neon pink/magenta orbs so they glow against the cool blue background.
+   SUPER SIMPLE BUBBLE GENERATOR
+   (No blend modes. No advanced filters.
+   Just big glowing circles that MOVE.)
 */
 (function makeBubbles() {
     const layer = document.getElementById('bubbles-layer');
     if (!layer) return;
 
-    const bubbleConfigs = [
-        { colorClass: 'purple', count: 5 },
-        { colorClass: 'blue',   count: 4 },
-        { colorClass: 'white',  count: 3 }
+    // we’ll do 3 flavors so it looks rich
+    const bubbleSets = [
+        { cls: '',        count: 4 },  // hot pink default
+        { cls: ' blueish', count: 3 }, // blue glow
+        { cls: ' whiteish',count: 2 }  // white glow
     ];
 
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    bubbleConfigs.forEach(cfg => {
-        for (let i = 0; i < cfg.count; i++) {
-            const bub = document.createElement('div');
-            bub.className = 'bubble ' + cfg.colorClass;
+    bubbleSets.forEach(set => {
+        for (let i = 0; i < set.count; i++) {
+            const b = document.createElement('div');
+            b.className = 'bubble' + set.cls;
 
-            const size = Math.floor(80 + Math.random() * 140); // 80-220px
+            const size = Math.floor(90 + Math.random() * 160); // 90-250px
             const leftPx = Math.floor(Math.random() * vw);
             const topPx  = Math.floor(Math.random() * vh);
 
             const duration = (14 + Math.random() * 14).toFixed(2) + 's';
-            const delay    = (-Math.random() * 20).toFixed(2) + 's';
+            const delay = (-Math.random() * 20).toFixed(2) + 's';
 
-            bub.style.width = size + 'px';
-            bub.style.height = size + 'px';
-            bub.style.left = leftPx + 'px';
-            bub.style.top = topPx + 'px';
-            bub.style.animationDuration = duration;
-            bub.style.animationDelay = delay;
+            b.style.width = size + 'px';
+            b.style.height = size + 'px';
+            b.style.left = leftPx + 'px';
+            b.style.top = topPx + 'px';
+            b.style.animationDuration = duration;
+            b.style.animationDelay = delay;
 
-            layer.appendChild(bub);
+            layer.appendChild(b);
         }
     });
 })();
