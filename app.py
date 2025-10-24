@@ -12,13 +12,13 @@ def home():
 
         <style>
           :root {
-            --panel-bg: rgba(30, 0, 60, 0.25);           /* more transparent glass */
+            --panel-bg: rgba(30, 0, 60, 0.25);           /* transparent glass layer */
             --panel-border: rgba(255, 0, 255, 0.4);
             --panel-glow1: rgba(255,0,255,0.3);          /* soft outer glow */
             --panel-glow2: rgba(120,0,180,0.25);         /* violet halo */
             --panel-inner: rgba(255,0,255,0.15);         /* inner inset glow */
 
-            --track-bg: rgba(255,255,255,0.05);          /* lighter tiles */
+            --track-bg: rgba(255,255,255,0.05);          /* each playlist tile bg */
             --track-border: rgba(255,255,255,0.12);
 
             --text-main: #ffffff;
@@ -31,7 +31,7 @@ def home():
           }
 
           /* PAGE BACKGROUND
-             lighter purple wash, subtle bloom, not blacked out
+             lighter purple wash, bloom at top-left
           */
           body {
             margin: 0;
@@ -61,9 +61,7 @@ def home():
           }
 
           /* FLOATING BUBBLES
-             - brighter
-             - more visible through glass
-             - slow vertical drift loop
+             brighter, behind the card, slow up/down drift
           */
           .bubble {
             position: absolute;
@@ -74,7 +72,7 @@ def home():
             box-shadow: 0 0 30px currentColor, 0 0 80px currentColor;
             mix-blend-mode: screen;
             pointer-events: none;
-            z-index: 1; /* sits BEHIND the card */
+            z-index: 1; /* BEHIND the main card */
           }
 
           .bubble.purple {
@@ -104,31 +102,27 @@ def home():
             );
           }
 
-          /* slow upward drift */
+          /* slow upward float */
           @keyframes drift {
             0%   { transform: translateY(100px) scale(1);   opacity: 0.2; }
             50%  { transform: translateY(-80px) scale(1.1); opacity: 0.55; }
             100% { transform: translateY(100px) scale(1);   opacity: 0.2; }
           }
 
-          /* bubble placement & speed */
+          /* bubble placement & timing */
           .b1 { --speed: 11s; width: 180px; height:180px; top: 10%; left: 8%;  }
           .b2 { --speed: 15s; width: 140px; height:140px; top: 25%; right:12%; }
           .b3 { --speed: 19s; width: 240px; height:240px; bottom:15%; left:5%; }
           .b4 { --speed: 23s; width: 110px; height:110px; bottom:20%; right:18%; }
           .b5 { --speed: 27s; width: 80px;  height:80px;  top: 60%; left: 60%; }
 
-          /* MAIN GLASS CARD
-             - more transparent
-             - glow ring
-             - sit ABOVE bubbles
-          */
+          /* MAIN GLASS CARD (sits above bubbles, but see-through) */
           .card {
             position: relative;
             width: 100%;
             max-width: 480px;
 
-            background: var(--panel-bg); /* thinner glass now */
+            background: var(--panel-bg); /* translucent */
             border: 1px solid var(--panel-border);
 
             box-shadow:
@@ -142,7 +136,7 @@ def home():
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             text-align: left;
-            z-index: 10; /* sits ABOVE bubbles */
+            z-index: 10; /* ABOVE the bubbles */
           }
 
           .hub-title {
@@ -181,12 +175,9 @@ def home():
             margin-bottom: .9rem;
           }
 
-          /* OUTER LIST BOX AROUND TRACKS
-             - lighter
-             - more see-through so bubbles bleed through
-          */
+          /* OUTER BOX wrapping all track tiles */
           .playlist-box {
-            background: rgba(0,0,0,0.15);
+            background: rgba(0,0,0,0.15); /* let bubbles glow through */
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
             padding: .75rem .75rem;
@@ -195,7 +186,7 @@ def home():
               0 0 40px rgba(255,0,255,0.25);
           }
 
-          /* EACH PLAYLIST TILE / LINK */
+          /* Each playlist tile (tapable link button) */
           .track {
             display: block;
             text-decoration: none;
@@ -265,37 +256,37 @@ def home():
             Today’s Featured Playlist
           </div>
           <div class="playlist-sub">
-            Hand-picked for mood & flow
+            Hand-picked for mood & flowo
           </div>
 
           <div class="playlist-box">
 
             <!-- PLAYLIST 1 -->
-            <a class="track" href="#" target="_blank" rel="noopener">
+            <a class="track" href="https://suno.com/playlist/2ec04889-1c23-4e2d-9c27-8a2b6475da4b" target="_blank" rel="noopener">
               <div class="track-title">Midnight Neon Cruise</div>
               <div class="track-desc">dreamy synth / slow drift / safe for socials</div>
             </a>
 
             <!-- PLAYLIST 2 -->
-            <a class="track" href="#" target="_blank" rel="noopener">
+            <a class="track" href="https://suno.com/song/c0943681-4a5f-48f0-9e18-5c8bf5b24e8d" target="_blank" rel="noopener">
               <div class="track-title">Southern Heatwave</div>
               <div class="track-desc">swagger beat / outlaw country trap / creator-safe</div>
             </a>
 
             <!-- PLAYLIST 3 -->
-            <a class="track" href="#" target="_blank" rel="noopener">
+            <a class="track" href="https://www.nativecrafts.us/medicine-bags-c-164.html" target="_blank" rel="noopener">
               <div class="track-title">Halo Pulse</div>
               <div class="track-desc">angel pads / uplight energy / intro & outro friendly</div>
             </a>
 
             <!-- PLAYLIST 4 -->
-            <a class="track" href="#" target="_blank" rel="noopener">
+            <a class="track" href="https://suno.com/playlist/01b65a04-d231-4574-bbb6-713997ca5b44" target="_blank" rel="noopener">
               <div class="track-title">Purple Drive</div>
               <div class="track-desc">midtempo glide / neon ride / safe for ads</div>
             </a>
 
             <!-- PLAYLIST 5 -->
-            <a class="track" href="#" target="_blank" rel="noopener">
+            <a class="track" href="https://suno.com/playlist/457d7e00-938e-4bf0-bd59-f070729200df" target="_blank" rel="noopener">
               <div class="track-title">Yeti Stomp</div>
               <div class="track-desc">heavy bass / crowd hype / walk-in energy</div>
             </a>
