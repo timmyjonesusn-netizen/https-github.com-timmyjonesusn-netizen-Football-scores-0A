@@ -10,24 +10,25 @@
        THEME / VARIABLES
        =============================== */
     :root {
-        --bg-dark: rgb(20, 0, 20);
-        --bg-hot: rgb(255, 0, 170);
-        --bg-magenta: rgb(140, 0, 140);
-        --pulse-color: rgba(255, 0, 170, 0.5);
+        --bg-core-light: rgb(180, 240, 255);      /* center glow blue-white */
+        --bg-soft-blue: rgb(70, 120, 255);        /* cyan/blue halo */
+        --bg-deep-blue: rgb(10, 15, 40);          /* dark edge */
+        --pulse-color: rgba(120, 200, 255, 0.45); /* breathing aura */
 
-        --text-main: #fff;
-        --accent-pink: rgb(255, 0, 200);
+        --text-main: #ffffff;
+        --text-dim: rgba(255,255,255,0.8);
+        --accent-hot: rgb(255, 0, 200);           /* neon pink highlight */
 
-        --card-bg: rgba(15, 0, 25, 0.5);
-        --card-border: rgba(255,0,255,0.4);
+        --card-bg: rgba(10, 10, 25, 0.55);
+        --card-border: rgba(255,255,255,0.28);
 
         --radius-lg: 18px;
         --radius-md: 12px;
         --radius-sm: 8px;
 
         --shadow-card:
-            0 0 24px rgba(255,0,200,0.4),
-            0 0 60px rgba(255,0,200,0.2);
+            0 0 24px rgba(0,200,255,0.5),
+            0 0 60px rgba(0,200,255,0.2);
 
         --shadow-strong:
             0 0 24px rgba(255,0,255,0.9),
@@ -44,26 +45,31 @@
 
     /* ===============================
        FULL-SCREEN BACKGROUND
-       (NEON PINK / MAGENTA)
+       NOW LIGHT BLUE / CYAN GLOW
        =============================== */
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", sans-serif;
         color: var(--text-main);
 
-        /* Neon plasma look */
+        /* layered radial gradients:
+           - white/blue at center
+           - cyan aura
+           - deep navy edges
+        */
         background:
-            radial-gradient(circle at 50% 40%,
-                rgba(255, 0, 170, 0.8) 0%,
-                rgba(255, 0, 170, 0.4) 30%,
-                rgba(140, 0, 140, 0.25) 55%,
-                rgba(20, 0, 20, 0.9) 80%,
-                rgba(0,0,0,1) 100%) fixed;
+            radial-gradient(circle at 50% 35%,
+                rgba(255,255,255,0.9) 0%,
+                rgba(180,240,255,0.8) 20%,
+                rgba(120,200,255,0.45) 40%,
+                rgba(70,120,255,0.25) 60%,
+                rgba(10,15,40,1) 100%) fixed;
 
         min-height: 100vh;
         position: relative;
         overflow-x: hidden;
         overflow-y: auto;
 
+        /* soft breathing pulse in cool blue */
         animation: bgPulse 4s ease-in-out infinite;
     }
 
@@ -73,8 +79,8 @@
             filter: brightness(1);
         }
         50% {
-            box-shadow: 0 0 20px 6px rgba(0,0,0,0.8) inset;
-            filter: brightness(0.8);
+            box-shadow: 0 0 20px 6px rgba(0,0,0,0.6) inset;
+            filter: brightness(0.85);
         }
         100% {
             box-shadow: 0 0 120px 40px var(--pulse-color) inset;
@@ -84,12 +90,13 @@
 
     /* ===============================
        BUBBLE LAYER
+       (stays neon so it pops off the blue)
        =============================== */
     .bubbles-layer {
         position: fixed;
         inset: 0;
         overflow: hidden;
-        z-index: 90;          /* sits above body background */
+        z-index: 90;          /* sits under content */
         pointer-events: none; /* never block taps */
     }
 
@@ -98,7 +105,7 @@
         border-radius: 50%;
         opacity: 1;
 
-        /* thick neon aura */
+        /* heavy neon aura – pink/magenta glow over blue looks electric */
         filter:
             blur(6px)
             drop-shadow(0 0 20px rgba(255,0,200,0.9))
@@ -181,8 +188,8 @@
        HEADER CARD
        =============================== */
     .hero-card {
-        background: rgba(30, 0, 40, 0.5);
-        border: 1px solid rgba(255,0,255,0.5);
+        background: rgba(0, 5, 20, 0.55);
+        border: 1px solid rgba(255,255,255,0.3);
         border-radius: var(--radius-lg);
         padding: 16px 20px;
         box-shadow: var(--shadow-card);
@@ -204,15 +211,15 @@
         line-height: 1.2;
         color: #fff;
         text-shadow:
-            0 0 8px rgba(255,0,255,1),
-            0 0 24px rgba(255,0,255,0.7),
-            0 0 60px rgba(255,0,255,0.4);
+            0 0 8px rgba(0,200,255,1),
+            0 0 24px rgba(0,200,255,0.7),
+            0 0 60px rgba(0,200,255,0.4);
     }
 
     .title-heart {
         font-size: 1.5rem;
         line-height: 1;
-        color: #ff00d4;
+        color: var(--accent-hot);
         text-shadow:
             0 0 10px rgba(255,0,212,1),
             0 0 30px rgba(255,0,212,0.7),
@@ -223,7 +230,7 @@
         margin-top: 10px;
         font-size: 0.95rem;
         line-height: 1.4;
-        color: rgba(255,255,255,0.9);
+        color: var(--text-dim);
     }
 
     .section-headline {
@@ -232,9 +239,9 @@
         font-weight: 600;
         color: #fff;
         text-shadow:
-            0 0 8px rgba(255,0,255,1),
-            0 0 24px rgba(255,0,255,0.7),
-            0 0 60px rgba(255,0,255,0.4);
+            0 0 8px rgba(0,200,255,1),
+            0 0 24px rgba(0,200,255,0.7),
+            0 0 60px rgba(0,200,255,0.4);
     }
 
     .section-sub {
@@ -250,12 +257,12 @@
     .playlist-wrapper-card {
         margin-top: 16px;
         background: rgba(0,0,0,0.4);
-        border: 1px solid rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.22);
         border-radius: var(--radius-lg);
         box-shadow:
             0 0 20px rgba(0,0,0,0.8),
-            0 0 32px rgba(255,0,200,0.4),
-            0 0 64px rgba(255,0,200,0.25);
+            0 0 32px rgba(0,200,255,0.4),
+            0 0 64px rgba(0,200,255,0.25);
         padding: 16px;
     }
 
@@ -272,8 +279,8 @@
         padding: 14px 16px;
         box-shadow:
             0 0 20px rgba(0,0,0,0.8),
-            0 0 32px rgba(255,0,200,0.4),
-            0 0 64px rgba(255,0,200,0.25);
+            0 0 32px rgba(0,200,255,0.4),
+            0 0 64px rgba(0,200,255,0.25);
     }
 
     .playlist-title {
@@ -282,9 +289,9 @@
         color: #fff;
         line-height: 1.3;
         text-shadow:
-            0 0 10px rgba(255,0,200,1),
-            0 0 28px rgba(255,0,200,0.7),
-            0 0 60px rgba(255,0,200,0.4);
+            0 0 10px rgba(0,200,255,1),
+            0 0 28px rgba(0,200,255,0.7),
+            0 0 60px rgba(0,200,255,0.4);
         margin-bottom: 6px;
     }
 
@@ -316,7 +323,7 @@
     }
 
     .footer span.brand {
-        color: var(--accent-pink);
+        color: var(--accent-hot);
         font-weight: 600;
         text-shadow:
             0 0 10px rgba(255,0,200,1),
@@ -432,9 +439,7 @@
 <script>
 /*
    Bubble generator:
-   - If this runs, you'll see animated neon orbs.
-   - If you still don't see orbs, then we KNOW
-     Render is serving an older template, not this file.
+   Renders neon pink/magenta orbs so they glow against the cool blue background.
 */
 (function makeBubbles() {
     const layer = document.getElementById('bubbles-layer');
@@ -454,18 +459,17 @@
             const bub = document.createElement('div');
             bub.className = 'bubble ' + cfg.colorClass;
 
-            // 80px - 220px
-            const size = Math.floor(80 + Math.random() * 140);
-
-            bub.style.width = size + 'px';
-            bub.style.height = size + 'px';
-
-            bub.style.left = Math.floor(Math.random() * vw) + 'px';
-            bub.style.top  = Math.floor(Math.random() * vh) + 'px';
+            const size = Math.floor(80 + Math.random() * 140); // 80-220px
+            const leftPx = Math.floor(Math.random() * vw);
+            const topPx  = Math.floor(Math.random() * vh);
 
             const duration = (14 + Math.random() * 14).toFixed(2) + 's';
             const delay    = (-Math.random() * 20).toFixed(2) + 's';
 
+            bub.style.width = size + 'px';
+            bub.style.height = size + 'px';
+            bub.style.left = leftPx + 'px';
+            bub.style.top = topPx + 'px';
             bub.style.animationDuration = duration;
             bub.style.animationDelay = delay;
 
