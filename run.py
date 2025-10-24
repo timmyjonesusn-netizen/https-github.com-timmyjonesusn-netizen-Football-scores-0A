@@ -1,3 +1,8 @@
-from app import create_app
+# run.py  — guaranteed boot
+from flask import Flask
 
-app = create_app()
+app = Flask(__name__)
+
+@app.get("/")
+def ping():
+    return "TimmyApp: run.py minimal app is UP ✅"
