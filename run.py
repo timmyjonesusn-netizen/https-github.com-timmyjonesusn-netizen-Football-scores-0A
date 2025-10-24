@@ -1,8 +1,8 @@
-# run.py (at repo root)
+# run.py
 from flask import Flask
 
 app = Flask(__name__)
 
 @app.get("/")
-def ping():
+def index():
     return "ok"
