@@ -1,10 +1,2 @@
-from flask import Flask, jsonify
-app = Flask(__name__)
-
-@app.get("/")
-def home():
-    return jsonify(status="ok", app="TimmyApp", message="Comms up 💜")
-
-@app.get("/healthz")
-def health():
-    return "ok", 200
+from app import create_app   # <-- not app_core
+app = create_app()
