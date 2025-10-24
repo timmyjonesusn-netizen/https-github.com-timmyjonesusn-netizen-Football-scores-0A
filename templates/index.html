@@ -7,28 +7,29 @@
 
 <style>
     :root {
-        /* cool / light blue background core */
-        --bg-center-light: rgba(200,255,255,1);
-        --bg-center-blue: rgba(120,210,255,0.8);
-        --bg-soft-cyan: rgba(70,140,255,0.4);
-        --bg-deep-navy: rgb(10,15,40);
+        /* --- COLOR SYSTEM --- */
+        --bg-core-hotpink: rgba(255, 0, 200, 0.6);
+        --bg-core-purple: rgba(80, 0, 80, 1);
+        --bg-deep-purple: rgb(15, 0, 20);
+        --bg-deep-black: rgb(0, 0, 0);
 
-        --pulse-color: rgba(120,200,255,0.45);
+        --pulse-color: rgba(255, 0, 200, 0.4); /* background breathing glow */
 
         --text-main: #ffffff;
         --text-dim: rgba(255,255,255,0.8);
-        --accent-hot: #ff00d4; /* neon pink accent */
+        --accent-hot: #ff00d4; /* neon pink for headings */
 
-        --card-bg: rgba(0,0,20,0.6);
-        --card-border: rgba(255,255,255,0.25);
+        /* cards */
+        --panel-bg: rgba(10,0,20,0.6);
+        --panel-border: rgba(255,255,255,0.22);
 
         --radius-lg: 18px;
         --radius-md: 12px;
         --radius-sm: 8px;
 
         --shadow-card:
-            0 0 24px rgba(0,200,255,0.4),
-            0 0 60px rgba(0,200,255,0.2);
+            0 0 24px rgba(255,0,212,0.4),
+            0 0 60px rgba(255,0,212,0.15);
     }
 
     * {
@@ -38,17 +39,26 @@
         padding: 0;
     }
 
-    /* PAGE BACKGROUND = BLUE GLOW */
+    /* ===============================
+       PAGE BACKGROUND
+       purple base + neon pink hue
+       =============================== */
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", sans-serif;
         color: var(--text-main);
 
+        /* Layered gradients:
+           - hot magenta center
+           - purple field
+           - deep edge falloff
+        */
         background:
             radial-gradient(circle at 50% 30%,
-                var(--bg-center-light) 0%,
-                var(--bg-center-blue) 25%,
-                var(--bg-soft-cyan) 50%,
-                var(--bg-deep-navy) 100%) fixed;
+                rgba(255,0,200,0.55) 0%,
+                rgba(180,0,150,0.4) 25%,
+                rgba(90,0,120,0.5) 50%,
+                rgba(40,0,60,0.8) 70%,
+                rgba(10,0,20,1) 100%) fixed;
 
         min-height: 100vh;
         position: relative;
@@ -73,79 +83,99 @@
         }
     }
 
-    /* ===========================================
-       BUBBLES LAYER - tighter, brighter, smaller
-       =========================================== */
+    /* ===============================
+       BUBBLES LAYER
+       tiny, outlined, color-pop
+       =============================== */
     .bubbles-layer {
         position: fixed;
         inset: 0;
-        z-index: 5;            /* behind content panel */
+        z-index: 5;            /* behind content */
         pointer-events: none;  /* taps go through */
         overflow: hidden;
     }
 
+    /* BASE bubble style:
+       - very small
+       - crisp outline
+       - strong inner core
+       - subtle outer glow
+       NOTE: we are NOT using mix-blend-mode,
+       because iPhone will sometimes mute that layer.
+    */
     .bubble {
         position: absolute;
         border-radius: 50%;
-        opacity: 0.8; /* brighter */
-        /* punchy neon core -> fast falloff */
-        background: radial-gradient(circle,
-            rgba(255,0,220,1) 0%,        /* hot core */
-            rgba(255,0,150,0.7) 35%,     /* tight halo */
-            rgba(255,0,150,0.15) 60%,    /* quick fade */
-            rgba(255,0,150,0) 75%        /* gone */
-        );
-        /* crisp outer glow ring */
-        box-shadow:
-            0 0 10px rgba(255,0,200,0.9),
-            0 0 30px rgba(255,0,200,0.7),
-            0 0 60px rgba(255,0,200,0.4),
-            0 0 90px rgba(255,0,200,0.25);
+        opacity: 1;
 
-        animation: drift 14s linear infinite;
+        /* default bubble is neon pink/magenta */
+        background: radial-gradient(circle,
+            rgba(255, 0, 200, 1) 0%,        /* hot core */
+            rgba(255, 0, 200, 0.5) 40%,     /* quick halo */
+            rgba(255, 0, 200, 0) 70%        /* fade out */
+        );
+
+        border: 2px solid rgba(255, 0, 255, 0.9);
+
+        box-shadow:
+            0 0 6px rgba(255, 0, 255, 1),
+            0 0 16px rgba(255, 0, 255, 0.8),
+            0 0 32px rgba(255, 0, 255, 0.5),
+            0 0 60px rgba(255, 0, 255, 0.3);
+
+        animation: drift 24s linear infinite;
     }
 
-    /* blue-tinted variant for contrast on cyan bg */
+    /* dark / electric blue bubble */
     .bubble.blueish {
         background: radial-gradient(circle,
-            rgba(120,180,255,1) 0%,
-            rgba(120,180,255,0.6) 35%,
-            rgba(120,180,255,0.15) 60%,
-            rgba(120,180,255,0) 75%
+            rgba(40, 80, 255, 1) 0%,         /* bright electric blue core */
+            rgba(40, 80, 255, 0.5) 40%,
+            rgba(40, 80, 255, 0) 70%
         );
+
+        border: 2px solid rgba(0, 150, 255, 0.9);
+
         box-shadow:
-            0 0 10px rgba(120,180,255,0.9),
-            0 0 30px rgba(120,180,255,0.7),
-            0 0 60px rgba(120,180,255,0.4),
-            0 0 90px rgba(120,180,255,0.25);
+            0 0 6px rgba(0,150,255,1),
+            0 0 16px rgba(0,150,255,0.8),
+            0 0 32px rgba(0,150,255,0.5),
+            0 0 60px rgba(0,150,255,0.3);
     }
 
-    /* white-hot sparkle */
-    .bubble.whiteish {
+    /* orange bubble (ember / lava vibe) */
+    .bubble.orangeish {
         background: radial-gradient(circle,
-            rgba(255,255,255,1) 0%,
-            rgba(255,255,255,0.6) 35%,
-            rgba(255,255,255,0.15) 60%,
-            rgba(255,255,255,0) 75%
+            rgba(255,130,0,1) 0%,           /* hot ember core */
+            rgba(255,130,0,0.5) 40%,
+            rgba(255,130,0,0) 70%
         );
+
+        border: 2px solid rgba(255,140,0,0.9);
+
         box-shadow:
-            0 0 10px rgba(255,255,255,0.9),
-            0 0 30px rgba(255,255,255,0.7),
-            0 0 60px rgba(255,255,255,0.4),
-            0 0 90px rgba(255,255,255,0.25);
+            0 0 6px rgba(255,140,0,1),
+            0 0 16px rgba(255,140,0,0.8),
+            0 0 32px rgba(255,140,0,0.5),
+            0 0 60px rgba(255,140,0,0.3);
     }
 
-    /* motion: smaller drift arc now so they look like
-       floating lights, not giant clouds */
+    /* motion:
+       - gentle float
+       - slight sway
+       - slow spin
+       - NOT huge travel, so it feels like little lights drifting
+    */
     @keyframes drift {
         0%   { transform: translateY(0vh) translateX(0vw) scale(1) rotate(0deg); }
-        50%  { transform: translateY(-20vh) translateX(-3vw) scale(1.08) rotate(180deg); }
+        50%  { transform: translateY(-15vh) translateX(-2vw) scale(1.07) rotate(180deg); }
         100% { transform: translateY(0vh) translateX(0vw) scale(1) rotate(360deg); }
     }
 
-    /* ===========================================
+    /* ===============================
        MAIN CONTENT PANEL
-       =========================================== */
+       glass card sitting over bubbles
+       =============================== */
     .app-shell {
         position: relative;
         z-index: 10; /* ABOVE bubbles */
@@ -156,15 +186,17 @@
         flex-direction: column;
         gap: 20px;
 
-        /* translucent glass card */
-        background: rgba(0,0,20,0.55);
-        border: 1px solid rgba(255,255,255,0.22);
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-border);
         border-radius: var(--radius-lg);
+
         box-shadow:
-            0 0 32px rgba(0,200,255,0.6),
-            0 0 80px rgba(0,200,255,0.3),
-            0 0 120px rgba(0,200,255,0.15);
+            0 0 32px rgba(255,0,212,0.6),
+            0 0 80px rgba(255,0,212,0.3),
+            0 0 140px rgba(255,0,212,0.15);
+
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 
     .app-title-text {
@@ -173,9 +205,10 @@
         line-height: 1.25;
         color: #fff;
         text-shadow:
-            0 0 8px rgba(0,200,255,1),
-            0 0 24px rgba(0,200,255,0.7),
-            0 0 60px rgba(0,200,255,0.4);
+            0 0 8px rgba(255,0,212,1),
+            0 0 24px rgba(255,0,212,0.7),
+            0 0 60px rgba(255,0,212,0.4);
+
         margin-bottom: 8px;
         display: flex;
         flex-wrap: wrap;
@@ -205,9 +238,9 @@
         font-weight: 600;
         color: #fff;
         text-shadow:
-            0 0 8px rgba(0,200,255,1),
-            0 0 24px rgba(0,200,255,0.7),
-            0 0 60px rgba(0,200,255,0.4);
+            0 0 8px rgba(255,0,212,1),
+            0 0 24px rgba(255,0,212,0.7),
+            0 0 60px rgba(255,0,212,0.4);
         margin-bottom: 4px;
     }
 
@@ -218,7 +251,9 @@
         margin-bottom: 16px;
     }
 
-    /* PLAYLIST LIST */
+    /* ===============================
+       PLAYLIST LIST
+       =============================== */
     .playlist-list {
         display: flex;
         flex-direction: column;
@@ -226,16 +261,17 @@
     }
 
     .playlist-item {
-        background: radial-gradient(circle at 20% 20%,
-            rgba(30,0,40,0.9) 0%,
-            rgba(10,0,20,0.7) 60%,
-            rgba(0,0,0,0.6) 100%);
+        background:
+            radial-gradient(circle at 20% 20%,
+                rgba(30,0,40,0.9) 0%,
+                rgba(10,0,20,0.7) 60%,
+                rgba(0,0,0,0.6) 100%);
         border: 1px solid rgba(255,255,255,0.18);
         border-radius: var(--radius-md);
         padding: 14px 16px;
         box-shadow:
-            0 0 16px rgba(255,0,212,0.4),
-            0 0 48px rgba(0,200,255,0.3);
+            0 0 24px rgba(255,0,212,0.4),
+            0 0 64px rgba(255,0,212,0.2);
     }
 
     .playlist-link {
@@ -266,7 +302,9 @@
         opacity: 0.8;
     }
 
-    /* FOOTER */
+    /* ===============================
+       FOOTER
+       =============================== */
     .footer {
         text-align: center;
         font-size: 0.7rem;
@@ -384,21 +422,20 @@
 
 <script>
 /*
-   BUBBLE GENERATOR (FOCUSED MODE)
-   - fewer bubbles
-   - smaller size
-   - higher brightness
-   - gentler travel so they feel like living LEDs behind the card
+   BUBBLE GENERATOR (OUTLINED + SMALL)
+   - way smaller bubbles
+   - neon pink / electric blue / ember orange
+   - gentle float
 */
 (function makeBubbles() {
     const layer = document.getElementById('bubbles-layer');
     if (!layer) return;
 
-    // tuned counts
+    // counts tuned for subtle sparkle
     const bubbleSets = [
-        { cls: '',         count: 3 }, // hot magenta
-        { cls: ' blueish', count: 2 }, // cyan/blue
-        { cls: ' whiteish',count: 1 }  // white sparkle
+        { cls: '',            count: 4 }, // magenta / pink (default .bubble)
+        { cls: ' blueish',    count: 3 }, // dark blue neon
+        { cls: ' orangeish',  count: 3 }  // ember orange
     ];
 
     const vw = window.innerWidth;
@@ -409,14 +446,16 @@
             const b = document.createElement('div');
             b.className = 'bubble' + set.cls;
 
-            // SMALLER range now: 60px - 140px
-            const size = Math.floor(60 + Math.random() * 80); // 60-140
+            // 10x smaller: ~20px - 40px only
+            const size = Math.floor(20 + Math.random() * 20); // 20-40px
+
+            // random start spot
             const leftPx = Math.floor(Math.random() * vw);
             const topPx  = Math.floor(Math.random() * vh);
 
-            // a little faster so motion is visible
-            const duration = (10 + Math.random() * 8).toFixed(2) + 's';
-            const delay = (-Math.random() * 10).toFixed(2) + 's';
+            // slow float, each a little different
+            const duration = (15 + Math.random() * 15).toFixed(2) + 's';
+            const delay = (-Math.random() * 15).toFixed(2) + 's';
 
             b.style.width = size + 'px';
             b.style.height = size + 'px';
