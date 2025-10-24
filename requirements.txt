@@ -1,2 +1,2 @@
-Flask
-gunicorn
+flask           # or fastapi, starlette, etc. (whatever you use)
+gunicorn==23.*
