@@ -12,174 +12,199 @@ def home():
 
         <style>
           :root {
-            --panel-bg: rgba(30, 0, 60, 0.35); /* more transparent now */
+            --panel-bg: rgba(30, 0, 60, 0.25);           /* more transparent glass */
             --panel-border: rgba(255, 0, 255, 0.4);
-            --panel-glow: rgba(255,0,255,0.5);
-            --panel-inner-glow: rgba(120,0,180,0.3);
+            --panel-glow1: rgba(255,0,255,0.3);          /* soft outer glow */
+            --panel-glow2: rgba(120,0,180,0.25);         /* violet halo */
+            --panel-inner: rgba(255,0,255,0.15);         /* inner inset glow */
 
-            --track-bg: rgba(255,255,255,0.05);   /* lighter tiles */
+            --track-bg: rgba(255,255,255,0.05);          /* lighter tiles */
             --track-border: rgba(255,255,255,0.12);
 
+            --text-main: #ffffff;
             --text-soft: #dcdcdc;
             --text-dim: #a7a7a7;
-            --text-halo: rgba(255,0,255,0.7);
-            --text-halo-soft: rgba(255,0,255,0.4);
+            --halo-strong: rgba(255,0,255,0.7);
+            --halo-soft: rgba(255,0,255,0.4);
 
             --legal-text: #8a8a8a;
           }
 
           /* PAGE BACKGROUND
-             - lighter purple wash instead of almost-black
-             - faint bloom toward top-left so it feels lit
+             lighter purple wash, subtle bloom, not blacked out
           */
           body {
             margin: 0;
             min-height: 100vh;
             background:
-              radial-gradient(circle at 20% 15%, rgba(255,140,255,0.35) 0%, rgba(40,0,60,0.6) 40%, rgba(10,0,20,1) 70%),
-              radial-gradient(circle at 50% 110%, rgba(255,0,255,0.18) 0%, rgba(0,0,0,0) 70%);
-            background-color: #1a002e;
+              radial-gradient(
+                circle at 20% 15%,
+                rgba(255,160,255,0.45) 0%,
+                rgba(60,0,80,0.6) 40%,
+                rgba(15,0,25,1) 80%
+              ),
+              radial-gradient(
+                circle at 60% 120%,
+                rgba(180,0,255,0.22) 0%,
+                rgba(0,0,0,0) 80%
+              );
+            background-color: #1e0038;
 
             display: flex;
             align-items: flex-start;
             justify-content: center;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, sans-serif;
-            color: #fff;
+            color: var(--text-main);
             overflow: hidden;
             position: relative;
             padding: 2rem 1rem 4rem;
           }
 
           /* FLOATING BUBBLES
-             - make them more see-through
-             - make them drift upward slowly instead of bobbing
-             - keep them under the content (z-index lower than card)
+             - brighter
+             - more visible through glass
+             - slow vertical drift loop
           */
           .bubble {
             position: absolute;
             border-radius: 50%;
-            filter: blur(10px);
-            opacity: 0.38;
+            filter: blur(8px);
+            opacity: 0.5;
             animation: drift var(--speed) linear infinite;
             box-shadow: 0 0 30px currentColor, 0 0 80px currentColor;
             mix-blend-mode: screen;
             pointer-events: none;
-            z-index: 1;
+            z-index: 1; /* sits BEHIND the card */
           }
 
           .bubble.purple {
-            color: rgba(255, 0, 255, 0.5);
-            background: radial-gradient(circle, rgba(255,0,255,0.4) 0%, rgba(0,0,0,0) 70%);
+            color: rgba(255, 0, 255, 0.55);
+            background: radial-gradient(
+              circle,
+              rgba(255,0,255,0.4) 0%,
+              rgba(0,0,0,0) 70%
+            );
           }
 
           .bubble.blue {
-            color: rgba(80, 140, 255, 0.5);
-            background: radial-gradient(circle, rgba(80,140,255,0.35) 0%, rgba(0,0,0,0) 70%);
+            color: rgba(80, 140, 255, 0.55);
+            background: radial-gradient(
+              circle,
+              rgba(80,140,255,0.4) 0%,
+              rgba(0,0,0,0) 70%
+            );
           }
 
           .bubble.white {
-            color: rgba(255,255,255,0.55);
-            background: radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(0,0,0,0) 70%);
+            color: rgba(255,255,255,0.6);
+            background: radial-gradient(
+              circle,
+              rgba(255,255,255,0.5) 0%,
+              rgba(0,0,0,0) 70%
+            );
           }
 
-          /* upward float, slow, hypnotic */
+          /* slow upward drift */
           @keyframes drift {
-            0%   { transform: translateY(40px) translateX(0px) scale(1);   opacity: 0.15; }
-            50%  { transform: translateY(-40px) translateX(10px) scale(1.07); opacity: 0.4; }
-            100% { transform: translateY(40px) translateX(0px) scale(1);   opacity: 0.15; }
+            0%   { transform: translateY(100px) scale(1);   opacity: 0.2; }
+            50%  { transform: translateY(-80px) scale(1.1); opacity: 0.55; }
+            100% { transform: translateY(100px) scale(1);   opacity: 0.2; }
           }
 
-          /* bubble positions/sizing */
+          /* bubble placement & speed */
           .b1 { --speed: 11s; width: 180px; height:180px; top: 10%; left: 8%;  }
           .b2 { --speed: 15s; width: 140px; height:140px; top: 25%; right:12%; }
           .b3 { --speed: 19s; width: 240px; height:240px; bottom:15%; left:5%; }
           .b4 { --speed: 23s; width: 110px; height:110px; bottom:20%; right:18%; }
           .b5 { --speed: 27s; width: 80px;  height:80px;  top: 60%; left: 60%; }
 
-          /* MAIN PANEL */
+          /* MAIN GLASS CARD
+             - more transparent
+             - glow ring
+             - sit ABOVE bubbles
+          */
           .card {
             position: relative;
             width: 100%;
             max-width: 480px;
 
-            background: var(--panel-bg);
+            background: var(--panel-bg); /* thinner glass now */
             border: 1px solid var(--panel-border);
 
-            /* Glass look:
-               - inner glow
-               - outer glow halo in pink/violet
-               - softer, not that hard dark slab
-            */
             box-shadow:
-              0 0 25px var(--panel-glow),
-              0 0 60px var(--panel-inner-glow),
+              0 0 25px var(--panel-glow1),
+              0 0 60px var(--panel-glow2),
               0 40px 100px rgba(0,0,0,0.9),
-              inset 0 0 30px rgba(255,0,255,0.25);
+              inset 0 0 40px var(--panel-inner);
 
             border-radius: 24px;
             padding: 1.5rem 1rem 1rem;
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             text-align: left;
-            z-index: 10;
+            z-index: 10; /* sits ABOVE bubbles */
           }
 
           .hub-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            line-height: 1.5rem;
-            color: #fff;
+            line-height: 1.6rem;
+            color: var(--text-main);
             text-shadow:
-              0 0 8px var(--text-halo),
-              0 0 20px var(--text-halo),
-              0 0 40px var(--text-halo-soft);
+              0 0 8px var(--halo-strong),
+              0 0 20px var(--halo-strong),
+              0 0 40px var(--halo-soft);
             margin-bottom: .75rem;
           }
 
           .hub-desc {
-            font-size: .9rem;
+            font-size: .95rem;
             font-weight: 400;
             color: var(--text-soft);
-            line-height: 1.3rem;
+            line-height: 1.4rem;
             margin-bottom: 1.25rem;
           }
 
           .playlist-header {
-            font-size: .95rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            color: #fff;
-            line-height: 1.2rem;
+            color: var(--text-main);
+            line-height: 1.3rem;
             margin-bottom: .4rem;
           }
 
           .playlist-sub {
-            font-size: .8rem;
+            font-size: .85rem;
             font-weight: 400;
             color: var(--text-dim);
-            line-height: 1.1rem;
-            margin-bottom: .75rem;
+            line-height: 1.2rem;
+            margin-bottom: .9rem;
           }
 
+          /* OUTER LIST BOX AROUND TRACKS
+             - lighter
+             - more see-through so bubbles bleed through
+          */
           .playlist-box {
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(0,0,0,0.2); /* more see-through than before */
+            background: rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
             padding: .75rem .75rem;
             box-shadow:
               0 30px 60px rgba(0,0,0,0.9),
-              0 0 40px rgba(255,0,255,0.3);
+              0 0 40px rgba(255,0,255,0.25);
           }
 
-          /* playlist tile (tap area) */
+          /* EACH PLAYLIST TILE / LINK */
           .track {
             display: block;
             text-decoration: none;
             background: var(--track-bg);
             border: 1px solid var(--track-border);
-            border-radius: 12px;
-            padding: .8rem .8rem;
-            margin-bottom: .7rem;
-            color: #fff;
+            border-radius: 14px;
+            padding: .9rem .9rem;
+            margin-bottom: .8rem;
+            color: var(--text-main);
             box-shadow:
               0 20px 40px rgba(0,0,0,0.9),
               0 0 20px rgba(255,0,255,0.25);
@@ -190,49 +215,49 @@ def home():
           }
 
           .track-title {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 500;
-            color: #fff;
-            line-height: 1.2rem;
+            color: var(--text-main);
+            line-height: 1.3rem;
             text-shadow:
               0 0 6px rgba(255,0,255,0.8),
               0 0 20px rgba(255,0,255,0.5);
-            margin-bottom: .25rem;
+            margin-bottom: .3rem;
           }
 
           .track-desc {
-            font-size: .8rem;
-            line-height: 1.2rem;
+            font-size: .85rem;
+            line-height: 1.3rem;
             color: var(--text-soft);
           }
 
           .legal-note {
-            font-size: .7rem;
+            font-size: .75rem;
             color: var(--legal-text);
             text-align: center;
-            margin-top: 1rem;
-            line-height: 1rem;
+            margin-top: 1.25rem;
+            line-height: 1.1rem;
           }
         </style>
       </head>
 
       <body>
 
-        <!-- SOFT FLOAT BUBBLES IN BACK -->
+        <!-- BUBBLES BEHIND -->
         <div class="bubble purple b1"></div>
         <div class="bubble purple b2"></div>
         <div class="bubble blue   b3"></div>
         <div class="bubble white  b4"></div>
         <div class="bubble blue   b5"></div>
 
-        <!-- GLASS PANEL -->
+        <!-- MAIN CARD -->
         <div class="card">
           <div class="hub-title">
             TimmyApp Music Hub 💜
           </div>
 
           <div class="hub-desc">
-            Royalty-friendly vibe tracks for creators.
+            Royalty-friendly vibe tracks for creators.<br/>
             Use for background, reels, shorts.
           </div>
 
@@ -246,31 +271,31 @@ def home():
           <div class="playlist-box">
 
             <!-- PLAYLIST 1 -->
-            <a class="track" href="#midnight-neon" target="_blank" rel="noopener">
+            <a class="track" href="#" target="_blank" rel="noopener">
               <div class="track-title">Midnight Neon Cruise</div>
               <div class="track-desc">dreamy synth / slow drift / safe for socials</div>
             </a>
 
             <!-- PLAYLIST 2 -->
-            <a class="track" href="#southern-heatwave" target="_blank" rel="noopener">
+            <a class="track" href="#" target="_blank" rel="noopener">
               <div class="track-title">Southern Heatwave</div>
               <div class="track-desc">swagger beat / outlaw country trap / creator-safe</div>
             </a>
 
             <!-- PLAYLIST 3 -->
-            <a class="track" href="#halo-pulse" target="_blank" rel="noopener">
+            <a class="track" href="#" target="_blank" rel="noopener">
               <div class="track-title">Halo Pulse</div>
               <div class="track-desc">angel pads / uplight energy / intro & outro friendly</div>
             </a>
 
             <!-- PLAYLIST 4 -->
-            <a class="track" href="#purple-drive" target="_blank" rel="noopener">
+            <a class="track" href="#" target="_blank" rel="noopener">
               <div class="track-title">Purple Drive</div>
               <div class="track-desc">midtempo glide / neon ride / safe for ads</div>
             </a>
 
             <!-- PLAYLIST 5 -->
-            <a class="track" href="#yeti-stomp" target="_blank" rel="noopener">
+            <a class="track" href="#" target="_blank" rel="noopener">
               <div class="track-title">Yeti Stomp</div>
               <div class="track-desc">heavy bass / crowd hype / walk-in energy</div>
             </a>
